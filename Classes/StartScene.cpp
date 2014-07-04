@@ -26,7 +26,8 @@ bool StartScene::init()
     {
         return false;
     }
-    
+	this->setAccelerometerEnabled(true);
+
     Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 

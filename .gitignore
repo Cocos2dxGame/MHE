@@ -1,0 +1,10 @@
+cocos2d/build/
+cocos2d/cocos/
+cocos2d/external/
+cocos2d/plugin/
+proj.ios_mac/
+proj.win32/Debug.win32/
+proj.wp8-xaml/
+cocos2d/
+proj.win32/MHE.sdf
+proj.win32/MHE.opensdf
