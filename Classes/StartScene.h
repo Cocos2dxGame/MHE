@@ -1,5 +1,5 @@
-#ifndef __StartScene_SCENE_H__
-#define __StartScene_SCENE_H__
+#ifndef __StartScene_H__
+#define __StartScene_H__
 
 #include "cocos2d.h"
 
@@ -19,4 +19,4 @@ public:
     CREATE_FUNC(StartScene);
 };
 
-#endif // __StartScene_SCENE_H__
+#endif // __StartScene_H__

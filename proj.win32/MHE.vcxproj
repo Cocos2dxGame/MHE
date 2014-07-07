@@ -135,13 +135,25 @@ xcopy /Y /Q "$(EngineRoot)external\websockets\prebuilt\win32\*.*" "$(OutDir)"</C
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\ChapterScene.cpp" />
+    <ClCompile Include="..\Classes\FirstScene.cpp" />
+    <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
+    <ClCompile Include="..\Classes\Person.cpp" />
+    <ClCompile Include="..\Classes\SceneManager.cpp" />
+    <ClCompile Include="..\Classes\SecondScene.cpp" />
     <ClCompile Include="..\Classes\StartScene.cpp" />
+    <ClCompile Include="..\Classes\VisibleRect.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\ChapterScene.h" />
+    <ClInclude Include="..\Classes\FirstScene.h" />
+    <ClInclude Include="..\Classes\HelloWorldScene.h" />
+    <ClInclude Include="..\Classes\Person.h" />
+    <ClInclude Include="..\Classes\SceneManager.h" />
+    <ClInclude Include="..\Classes\SecondScene.h" />
     <ClInclude Include="..\Classes\StartScene.h" />
+    <ClInclude Include="..\Classes\VisibleRect.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>
