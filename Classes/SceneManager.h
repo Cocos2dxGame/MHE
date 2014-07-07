@@ -18,8 +18,9 @@ public:
     ~SceneManager() {};
     
     static void goMenu();
+	static void go(cocos2d::Scene* scene);
 private:
-    static void go(cocos2d::Layer* layer);
+
     static cocos2d::Scene* wrap(cocos2d::Layer *layer);
 };
 

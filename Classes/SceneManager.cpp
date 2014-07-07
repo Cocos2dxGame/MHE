@@ -4,12 +4,14 @@ USING_NS_CC;
 
 void SceneManager::goMenu()
 {
-	Layer *layer = (Layer*)(StartScene::createScene());
-	SceneManager::go(layer);
+	Scene *scene = (StartScene::createScene());
+	SceneManager::go(scene);
 }
 
-void SceneManager::go(Layer* layer)
+void SceneManager::go(Scene* scene)
 {
+	Layer* layer = (Layer*)scene;
+
 	Director *director = Director::getInstance();
 	Scene *newScene = SceneManager::wrap(layer);
 	if ( director->getRunningScene() )
