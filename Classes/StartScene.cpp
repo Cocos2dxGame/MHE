@@ -147,6 +147,6 @@ void StartScene::menuCloseCallback(Ref* pSender)
 
 void StartScene::onNewGame(Object* pSender)
 {
-	//Scene* pChapterScene = ChapterScene::createScene();
-	//SceneManager::go(pChapterScene);
+	Scene* pChapterScene = ChapterScene::createScene();
+	SceneManager::go(pChapterScene);
 }
