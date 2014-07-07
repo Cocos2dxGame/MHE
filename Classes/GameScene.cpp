@@ -18,6 +18,26 @@ Scene* GameScene::createScene()
     // 'scene' is an autorelease object
     auto scene = Scene::createWithPhysics();
     
+#include "GameScene.h"
+
+USING_NS_CC;
+
+GameScene::GameScene()
+{
+	auto listener = EventListenerTouchOneByOne::create();
+	listener->setSwallowTouches(true);
+
+    listener->onTouchBegan = CC_CALLBACK_2(GameScene::onTouchBegan, this);
+	listener->onTouchMoved = CC_CALLBACK_2(GameScene::onTouchMoved, this);
+    listener->onTouchEnded = CC_CALLBACK_2(GameScene::onTouchEnded, this);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+}
+
+Scene* GameScene::createScene()
+{
+    // 'scene' is an autorelease object
+    auto scene = Scene::createWithPhysics();
+    
     // 'layer' is an autorelease object
     auto layer = GameScene::create();
 
@@ -62,13 +82,67 @@ bool GameScene::init()
 	
 	_bullet = Bullet::create();
 	_bullet->setPosition(_person->getPosition());
+	_person = Person::create();
+	_person->setPosition(200,100);
+	addChild(_person,0);
+	
+	_person->setMoveToRight();
+	_person->runAction(_person->getNormalAction());
+	
+	_bullet = Bullet::create();
+	_bullet->setPosition(_person->getPosition());
+	addChild(_bullet,0);
+
 	addChild(_bullet,0);
 
     return true;
 }
 
 
-//ÖØÐ´ÖØÁ¦¼ÓËÙÆ÷·½·¨  
+//ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
+void GameScene::onAcceleration(Acceleration* acc, Event* event)
+{
+	/*if(acc->x > 0)
+	{
+		_person->setMoveToRight();
+		_person->runAction(_person->getMoveAction());
+		
+		if((_person->getPosition().x + 32) < visibleSize.width)
+			_person->setPosition(_person->getPosition().x+2,_person->getPosition().y);
+	}
+	else
+	{
+		_person->setMoveToLeft();
+		_person->runAction(_person->getMoveAction());
+		
+		if(_person->getPosition().x > 0)
+			_person->setPosition(_person->getPosition().x-2,_person->getPosition().y);
+	}*/
+}  
+
+void GameScene::menuCloseCallback(Ref* pSender)
+{
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8) || (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
+	MessageBox("You pressed the close button. Windows Store Apps do not implement a close button.","Alert");
+    return;
+#endif
+
+    Director::getInstance()->end();
+
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+    exit(0);
+#endif
+}
+
+bool GameScene::contaiinsTouchLocation(Touch* touch)
+{
+	return _person->getRect().containsPoint(convertTouchToNodeSpace(touch));
+}
+
+bool GameScene::onTouchBegan(Touch* touch, Event* event)
+{
+	CCLOG("Paddle::onTouchBegan id = %d, x = %f, y = %f", touch->getID(), touch->getLocation().x, touch->getLocation().y);
+	CCLOG("Person's position x = %f, y = %f", _person->getPosition().x, _person->getPosition().y);
 void GameScene::onAcceleration(Acceleration* acc, Event* event)
 {
 	/*if(acc->x > 0)
@@ -132,6 +206,33 @@ void GameScene::onTouchEnded(Touch* touch, Event* event)
 	
 	_bullet->setVelocity(vertex);
 	_bullet->setPosition(_person->getPosition());
+	
+	if ( !contaiinsTouchLocation(touch) ) return false;
+    
+	startPosition = touch->getLocation();
+    CCLOG("return true");
+    return true;
+}
+
+void GameScene::onTouchMoved(Touch* touch, Event* event)
+{
+
+}
+
+void GameScene::onTouchEnded(Touch* touch, Event* event)
+{
+	endPosition = touch->getLocation();
+	Vec2 vertex = endPosition - startPosition;
+	
+	_bullet->setVelocity(vertex);
+	_bullet->setPosition(_person->getPosition());
+	nextState = Fire_Action;
+}
+
+void GameScene::onTouchCancelled(Touch* touches, Event* event)
+{
+
+}
 	nextState = Fire_Action;
 }
 
