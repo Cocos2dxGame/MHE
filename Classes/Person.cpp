@@ -35,9 +35,9 @@ Person* Person::create()
 void Person::setAction(SpriteFrameCache* cache)
 {
 	this->setNormalAction(cache);
-	/*this->setAttachedAction(cache);
+	this->setAttackedAction(cache);
 	this->setJumpAction( cache);
-	this->setFireAction(cache);*/
+	this->setFireAction(cache);
 	this->setMoveAction(cache);
 }
 
@@ -77,9 +77,6 @@ void Person::setMoveAction(cocos2d::SpriteFrameCache* cache)
 	char keyname[100];
 	auto animation = Animation::create();
 
-	//sprintf(keyname,"%s.png","BoyNormal1");
-	//animation->addSpriteFrame(cache->spriteFrameByName(keyname));
-
 	for (int i = 1; i < 3; i++)
 	{
 		sprintf(keyname,"%s%d.png","BoyRun",i);  
@@ -98,7 +95,49 @@ RepeatForever* Person::getMoveAction()
 	return moveAction;
 }
 
-void Person::setAttachedAction(cocos2d::SpriteFrameCache* cache)
+void Person::setAttackedAction(cocos2d::SpriteFrameCache* cache)
+{
+	char keyname[100];
+	auto animation = Animation::create();
+	for (int i = 1; i < 3; i++)
+	{
+		sprintf(keyname,"%s%d.png","BoyAttacked",i);  
+        animation->addSpriteFrame(cache->spriteFrameByName(keyname));  
+	}
+
+	animation->setDelayPerUnit(0.1f);
+	animation->setRestoreOriginalFrame(true);
+	attackedAction = Animate::create(animation);
+
+	//auto action = Animate::create(animation);
+	//normalAction = RepeatForever::create(Sequence::create(action, NULL));
+}
+	
+Animate* Person::getAttackedAction()
+{
+	return attackedAction;
+}
+
+void Person::setJumpAction(cocos2d::SpriteFrameCache* cache)
+{
+	char keyname[100];
+	auto animation = Animation::create();
+	sprintf(keyname,"%s.png","BoyNormal1");  
+    animation->addSpriteFrame(cache->spriteFrameByName(keyname));  
+
+	animation->setDelayPerUnit(0.1f);
+	animation->setRestoreOriginalFrame(true);
+	jumpAction = Animate::create(animation);
+
+	//normalAction = RepeatForever::create(Sequence::create(action, NULL));
+}
+
+Animate* Person::getJumpAction()
+{
+	return jumpAction;
+}
+
+void Person::setFireAction(cocos2d::SpriteFrameCache* cache)
 {
 	char keyname[100];
 	auto animation = Animation::create();
@@ -114,26 +153,6 @@ void Person::setAttachedAction(cocos2d::SpriteFrameCache* cache)
 	fireAction = Animate::create(animation);
 
 	//moveAction = RepeatForever::create(Sequence::create(action, NULL));
-}
-	
-Animate* Person::getAttachedActon()
-{
-	return attachedAction;
-}
-
-void Person::setJumpAction(cocos2d::SpriteFrameCache* cache)
-{
-
-}
-
-Animate* Person::getJumpAction()
-{
-	return jumpAction;
-}
-
-void Person::setFireAction(cocos2d::SpriteFrameCache* cache)
-{
-
 }
 
 Animate* Person::getFireAction()

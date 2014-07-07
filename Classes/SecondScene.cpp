@@ -90,7 +90,7 @@ bool SecondScene::init()
 	_person->setPosition(200,200);
 	addChild(_person,0);
 	_person->setMoveToRight();
-	_person->runAction(_person->getFireAction());
+	_person->runAction(_person->getAttackedAction());
 	
 
 	auto edgeSp = Sprite::create();

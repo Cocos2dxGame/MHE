@@ -20,8 +20,8 @@ public:
 	void setMoveAction(cocos2d::SpriteFrameCache* cache);
 	cocos2d::RepeatForever* getMoveAction();
 
-	void setAttachedAction(cocos2d::SpriteFrameCache* cache);
-	cocos2d::Animate* getAttachedActon();
+	void setAttackedAction(cocos2d::SpriteFrameCache* cache);
+	cocos2d::Animate* getAttackedAction();
 
 	void setJumpAction(cocos2d::SpriteFrameCache* cache);
 	cocos2d::Animate* getJumpAction();
@@ -38,7 +38,7 @@ private:
 	bool moveRight;
 	cocos2d::SpriteFrameCache* cache;
 	cocos2d::RepeatForever* normalAction;
-	cocos2d::Animate* attachedAction;
+	cocos2d::Animate* attackedAction;
 	cocos2d::Animate* jumpAction;
 	cocos2d::Animate* fireAction;
 	cocos2d::RepeatForever* moveAction;
