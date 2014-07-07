@@ -12,13 +12,33 @@ Person::Person()
 }
 Person* Person::create()
 {
+	SpriteFrameCache* cache = SpriteFrameCache::sharedSpriteFrameCache();
+	cache->addSpriteFramesWithFile("character/Boy.plist");
+
 	Person* person = new Person();
-	if(person && person->initWithFile("picgirl.png", Rect(0,0,32,48)))
+	if(person && person->initWithSpriteFrame(cache->spriteFrameByName("BoyNormal1.png")))
 	{
 		person->autorelease();
+		person->setAction(cache);
 		return person;
 	}
+	/*if(person && person->initWithFile("ball.png"))
+	{
+		person->autorelease();
+		person->setAction(cache);
+		return person;
+	}*/
+
 	return NULL;
+}
+
+void Person::setAction(SpriteFrameCache* cache)
+{
+	this->setNormalAction(cache);
+	/*this->setAttachedAction(cache);
+	this->setJumpAction( cache);
+	this->setFireAction(cache);*/
+	this->setMoveAction(cache);
 }
 
 void Person::setMoveToLeft()
@@ -31,50 +51,92 @@ void Person::setMoveToRight()
 	moveRight = true;
 }
 
-RepeatForever* Person::freeAction()
+void Person::setNormalAction(cocos2d::SpriteFrameCache* cache)
 {
-	Texture2D* texture = TextureCache::sharedTextureCache()->addImage("picgirl.png");
-
+	char keyname[100];
 	auto animation = Animation::create();
-	for (int i = 0; i < 1; i++)
+	for (int i = 1; i < 6; i++)
 	{
-		for (int j = 0; j < 4; j++)
-		{
-			SpriteFrame* frame = SpriteFrame::createWithTexture(texture, Rect(32*j,48*i,32,48));
-			animation->addSpriteFrame(frame);
-		}
+		sprintf(keyname,"%s%d.png","BoyNormal",i);  
+        animation->addSpriteFrame(cache->spriteFrameByName(keyname));  
 	}
 
-	animation->setDelayPerUnit(0.2f);
+	animation->setDelayPerUnit(0.1f);
 	animation->setRestoreOriginalFrame(true);
 	auto action = Animate::create(animation);
 
-	repeatAction = RepeatForever::create(Sequence::create(action, NULL));
-
-	//_sprite->runAction(Sequence::create(action, action->reverse(), NULL));
-	return repeatAction;
+	normalAction = RepeatForever::create(Sequence::create(action, NULL));
+}
+RepeatForever* Person::getNormalAction()
+{
+	return normalAction;
 }
 
-RepeatForever* Person::moveAction()
+void Person::setMoveAction(cocos2d::SpriteFrameCache* cache)
 {
-	Texture2D* texture = TextureCache::sharedTextureCache()->addImage("picgirl.png");
-
+	char keyname[100];
 	auto animation = Animation::create();
 
-	int selectRow = (moveRight==true)?2:1; 
-	
-	for (int j = 0; j < 4; j++)
+	//sprintf(keyname,"%s.png","BoyNormal1");
+	//animation->addSpriteFrame(cache->spriteFrameByName(keyname));
+
+	for (int i = 1; i < 3; i++)
 	{
-		SpriteFrame* frame = SpriteFrame::createWithTexture(texture, Rect(32*j,48*selectRow,32,48));
-		animation->addSpriteFrame(frame);
+		sprintf(keyname,"%s%d.png","BoyRun",i);  
+        animation->addSpriteFrame(cache->spriteFrameByName(keyname));  
 	}
 
-	animation->setDelayPerUnit(0.2f);
+	animation->setDelayPerUnit(0.5f);
 	animation->setRestoreOriginalFrame(true);
 	auto action = Animate::create(animation);
 
-	repeatAction = RepeatForever::create(Sequence::create(action, NULL));
+	moveAction = RepeatForever::create(Sequence::create(action, NULL));
+}
 
-	//_sprite->runAction(Sequence::create(action, action->reverse(), NULL));
-	return repeatAction;
+RepeatForever* Person::getMoveAction()
+{
+	return moveAction;
+}
+
+void Person::setAttachedAction(cocos2d::SpriteFrameCache* cache)
+{
+	char keyname[100];
+	auto animation = Animation::create();
+
+	//sprintf(keyname,"%s.png","BoyNormal1");
+	//animation->addSpriteFrame(cache->spriteFrameByName(keyname));
+
+	sprintf(keyname,"%s.png","BoyFire");  
+    animation->addSpriteFrame(cache->spriteFrameByName(keyname));  
+
+	animation->setDelayPerUnit(0.5f);
+	animation->setRestoreOriginalFrame(true);
+	fireAction = Animate::create(animation);
+
+	//moveAction = RepeatForever::create(Sequence::create(action, NULL));
+}
+	
+Animate* Person::getAttachedActon()
+{
+	return attachedAction;
+}
+
+void Person::setJumpAction(cocos2d::SpriteFrameCache* cache)
+{
+
+}
+
+Animate* Person::getJumpAction()
+{
+	return jumpAction;
+}
+
+void Person::setFireAction(cocos2d::SpriteFrameCache* cache)
+{
+
+}
+
+Animate* Person::getFireAction()
+{
+	return fireAction;
 }

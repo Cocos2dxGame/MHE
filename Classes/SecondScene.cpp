@@ -28,8 +28,10 @@ bool SecondScene::init()
         return false;
     }
 
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	this->setAccelerometerEnabled(true);
+
+    visibleSize = Director::getInstance()->getVisibleSize();
+    origin = Director::getInstance()->getVisibleOrigin();
 
 	this->setAccelerometerEnabled(true);
 
@@ -76,11 +78,19 @@ bool SecondScene::init()
 	////_sprite->runAction(Sequence::create(action, action->reverse(), NULL));
 	//_sprite->runAction(repeatAction);
 
+	//测试可以读取plist后选取其中一张图片创建精灵
+	/*SpriteFrameCache* cache = SpriteFrameCache::sharedSpriteFrameCache();
+	cache->addSpriteFramesWithFile("character/Boy.plist");
+
+	_sprite = Sprite::createWithSpriteFrame(cache->spriteFrameByName("BoyNormal1.png"));
+	_sprite->setPosition(100,150);
+	addChild(_sprite,0);*/
+
 	_person = Person::create();
 	_person->setPosition(200,200);
 	addChild(_person,0);
 	_person->setMoveToRight();
-	_person->runAction(_person->freeAction());
+	_person->runAction(_person->getFireAction());
 	
 
 	auto edgeSp = Sprite::create();
@@ -103,16 +113,22 @@ void SecondScene::setPhyWorld(cocos2d::PhysicsWorld* world)
 //重写重力加速器方法  
 void SecondScene::onAcceleration(Acceleration* acc, Event* event)
 {
-	if(acc->x > 0)
+	/*if(acc->x > 0)
 	{
 		_person->setMoveToRight();
-		_person->runAction(_person->moveAction());
+		_person->runAction(_person->getMoveAction());
+		
+		if((_person->getPosition().x + 32) < visibleSize.width)
+			_person->setPosition(_person->getPosition().x+2,_person->getPosition().y);
 	}
 	else
 	{
 		_person->setMoveToLeft();
-		_person->runAction(_person->moveAction());
-	}
+		_person->runAction(_person->getMoveAction());
+		
+		if(_person->getPosition().x > 0)
+			_person->setPosition(_person->getPosition().x-2,_person->getPosition().y);
+	}*/
 }  
 
 void SecondScene::menuCloseCallback(Ref* pSender)

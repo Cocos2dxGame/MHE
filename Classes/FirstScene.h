@@ -2,7 +2,6 @@
 #define __FIRST_SCENE_H__
 
 #include "cocos2d.h"
-#include "Box2D\Box2D.h";
 
 class FirstScene : public cocos2d::Layer
 {

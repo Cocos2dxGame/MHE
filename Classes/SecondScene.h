@@ -32,6 +32,12 @@ private:
 	cocos2d::PhysicsWorld* m_world;
 	Person* _person;
 
+	cocos2d::Animate* cache;
+	cocos2d::Animate* freeAction;
+
+	cocos2d::Size visibleSize;
+    cocos2d::Vec2 origin;
+
     CREATE_FUNC(SecondScene);
 };
 
