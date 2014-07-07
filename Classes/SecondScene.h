@@ -26,6 +26,11 @@ public:
 	          
 	void onAcceleration(cocos2d::Acceleration* acc, cocos2d::Event* unused_event);
 
+	void onTouchesBegan(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event  *event);
+    void onTouchesMoved(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event  *event);
+    void onTouchesEnded(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event  *event);
+    void onTouchesCancelled(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event  *event);
+
 private:
 	cocos2d::Sprite* _sprite;
 	cocos2d::Sprite* _ball;

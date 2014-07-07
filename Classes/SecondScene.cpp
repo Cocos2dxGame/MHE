@@ -144,3 +144,23 @@ void SecondScene::menuCloseCallback(Ref* pSender)
     exit(0);
 #endif
 }
+
+void SecondScene::onTouchesBegan(const std::vector<Touch*>& touches, Event* event)
+{
+
+}
+
+void SecondScene::onTouchesMoved(const std::vector<Touch*>& touches, Event* event)
+{
+
+}
+
+void SecondScene::onTouchesEnded(const std::vector<Touch*>& touches, Event* event)
+{
+
+}
+
+void SecondScene::onTouchesCancelled(const std::vector<Touch*>& touches, Event* event)
+{
+
+}
