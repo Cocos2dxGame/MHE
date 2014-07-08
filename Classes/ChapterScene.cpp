@@ -40,6 +40,8 @@ bool ChapterScene::init()
                                            "CloseSelected.png",
                                            CC_CALLBACK_1(ChapterScene::menuCloseCallback, this));
     
+
+
 	closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
                                 origin.y + closeItem->getContentSize().height/2));
 
@@ -71,6 +73,25 @@ bool ChapterScene::init()
 
     // add the sprite as a child to this layer
     this->addChild(sprite, 0);
+
+	// add the menu icon
+	std::string images[] = {"background/bg_002.jpg", "background/bg_003.jpg", "background/bg_004.jpg"};
+	int imagesNum = 3;
+	float imageWidth = visibleSize.width * 0.6;
+	float imageHeight = visibleSize.height * 0.6;
+	float imageSpace = visibleSize.width * 0.05;
+	float imageOrigin = imageSpace + imageWidth/2;
+
+	for(int i=0; i<imagesNum; i++)
+	{
+		std::string image = images[i];
+		Sprite *pSprite = Sprite::create(image);
+		pSprite->setScaleX(imageWidth/pSprite->getContentSize().width);
+		pSprite->setScaleY(imageHeight/pSprite->getContentSize().height);
+		float offset = imageOrigin + (imageWidth + imageSpace) * i;
+		pSprite->setPosition(origin.x+offset, origin.y+visibleSize.height/2);
+		this->addChild(pSprite, 0);
+	}
     
     return true;
 }
