@@ -1,4 +1,6 @@
 #include "ChapterScene.h"
+#include "SceneManager.h"
+#include "SecondScene.h"
 
 USING_NS_CC;
 
@@ -77,19 +79,22 @@ bool ChapterScene::init()
 	// add the menu icon
 	std::string images[] = {"background/bg_002.jpg", "background/bg_003.jpg", "background/bg_004.jpg"};
 	int imagesNum = 3;
-	float imageWidth = visibleSize.width * 0.6;
-	float imageHeight = visibleSize.height * 0.6;
-	float imageSpace = visibleSize.width * 0.05;
-	float imageOrigin = imageSpace + imageWidth/2;
+	m_imageWidth = visibleSize.width * 0.6;
+	m_imageHeight = visibleSize.height * 0.6;
+	m_imageSpace = visibleSize.width * 0.05;
+	float imageOrigin = m_imageSpace + m_imageWidth/2;
+	m_xmin = 0;
+	m_x = m_xmax = imagesNum*m_imageWidth + (imagesNum+1)*m_imageSpace - visibleSize.width;
 
 	for(int i=0; i<imagesNum; i++)
 	{
 		std::string image = images[i];
 		Sprite *pSprite = Sprite::create(image);
-		pSprite->setScaleX(imageWidth/pSprite->getContentSize().width);
-		pSprite->setScaleY(imageHeight/pSprite->getContentSize().height);
-		float offset = imageOrigin + (imageWidth + imageSpace) * i;
+		pSprite->setScaleX(m_imageWidth/pSprite->getContentSize().width);
+		pSprite->setScaleY(m_imageHeight/pSprite->getContentSize().height);
+		float offset = imageOrigin + (m_imageWidth + m_imageSpace) * i;
 		pSprite->setPosition(origin.x+offset, origin.y+visibleSize.height/2);
+		pSprite->setTag(i);
 		this->addChild(pSprite, 0);
 		m_menuIconVector.pushBack(pSprite);
 	}
@@ -122,8 +127,24 @@ void ChapterScene::menuCloseCallback(Ref* pSender)
 
 void ChapterScene::move(float distance)
 {
-	Vec2 moveVec(distance, 0);
+	Vec2 moveVec(0,0);
 
+	if(m_x+distance >= m_xmax)
+	{
+		moveVec.x = m_xmax-m_x;
+		m_x = m_xmax;
+	}
+	else if( m_x+distance <= m_xmin)
+	{
+		moveVec.x = m_xmin-m_x;
+		m_x = m_xmin;
+	}
+	else
+	{
+		moveVec.x = distance;
+		m_x = m_x+distance;
+	}
+	
 	for(Sprite *pSprite : m_menuIconVector)
 	{
 		pSprite->runAction(MoveBy::create(0, moveVec));
@@ -133,7 +154,7 @@ void ChapterScene::move(float distance)
 bool ChapterScene::onTouchBegan(Touch *touch, Event *unused_event)
 {
 	m_touchBegan = this->convertTouchToNodeSpace(touch);
-	m_velocity = 0;
+	m_touch		= m_touchBegan;
 
 	return true;
 }
@@ -141,16 +162,22 @@ bool ChapterScene::onTouchBegan(Touch *touch, Event *unused_event)
 void ChapterScene::onTouchMoved(Touch *touch, Event *unused_event)
 {
 	Point touchEnded = this->convertTouchToNodeSpace(touch);
-	move(touchEnded.x-m_touchBegan.x);
-	m_touchBegan = touchEnded;
+	move(touchEnded.x-m_touch.x);
+	m_touch = touchEnded;
 }
 
 void ChapterScene::onTouchEnded(Touch *touch, Event *unused_event)
 {
-
-}
-
-void ChapterScene::update(float delta)
-{
-
+	Point touchEnded = this->convertTouchToNodeSpace(touch);
+	if(touchEnded == m_touchBegan)
+	{
+		for(Sprite *pSprite : m_menuIconVector)
+		{
+			if(pSprite->getBoundingBox().containsPoint(touchEnded))
+			{
+				Scene* pScene = SecondScene::createScene();
+				SceneManager::go(pScene);
+			}
+		}
+	}
 }
