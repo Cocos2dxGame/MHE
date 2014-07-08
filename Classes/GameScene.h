@@ -1,5 +1,5 @@
-#ifndef __Second_SCENE_H__
-#define __Second_SCENE_H__
+#ifndef __GAME_SCENE_H__
+#define __GAME_SCENE_H__
 
 #include "cocos2d.h"
 #include "Person.h"
@@ -20,10 +20,10 @@ typedef enum {
     Vectory_Action,
 } ActionState;
 
-class SecondScene : public cocos2d::Layer
+class GameScene : public cocos2d::Layer
 {
 public:
-	SecondScene();
+	GameScene();
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
     static cocos2d::Scene* createScene();
 
@@ -59,7 +59,7 @@ private:
 	cocos2d::Vec2 startPosition;
 	cocos2d::Vec2 endPosition;
 
-    CREATE_FUNC(SecondScene);
+    CREATE_FUNC(GameScene);
 };
 
 #endif // __HELLOWORLD_SCENE_H__

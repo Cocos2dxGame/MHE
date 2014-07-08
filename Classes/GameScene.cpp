@@ -1,19 +1,19 @@
-#include "SecondScene.h"
+#include "GameScene.h"
 
 USING_NS_CC;
 
-SecondScene::SecondScene()
+GameScene::GameScene()
 {
 	auto listener = EventListenerTouchOneByOne::create();
 	listener->setSwallowTouches(true);
 
-    listener->onTouchBegan = CC_CALLBACK_2(SecondScene::onTouchBegan, this);
-	listener->onTouchMoved = CC_CALLBACK_2(SecondScene::onTouchMoved, this);
-    listener->onTouchEnded = CC_CALLBACK_2(SecondScene::onTouchEnded, this);
+    listener->onTouchBegan = CC_CALLBACK_2(GameScene::onTouchBegan, this);
+	listener->onTouchMoved = CC_CALLBACK_2(GameScene::onTouchMoved, this);
+    listener->onTouchEnded = CC_CALLBACK_2(GameScene::onTouchEnded, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 }
 
-Scene* SecondScene::createScene()
+Scene* GameScene::createScene()
 {
     // 'scene' is an autorelease object
     auto scene = Scene::createWithPhysics();
@@ -21,7 +21,7 @@ Scene* SecondScene::createScene()
 	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 
     // 'layer' is an autorelease object
-    auto layer = SecondScene::create();
+    auto layer = GameScene::create();
 	layer->setPhyWorld(scene->getPhysicsWorld());
 
     // add layer as a child to scene
@@ -32,7 +32,7 @@ Scene* SecondScene::createScene()
 }
 
 // on "init" you need to initialize your instance
-bool SecondScene::init()
+bool GameScene::init()
 {
     if ( !Layer::init() )
     {
@@ -49,7 +49,7 @@ bool SecondScene::init()
     auto closeItem = MenuItemImage::create(
                                            "CloseNormal.png",
                                            "CloseSelected.png",
-                                           CC_CALLBACK_1(SecondScene::menuCloseCallback, this));
+                                           CC_CALLBACK_1(GameScene::menuCloseCallback, this));
     
 	closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
                                 origin.y + closeItem->getContentSize().height/2));
@@ -87,7 +87,7 @@ bool SecondScene::init()
     return true;
 }
 
-void SecondScene::setPhyWorld(cocos2d::PhysicsWorld* world)
+void GameScene::setPhyWorld(cocos2d::PhysicsWorld* world)
 {
 	m_world = world;
 	Vect gravity(0, -1000);
@@ -95,7 +95,7 @@ void SecondScene::setPhyWorld(cocos2d::PhysicsWorld* world)
 }
 
 //重写重力加速器方法  
-void SecondScene::onAcceleration(Acceleration* acc, Event* event)
+void GameScene::onAcceleration(Acceleration* acc, Event* event)
 {
 	/*if(acc->x > 0)
 	{
@@ -115,7 +115,7 @@ void SecondScene::onAcceleration(Acceleration* acc, Event* event)
 	}*/
 }  
 
-void SecondScene::menuCloseCallback(Ref* pSender)
+void GameScene::menuCloseCallback(Ref* pSender)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8) || (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 	MessageBox("You pressed the close button. Windows Store Apps do not implement a close button.","Alert");
@@ -129,12 +129,12 @@ void SecondScene::menuCloseCallback(Ref* pSender)
 #endif
 }
 
-bool SecondScene::contaiinsTouchLocation(Touch* touch)
+bool GameScene::contaiinsTouchLocation(Touch* touch)
 {
 	return _person->getRect().containsPoint(convertTouchToNodeSpace(touch));
 }
 
-bool SecondScene::onTouchBegan(Touch* touch, Event* event)
+bool GameScene::onTouchBegan(Touch* touch, Event* event)
 {
 	CCLOG("Paddle::onTouchBegan id = %d, x = %f, y = %f", touch->getID(), touch->getLocation().x, touch->getLocation().y);
 	CCLOG("Person's position x = %f, y = %f", _person->getPosition().x, _person->getPosition().y);
@@ -147,12 +147,12 @@ bool SecondScene::onTouchBegan(Touch* touch, Event* event)
     return true;
 }
 
-void SecondScene::onTouchMoved(Touch* touch, Event* event)
+void GameScene::onTouchMoved(Touch* touch, Event* event)
 {
 
 }
 
-void SecondScene::onTouchEnded(Touch* touch, Event* event)
+void GameScene::onTouchEnded(Touch* touch, Event* event)
 {
 	endPosition = touch->getLocation();
 	Vec2 vertex = endPosition - startPosition;
@@ -165,7 +165,7 @@ void SecondScene::onTouchEnded(Touch* touch, Event* event)
 	_bullet->getPhysicsBody()->setVelocity(_bullet->getVelocity());
 }
 
-void SecondScene::onTouchCancelled(Touch* touches, Event* event)
+void GameScene::onTouchCancelled(Touch* touches, Event* event)
 {
 
 }
