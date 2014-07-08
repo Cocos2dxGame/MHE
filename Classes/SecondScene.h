@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "Person.h"
+#include "Bullet.h"
 
 #define FIX_POS(_pos, _min, _max) \
  if (_pos < _min)        \
@@ -10,9 +11,19 @@
 else if (_pos > _max)   \
  _pos = _max;        \
 
+typedef enum {
+    Normal_Action = 0,
+    Fire_Action,
+    Move_Action,
+    Jump_Action,
+    Attacked_Action,
+    Vectory_Action,
+} ActionState;
+
 class SecondScene : public cocos2d::Layer
 {
 public:
+	SecondScene();
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
     static cocos2d::Scene* createScene();
 
@@ -26,22 +37,27 @@ public:
 	          
 	void onAcceleration(cocos2d::Acceleration* acc, cocos2d::Event* unused_event);
 
-	void onTouchesBegan(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event  *event);
-    void onTouchesMoved(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event  *event);
-    void onTouchesEnded(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event  *event);
-    void onTouchesCancelled(const std::vector<cocos2d::Touch*>& touches, cocos2d::Event  *event);
+	bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event  *event);
+    void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event  *event);
+    void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event  *event);
+    void onTouchCancelled(cocos2d::Touch* touch, cocos2d::Event  *event);
+	bool contaiinsTouchLocation(cocos2d::Touch* touch);
 
 private:
 	cocos2d::Sprite* _sprite;
 	cocos2d::Sprite* _ball;
 	cocos2d::PhysicsWorld* m_world;
 	Person* _person;
+	Bullet* _bullet;
 
 	cocos2d::Animate* cache;
 	cocos2d::Animate* freeAction;
 
 	cocos2d::Size visibleSize;
     cocos2d::Vec2 origin;
+
+	cocos2d::Vec2 startPosition;
+	cocos2d::Vec2 endPosition;
 
     CREATE_FUNC(SecondScene);
 };

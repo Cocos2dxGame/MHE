@@ -18,16 +18,13 @@ Person* Person::create()
 	Person* person = new Person();
 	if(person && person->initWithSpriteFrame(cache->spriteFrameByName("BoyNormal1.png")))
 	{
-		person->autorelease();
+		auto personBody = PhysicsBody::createBox(person->getContentSize());
+		person->setPhysicsBody(personBody);
+		person->getPhysicsBody()->addMass(20000.0f);
 		person->setAction(cache);
+		person->autorelease();
 		return person;
 	}
-	/*if(person && person->initWithFile("ball.png"))
-	{
-		person->autorelease();
-		person->setAction(cache);
-		return person;
-	}*/
 
 	return NULL;
 }
@@ -57,7 +54,7 @@ void Person::setNormalAction(cocos2d::SpriteFrameCache* cache)
 	auto animation = Animation::create();
 	for (int i = 1; i < 6; i++)
 	{
-		sprintf(keyname,"%s%d.png","BoyNormal",i);  
+		sprintf(keyname,"%s%d.png","BoyNormal",i);
         animation->addSpriteFrame(cache->spriteFrameByName(keyname));  
 	}
 
@@ -158,4 +155,10 @@ void Person::setFireAction(cocos2d::SpriteFrameCache* cache)
 Animate* Person::getFireAction()
 {
 	return fireAction;
+}
+
+Rect Person::getRect()
+{
+	auto s = getContentSize();
+	return Rect(getPosition().x-s.width/2,getPosition().y-s.height/2, s.width, s.height);
 }

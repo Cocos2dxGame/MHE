@@ -2,6 +2,17 @@
 
 USING_NS_CC;
 
+SecondScene::SecondScene()
+{
+	auto listener = EventListenerTouchOneByOne::create();
+	listener->setSwallowTouches(true);
+
+    listener->onTouchBegan = CC_CALLBACK_2(SecondScene::onTouchBegan, this);
+	listener->onTouchMoved = CC_CALLBACK_2(SecondScene::onTouchMoved, this);
+    listener->onTouchEnded = CC_CALLBACK_2(SecondScene::onTouchEnded, this);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+}
+
 Scene* SecondScene::createScene()
 {
     // 'scene' is an autorelease object
@@ -47,51 +58,24 @@ bool SecondScene::init()
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 
-	_ball = Sprite::create("ball.png",Rect(0,0,72,72));
-    _ball->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));	
-	auto ballBody = PhysicsBody::createCircle(_ball->getContentSize().width/2);
+	_ball = Sprite::create("ball.png");
+	_ball->setPosition(Vec2(visibleSize.width/2 + origin.x, _ball->getContentSize().height/2));	
+	auto ballBody = PhysicsBody::createBox(_ball->getContentSize());
 	_ball->setPhysicsBody(ballBody);
+	_ball->getPhysicsBody()->setVelocity(Vec2(0,900));
     this->addChild(_ball, 0);
 
-	//Texture2D* texture = TextureCache::sharedTextureCache()->addImage("picgirl.png");
-
-	//_sprite = Sprite::create("picgirl.png", Rect(0,0,32,48));
-	//_sprite->setPosition(100,100);
-	//this->addChild(_sprite);
-
-	//auto animation = Animation::create();
-	//for (int i = 2; i < 3; i++)
-	//{
-	//	for (int j = 0; j < 4; j++)
-	//	{
-	//		SpriteFrame* frame = SpriteFrame::createWithTexture(texture, Rect(32*j,48*i,32,48));
-	//		animation->addSpriteFrame(frame);
-	//	}
-	//}
-
-	//animation->setDelayPerUnit(0.2f);
-	//animation->setRestoreOriginalFrame(true);
-	//auto action = Animate::create(animation);
-
-	//auto repeatAction = RepeatForever::create(Sequence::create(action, NULL));
-
-	////_sprite->runAction(Sequence::create(action, action->reverse(), NULL));
-	//_sprite->runAction(repeatAction);
-
-	//测试可以读取plist后选取其中一张图片创建精灵
-	/*SpriteFrameCache* cache = SpriteFrameCache::sharedSpriteFrameCache();
-	cache->addSpriteFramesWithFile("character/Boy.plist");
-
-	_sprite = Sprite::createWithSpriteFrame(cache->spriteFrameByName("BoyNormal1.png"));
-	_sprite->setPosition(100,150);
-	addChild(_sprite,0);*/
-
 	_person = Person::create();
-	_person->setPosition(200,200);
+	_person->setPosition(200,100);
 	addChild(_person,0);
-	_person->setMoveToRight();
-	_person->runAction(_person->getAttackedAction());
 	
+	_person->setMoveToRight();
+	_person->runAction(_person->getNormalAction());
+	
+	_bullet = Bullet::create();
+	_bullet->setPosition(_person->getPosition());
+	_bullet->getPhysicsBody()->setVelocity(Vec2(0,0));
+	addChild(_bullet,0);
 
 	auto edgeSp = Sprite::create();
 	auto boundBody = PhysicsBody::createEdgeBox(visibleSize,PHYSICSBODY_MATERIAL_DEFAULT,3);
@@ -106,7 +90,7 @@ bool SecondScene::init()
 void SecondScene::setPhyWorld(cocos2d::PhysicsWorld* world)
 {
 	m_world = world;
-	Vect gravity(0, -50);
+	Vect gravity(0, -1000);
 	m_world->setGravity(gravity);
 }
 
@@ -145,22 +129,43 @@ void SecondScene::menuCloseCallback(Ref* pSender)
 #endif
 }
 
-void SecondScene::onTouchesBegan(const std::vector<Touch*>& touches, Event* event)
+bool SecondScene::contaiinsTouchLocation(Touch* touch)
+{
+	return _person->getRect().containsPoint(convertTouchToNodeSpace(touch));
+}
+
+bool SecondScene::onTouchBegan(Touch* touch, Event* event)
+{
+	CCLOG("Paddle::onTouchBegan id = %d, x = %f, y = %f", touch->getID(), touch->getLocation().x, touch->getLocation().y);
+	CCLOG("Person's position x = %f, y = %f", _person->getPosition().x, _person->getPosition().y);
+	CCLOG("Offset position x = %f, y = %f",_person->getPhysicsBody()->getPositionOffset().x, _person->getPhysicsBody()->getPositionOffset().y);
+	
+	if ( !contaiinsTouchLocation(touch) ) return false;
+    
+	startPosition = touch->getLocation();
+    CCLOG("return true");
+    return true;
+}
+
+void SecondScene::onTouchMoved(Touch* touch, Event* event)
 {
 
 }
 
-void SecondScene::onTouchesMoved(const std::vector<Touch*>& touches, Event* event)
+void SecondScene::onTouchEnded(Touch* touch, Event* event)
 {
+	endPosition = touch->getLocation();
+	Vec2 vertex = endPosition - startPosition;
+	
+	//auto director = Director::getInstance();
+	//director->getActionManager()->addAction(_person->getFireAction(), _person, true);
 
+	_bullet->setVelocity(vertex);
+	_bullet->setPosition(_person->getPosition());
+	_bullet->getPhysicsBody()->setVelocity(_bullet->getVelocity());
 }
 
-void SecondScene::onTouchesEnded(const std::vector<Touch*>& touches, Event* event)
-{
-
-}
-
-void SecondScene::onTouchesCancelled(const std::vector<Touch*>& touches, Event* event)
+void SecondScene::onTouchCancelled(Touch* touches, Event* event)
 {
 
 }

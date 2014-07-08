@@ -29,7 +29,7 @@ public:
 	void setFireAction(cocos2d::SpriteFrameCache* cache);
 	cocos2d::Animate* getFireAction();
 
-
+	cocos2d::Rect getRect();
 private:
 	int HP;
 	int Rage;
