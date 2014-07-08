@@ -91,8 +91,17 @@ bool ChapterScene::init()
 		float offset = imageOrigin + (imageWidth + imageSpace) * i;
 		pSprite->setPosition(origin.x+offset, origin.y+visibleSize.height/2);
 		this->addChild(pSprite, 0);
+		m_menuIconVector.pushBack(pSprite);
 	}
     
+	// register event listener
+	auto listener = EventListenerTouchOneByOne::create();
+	listener->setSwallowTouches(true);
+	listener->onTouchBegan = CC_CALLBACK_2(ChapterScene::onTouchBegan, this);
+	listener->onTouchMoved = CC_CALLBACK_2(ChapterScene::onTouchMoved, this);
+	listener->onTouchEnded = CC_CALLBACK_2(ChapterScene::onTouchEnded, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+
     return true;
 }
 
@@ -109,4 +118,39 @@ void ChapterScene::menuCloseCallback(Ref* pSender)
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     exit(0);
 #endif
+}
+
+void ChapterScene::move(float distance)
+{
+	Vec2 moveVec(distance, 0);
+
+	for(Sprite *pSprite : m_menuIconVector)
+	{
+		pSprite->runAction(MoveBy::create(0, moveVec));
+	}
+}
+
+bool ChapterScene::onTouchBegan(Touch *touch, Event *unused_event)
+{
+	m_touchBegan = this->convertTouchToNodeSpace(touch);
+	m_velocity = 0;
+
+	return true;
+}
+
+void ChapterScene::onTouchMoved(Touch *touch, Event *unused_event)
+{
+	Point touchEnded = this->convertTouchToNodeSpace(touch);
+	move(touchEnded.x-m_touchBegan.x);
+	m_touchBegan = touchEnded;
+}
+
+void ChapterScene::onTouchEnded(Touch *touch, Event *unused_event)
+{
+
+}
+
+void ChapterScene::update(float delta)
+{
+
 }
