@@ -17,6 +17,11 @@ public:
     
     // implement the "static create()" method manually
     CREATE_FUNC(ChapterScene);
+
+private:
+	cocos2d::Sprite *m_background;
+	cocos2d::Vector<cocos2d::Sprite *> m_menuIconVector;
+
 };
 
 #endif // __ChapterScene_SCENE_H__
