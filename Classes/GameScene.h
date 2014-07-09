@@ -13,11 +13,12 @@ else if (_pos > _max)   \
 
 typedef enum {
     Normal_Action = 0,
-    Fire_Action,
     Move_Action,
-    Jump_Action,
+	Jump_Action,
+	Fire_Action,
     Attacked_Action,
     Vectory_Action,
+	Fail_Action,
 } ActionState;
 
 class GameScene : public cocos2d::Layer
@@ -58,6 +59,9 @@ private:
 
 	cocos2d::Vec2 startPosition;
 	cocos2d::Vec2 endPosition;
+
+	unsigned currentState;
+	unsigned nextState;
 
     CREATE_FUNC(GameScene);
 };

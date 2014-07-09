@@ -84,6 +84,7 @@ bool GameScene::init()
 	this->addChild(edgeSp);
 	edgeSp->setTag(0);
     
+	schedule( schedule_selector(GameScene::update), 0.1f); 
     return true;
 }
 
@@ -93,6 +94,8 @@ void GameScene::setPhyWorld(cocos2d::PhysicsWorld* world)
 	Vect gravity(0, -1000);
 	m_world->setGravity(gravity);
 }
+
+
 
 //重写重力加速器方法  
 void GameScene::onAcceleration(Acceleration* acc, Event* event)
@@ -157,12 +160,11 @@ void GameScene::onTouchEnded(Touch* touch, Event* event)
 	endPosition = touch->getLocation();
 	Vec2 vertex = endPosition - startPosition;
 	
-	//auto director = Director::getInstance();
-	//director->getActionManager()->addAction(_person->getFireAction(), _person, true);
-
 	_bullet->setVelocity(vertex);
 	_bullet->setPosition(_person->getPosition());
 	_bullet->getPhysicsBody()->setVelocity(_bullet->getVelocity());
+
+	nextState = Fire_Action;
 }
 
 void GameScene::onTouchCancelled(Touch* touches, Event* event)
