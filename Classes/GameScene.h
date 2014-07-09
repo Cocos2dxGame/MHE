@@ -33,8 +33,6 @@ public:
     
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
-    
-	void setPhyWorld(cocos2d::PhysicsWorld* world);
 	          
 	void onAcceleration(cocos2d::Acceleration* acc, cocos2d::Event* unused_event);
 
@@ -45,8 +43,6 @@ public:
 	bool contaiinsTouchLocation(cocos2d::Touch* touch);
 
 private:
-	cocos2d::Sprite* _sprite;
-	cocos2d::Sprite* _ball;
 	cocos2d::PhysicsWorld* m_world;
 	Person* _person;
 	Bullet* _bullet;

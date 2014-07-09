@@ -18,11 +18,8 @@ Scene* GameScene::createScene()
     // 'scene' is an autorelease object
     auto scene = Scene::createWithPhysics();
     
-	scene->getPhysicsWorld()->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
-
     // 'layer' is an autorelease object
     auto layer = GameScene::create();
-	layer->setPhyWorld(scene->getPhysicsWorld());
 
     // add layer as a child to scene
     scene->addChild(layer);
@@ -44,8 +41,6 @@ bool GameScene::init()
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
 
-	this->setAccelerometerEnabled(true);
-
     auto closeItem = MenuItemImage::create(
                                            "CloseNormal.png",
                                            "CloseSelected.png",
@@ -58,13 +53,6 @@ bool GameScene::init()
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 
-	_ball = Sprite::create("ball.png");
-	_ball->setPosition(Vec2(visibleSize.width/2 + origin.x, _ball->getContentSize().height/2));	
-	auto ballBody = PhysicsBody::createBox(_ball->getContentSize());
-	_ball->setPhysicsBody(ballBody);
-	_ball->getPhysicsBody()->setVelocity(Vec2(0,900));
-    this->addChild(_ball, 0);
-
 	_person = Person::create();
 	_person->setPosition(200,100);
 	addChild(_person,0);
@@ -74,27 +62,10 @@ bool GameScene::init()
 	
 	_bullet = Bullet::create();
 	_bullet->setPosition(_person->getPosition());
-	_bullet->getPhysicsBody()->setVelocity(Vec2(0,0));
 	addChild(_bullet,0);
 
-	auto edgeSp = Sprite::create();
-	auto boundBody = PhysicsBody::createEdgeBox(visibleSize,PHYSICSBODY_MATERIAL_DEFAULT,3);
-	edgeSp->setPosition(Point(visibleSize.width/2,visibleSize.height/2));
-	edgeSp->setPhysicsBody(boundBody);
-	this->addChild(edgeSp);
-	edgeSp->setTag(0);
-    
-	schedule( schedule_selector(GameScene::update), 0.1f); 
     return true;
 }
-
-void GameScene::setPhyWorld(cocos2d::PhysicsWorld* world)
-{
-	m_world = world;
-	Vect gravity(0, -1000);
-	m_world->setGravity(gravity);
-}
-
 
 
 //重写重力加速器方法  
@@ -141,7 +112,6 @@ bool GameScene::onTouchBegan(Touch* touch, Event* event)
 {
 	CCLOG("Paddle::onTouchBegan id = %d, x = %f, y = %f", touch->getID(), touch->getLocation().x, touch->getLocation().y);
 	CCLOG("Person's position x = %f, y = %f", _person->getPosition().x, _person->getPosition().y);
-	CCLOG("Offset position x = %f, y = %f",_person->getPhysicsBody()->getPositionOffset().x, _person->getPhysicsBody()->getPositionOffset().y);
 	
 	if ( !contaiinsTouchLocation(touch) ) return false;
     
@@ -162,8 +132,6 @@ void GameScene::onTouchEnded(Touch* touch, Event* event)
 	
 	_bullet->setVelocity(vertex);
 	_bullet->setPosition(_person->getPosition());
-	_bullet->getPhysicsBody()->setVelocity(_bullet->getVelocity());
-
 	nextState = Fire_Action;
 }
 

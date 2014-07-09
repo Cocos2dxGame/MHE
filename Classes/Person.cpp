@@ -18,9 +18,6 @@ Person* Person::create()
 	Person* person = new Person();
 	if(person && person->initWithSpriteFrame(cache->spriteFrameByName("BoyNormal1.png")))
 	{
-		auto personBody = PhysicsBody::createBox(person->getContentSize());
-		person->setPhysicsBody(personBody);
-		person->getPhysicsBody()->addMass(20000.0f);
 		person->setAction(cache);
 		person->autorelease();
 		return person;

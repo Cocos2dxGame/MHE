@@ -16,9 +16,7 @@ Bullet* Bullet::create()
 {
 	Bullet* bullet = new Bullet();
 	if(bullet && bullet->initWithFile("ball.png"))
-	{
-		auto bulletBody = PhysicsBody::createCircle(bullet->getContentSize().width/2);
-		bullet->setPhysicsBody(bulletBody);		
+	{	
 		bullet->autorelease();
 		return bullet;
 	}
