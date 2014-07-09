@@ -1,6 +1,6 @@
 #include "ChapterScene.h"
 #include "SceneManager.h"
-#include "SecondScene.h"
+#include "GameScene.h"
 
 USING_NS_CC;
 
@@ -175,7 +175,7 @@ void ChapterScene::onTouchEnded(Touch *touch, Event *unused_event)
 		{
 			if(pSprite->getBoundingBox().containsPoint(touchEnded))
 			{
-				Scene* pScene = SecondScene::createScene();
+				Scene* pScene = GameScene::createScene();
 				SceneManager::go(pScene);
 			}
 		}
