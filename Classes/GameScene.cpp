@@ -84,7 +84,6 @@ bool GameScene::init()
 	this->addChild(edgeSp);
 	edgeSp->setTag(0);
     
-	schedule( schedule_selector(GameScene::update), 0.1f); 
     return true;
 }
 
@@ -97,7 +96,7 @@ void GameScene::setPhyWorld(cocos2d::PhysicsWorld* world)
 
 
 
-//ÖØÐ´ÖØÁ¦¼ÓËÙÆ÷·½·¨  
+//ï¿½ï¿½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
 void GameScene::onAcceleration(Acceleration* acc, Event* event)
 {
 	/*if(acc->x > 0)
