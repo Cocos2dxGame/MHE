@@ -30,5 +30,12 @@ public:
 	static Role3* create();
 };
 
+class Role4: public Person
+{
+public:
+	Role4();
+	static Role4* create();
+};
+
 
 #endif __ROLE__H__

@@ -44,10 +44,12 @@ public:
 	bool contaiinsTouchLocation(cocos2d::Touch* touch);
 
 private:
-	cocos2d::PhysicsWorld* m_world;
-	Bullet* _bullet;
+
 	Role1* _role1;
 	Role2* _role2;
+	Role3* _role3;
+	Role4* _role4;
+
 	cocos2d::Animate* cache;
 	cocos2d::Animate* freeAction;
 

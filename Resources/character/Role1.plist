@@ -4,7 +4,7 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>Attacked1.png</key>
+            <key>Role1Attacked1.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{1462,2},{124,183}}</string>
@@ -17,7 +17,7 @@
                 <key>sourceSize</key>
                 <string>{124,183}</string>
             </dict>
-            <key>Attacked2.png</key>
+            <key>Role1Attacked2.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{1277,2},{124,183}}</string>
@@ -30,7 +30,7 @@
                 <key>sourceSize</key>
                 <string>{124,183}</string>
             </dict>
-            <key>Fire.png</key>
+            <key>Role1Fire.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{721,2},{139,177}}</string>
@@ -43,7 +43,7 @@
                 <key>sourceSize</key>
                 <string>{139,177}</string>
             </dict>
-            <key>Jump.png</key>
+            <key>Role1Jump.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{359,2},{140,180}}</string>
@@ -56,7 +56,7 @@
                 <key>sourceSize</key>
                 <string>{140,180}</string>
             </dict>
-            <key>Move1.png</key>
+            <key>Role1Move1.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{1083,2},{128,192}}</string>
@@ -69,7 +69,7 @@
                 <key>sourceSize</key>
                 <string>{128,192}</string>
             </dict>
-            <key>Move2.png</key>
+            <key>Role1Move2.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{541,2},{140,178}}</string>
@@ -82,7 +82,7 @@
                 <key>sourceSize</key>
                 <string>{140,178}</string>
             </dict>
-            <key>Normal1.png</key>
+            <key>Role1Normal1.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{359,2},{140,180}}</string>
@@ -95,7 +95,7 @@
                 <key>sourceSize</key>
                 <string>{140,180}</string>
             </dict>
-            <key>Normal2.png</key>
+            <key>Role1Normal2.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{181,2},{143,176}}</string>
@@ -108,7 +108,7 @@
                 <key>sourceSize</key>
                 <string>{143,176}</string>
             </dict>
-            <key>Normal3.png</key>
+            <key>Role1Normal3.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{2,2},{143,177}}</string>
@@ -121,7 +121,7 @@
                 <key>sourceSize</key>
                 <string>{143,177}</string>
             </dict>
-            <key>Normal4.png</key>
+            <key>Role1Normal4.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{359,2},{140,180}}</string>
@@ -134,7 +134,7 @@
                 <key>sourceSize</key>
                 <string>{140,180}</string>
             </dict>
-            <key>Normal5.png</key>
+            <key>Role1Normal5.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{900,2},{138,181}}</string>
@@ -147,7 +147,7 @@
                 <key>sourceSize</key>
                 <string>{138,181}</string>
             </dict>
-            <key>Victory.png</key>
+            <key>Role1Victory.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{1647,2},{121,189}}</string>
@@ -170,7 +170,7 @@
             <key>size</key>
             <string>{1838,147}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:1f5ec7b635191d6e6614903fa5d26a92:12faa7f8ed2eb164310db82fa07a5604:183082701fffbb6bcef342ba62f44148$</string>
+            <string>$TexturePacker:SmartUpdate:4e80bdd0a051daca5a91882471ba3ac1:12faa7f8ed2eb164310db82fa07a5604:183082701fffbb6bcef342ba62f44148$</string>
             <key>textureFileName</key>
             <string>Role1.png</string>
         </dict>

@@ -60,20 +60,29 @@ bool GameScene::init()
 	//_person->runAction(_person->getNormalAction());
 	
 	_role1 = Role1::create();
-	_role1->setPosition(400,100);
+	_role1->setPosition(100,100);
 	addChild(_role1,0);
 	_role1->setMoveToRight();
 	_role1->runAction(_role1->getNormalAction());
 
 	_role2 = Role2::create();
-	_role2->setPosition(300,100);
+	_role2->setPosition(200,100);
 	addChild(_role2,0);
 	_role2->setMoveToRight();
 	_role2->runAction(_role2->getNormalAction());
 
-	_bullet = Bullet::create();
-	_bullet->setPosition(200, 200);
-	addChild(_bullet,0);
+	_role3 = Role3::create();
+	_role3->setPosition(300,100);
+	addChild(_role3,0);
+	_role3->setMoveToRight();
+	_role3->runAction(_role3->getNormalAction());
+
+	_role4 = Role4::create();
+	_role4->setPosition(400,100);
+	addChild(_role4,0);
+	_role4->setMoveToRight();
+	_role4->runAction(_role4->getNormalAction());
+
 
     return true;
 }
@@ -140,8 +149,8 @@ void GameScene::onTouchEnded(Touch* touch, Event* event)
 	endPosition = touch->getLocation();
 	Vec2 vertex = endPosition - startPosition;
 	
-	_bullet->setVelocity(vertex);
-	_bullet->setPosition(300, 200);
+
+
 	nextState = Fire_Action;
 }
 

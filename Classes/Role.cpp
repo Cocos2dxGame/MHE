@@ -13,7 +13,9 @@ Role1::Role1()
 	jumpSpeed  = 10;
 	moveRight = true;
 	strcpy(roleName, "Role1");
-	
+
+	CCLog("roleName = %s",roleName);
+
 	char plistFileName[100];
 	sprintf(plistFileName,"character/%s.plist", roleName);  
 	cache = SpriteFrameCache::sharedSpriteFrameCache();
@@ -25,7 +27,10 @@ Role1* Role1::create()
 {
 	Role1* role1 = new Role1();
 
-	if(role1 && role1->initWithSpriteFrame(role1->cache->spriteFrameByName("Normal1.png")))
+	char keyname[100];
+	sprintf(keyname,"%sNormal1.png", role1->roleName);
+
+	if(role1 && role1->initWithSpriteFrame(role1->cache->spriteFrameByName(keyname)))
 	{
 		role1->setAction(role1->cache);
 		role1->autorelease();
@@ -58,8 +63,11 @@ Role2::Role2()
 Role2* Role2::create()
 {
 	Role2* role2 = new Role2();
+	
+	char keyname[100];
+	sprintf(keyname,"%sNormal1.png", role2->roleName);
 
-	if(role2 && role2->initWithSpriteFrame(role2->cache->spriteFrameByName("Normal1.png")))
+	if(role2 && role2->initWithSpriteFrame(role2->cache->spriteFrameByName(keyname)))
 	{
 		role2->setAction(role2->cache);
 		role2->autorelease();
@@ -82,24 +90,67 @@ Role3::Role3()
 	jumpSpeed  = 10;
 	moveRight = true;
 	strcpy(roleName, "Role3");
+
+	char plistFileName[100];
+	
+	sprintf(plistFileName,"character/%s.plist", roleName);
+
+	cache = SpriteFrameCache::sharedSpriteFrameCache();
+	cache->addSpriteFramesWithFile(plistFileName);
 }
 
 Role3* Role3::create()
 {
 	Role3* role3 = new Role3();
 
-	char plistFileName[100];
-	
-	sprintf(plistFileName,"character/%s.plist", role3->roleName);  
+	char keyname[100];
+	sprintf(keyname,"%sNormal1.png", role3->roleName);
 
-	role3->cache = SpriteFrameCache::sharedSpriteFrameCache();
-	role3->cache->addSpriteFramesWithFile(plistFileName);
-
-	if(role3 && role3->initWithSpriteFrame(role3->cache->spriteFrameByName("Normal1.png")))
+	if(role3 && role3->initWithSpriteFrame(role3->cache->spriteFrameByName(keyname)))
 	{
 		role3->setAction(role3->cache);
 		role3->autorelease();
 		return role3;
+	}
+
+	return NULL;
+}
+
+
+
+//Role4
+//--------------------------------------------------------------------------
+//--------------------------------------------------------------------------
+
+Role4::Role4()
+{
+	HP = 200;
+	Rage = 200;
+	speed = 10;
+	jumpSpeed  = 10;
+	moveRight = true;
+	strcpy(roleName, "Role4");
+
+	char plistFileName[100];
+	
+	sprintf(plistFileName,"character/%s.plist", roleName);
+
+	cache = SpriteFrameCache::sharedSpriteFrameCache();
+	cache->addSpriteFramesWithFile(plistFileName);
+}
+
+Role4* Role4::create()
+{
+	Role4* role4 = new Role4();
+
+	char keyname[100];
+	sprintf(keyname,"%sNormal1.png", role4->roleName);
+
+	if(role4 && role4->initWithSpriteFrame(role4->cache->spriteFrameByName(keyname)))
+	{
+		role4->setAction(role4->cache);
+		role4->autorelease();
+		return role4;
 	}
 
 	return NULL;
