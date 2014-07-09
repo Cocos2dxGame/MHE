@@ -11,7 +11,7 @@ public:
 
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
     virtual bool init();  
-    virtual void update(float delta);
+    //virtual void update(float delta);
 
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
@@ -32,8 +32,14 @@ private:
 	cocos2d::Vector<cocos2d::Sprite *> m_menuIconVector;
 
 	cocos2d::Point m_touchBegan;
-	float m_velocity;
-	float m_acc;
+	cocos2d::Point m_touch;
+
+	float m_imageSpace;	
+	float m_imageWidth;
+	float m_imageHeight;
+	float m_x;
+	float m_xmax;
+	float m_xmin;
 
 };
 
