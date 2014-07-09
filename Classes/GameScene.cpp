@@ -53,15 +53,26 @@ bool GameScene::init()
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 
-	_person = Person::create();
-	_person->setPosition(200,100);
-	addChild(_person,0);
+	//_person = Person::create();
+	//_person->setPosition(200,100);
+	//addChild(_person,0);
+	//_person->setMoveToRight();
+	//_person->runAction(_person->getNormalAction());
 	
-	_person->setMoveToRight();
-	_person->runAction(_person->getNormalAction());
-	
+	_role1 = Role1::create();
+	_role1->setPosition(400,100);
+	addChild(_role1,0);
+	_role1->setMoveToRight();
+	_role1->runAction(_role1->getNormalAction());
+
+	_role2 = Role2::create();
+	_role2->setPosition(300,100);
+	addChild(_role2,0);
+	_role2->setMoveToRight();
+	_role2->runAction(_role2->getNormalAction());
+
 	_bullet = Bullet::create();
-	_bullet->setPosition(_person->getPosition());
+	_bullet->setPosition(200, 200);
 	addChild(_bullet,0);
 
     return true;
@@ -105,13 +116,12 @@ void GameScene::menuCloseCallback(Ref* pSender)
 
 bool GameScene::contaiinsTouchLocation(Touch* touch)
 {
-	return _person->getRect().containsPoint(convertTouchToNodeSpace(touch));
+	return _role1->getRect().containsPoint(convertTouchToNodeSpace(touch));
 }
 
 bool GameScene::onTouchBegan(Touch* touch, Event* event)
 {
 	CCLOG("Paddle::onTouchBegan id = %d, x = %f, y = %f", touch->getID(), touch->getLocation().x, touch->getLocation().y);
-	CCLOG("Person's position x = %f, y = %f", _person->getPosition().x, _person->getPosition().y);
 	
 	if ( !contaiinsTouchLocation(touch) ) return false;
     
@@ -131,7 +141,7 @@ void GameScene::onTouchEnded(Touch* touch, Event* event)
 	Vec2 vertex = endPosition - startPosition;
 	
 	_bullet->setVelocity(vertex);
-	_bullet->setPosition(_person->getPosition());
+	_bullet->setPosition(300, 200);
 	nextState = Fire_Action;
 }
 

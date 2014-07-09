@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 #include "Person.h"
 #include "Bullet.h"
+#include "Role.h"
 
 #define FIX_POS(_pos, _min, _max) \
  if (_pos < _min)        \
@@ -44,9 +45,9 @@ public:
 
 private:
 	cocos2d::PhysicsWorld* m_world;
-	Person* _person;
 	Bullet* _bullet;
-
+	Role1* _role1;
+	Role2* _role2;
 	cocos2d::Animate* cache;
 	cocos2d::Animate* freeAction;
 

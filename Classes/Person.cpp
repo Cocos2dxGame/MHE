@@ -9,16 +9,21 @@ Person::Person()
 	speed = 10;
 	jumpSpeed  = 10;
 	moveRight = true;
+	strcpy(roleName, "Role2");
+	
+	char plistFileName[100];
+	sprintf(plistFileName,"character/%s.plist", roleName);  
+	cache = SpriteFrameCache::sharedSpriteFrameCache();
+	cache->addSpriteFramesWithFile(plistFileName);
 }
+
 Person* Person::create()
 {
-	SpriteFrameCache* cache = SpriteFrameCache::sharedSpriteFrameCache();
-	cache->addSpriteFramesWithFile("character/Boy.plist");
-
 	Person* person = new Person();
-	if(person && person->initWithSpriteFrame(cache->spriteFrameByName("BoyNormal1.png")))
+
+	if(person && person->initWithSpriteFrame(person->cache->spriteFrameByName("Normal1.png")))
 	{
-		person->setAction(cache);
+		person->setAction(person->cache);
 		person->autorelease();
 		return person;
 	}
@@ -51,8 +56,8 @@ void Person::setNormalAction(cocos2d::SpriteFrameCache* cache)
 	auto animation = Animation::create();
 	for (int i = 1; i < 6; i++)
 	{
-		sprintf(keyname,"%s%d.png","BoyNormal",i);
-        animation->addSpriteFrame(cache->spriteFrameByName(keyname));  
+		sprintf(keyname,"Normal%d.png",i);
+        animation->addSpriteFrame(cache->spriteFrameByName(keyname));
 	}
 
 	animation->setDelayPerUnit(0.1f);
@@ -73,7 +78,7 @@ void Person::setMoveAction(cocos2d::SpriteFrameCache* cache)
 
 	for (int i = 1; i < 3; i++)
 	{
-		sprintf(keyname,"%s%d.png","BoyRun",i);  
+		sprintf(keyname, "Move%d.png", i);  
         animation->addSpriteFrame(cache->spriteFrameByName(keyname));  
 	}
 
@@ -95,7 +100,7 @@ void Person::setAttackedAction(cocos2d::SpriteFrameCache* cache)
 	auto animation = Animation::create();
 	for (int i = 1; i < 3; i++)
 	{
-		sprintf(keyname,"%s%d.png","BoyAttacked",i);  
+		sprintf(keyname, "Attacked%d.png", i);  
         animation->addSpriteFrame(cache->spriteFrameByName(keyname));  
 	}
 
@@ -116,7 +121,7 @@ void Person::setJumpAction(cocos2d::SpriteFrameCache* cache)
 {
 	char keyname[100];
 	auto animation = Animation::create();
-	sprintf(keyname,"%s.png","BoyNormal1");  
+	sprintf(keyname, "Jump.png");  
     animation->addSpriteFrame(cache->spriteFrameByName(keyname));  
 
 	animation->setDelayPerUnit(0.1f);
@@ -139,7 +144,7 @@ void Person::setFireAction(cocos2d::SpriteFrameCache* cache)
 	//sprintf(keyname,"%s.png","BoyNormal1");
 	//animation->addSpriteFrame(cache->spriteFrameByName(keyname));
 
-	sprintf(keyname,"%s.png","BoyFire");  
+	sprintf(keyname, "Fire.png");
     animation->addSpriteFrame(cache->spriteFrameByName(keyname));  
 
 	animation->setDelayPerUnit(0.5f);

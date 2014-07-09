@@ -7,8 +7,9 @@ class Person: public cocos2d::Sprite
 {
 public:
 	Person();
+
 	static Person* create();
-	
+
 	void setMoveToLeft();
 	void setMoveToRight();
 
@@ -28,14 +29,17 @@ public:
 
 	void setFireAction(cocos2d::SpriteFrameCache* cache);
 	cocos2d::Animate* getFireAction();
-
+	
 	cocos2d::Rect getRect();
-private:
+protected:
 	int HP;
 	int Rage;
 	int jumpSpeed;
 	int speed;
 	bool moveRight;
+	char roleName[100];
+	//cocos2d::String* roleName;
+
 	cocos2d::SpriteFrameCache* cache;
 	cocos2d::RepeatForever* normalAction;
 	cocos2d::Animate* attackedAction;
