@@ -26,29 +26,51 @@ class GameScene : public cocos2d::Layer
 {
 public:
 	GameScene();
-    // there's no 'id' in cpp, so we recommend returning the class instance pointer
+    
+	//创建场景
     static cocos2d::Scene* createScene();
 
-    // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
+    //初始化
     virtual bool init();  
     
     // a selector callback
     void menuCloseCallback(cocos2d::Ref* pSender);
-	          
+
+	//血条、怒气条设置
+	void setProgressBar();
+	void setRoleHp(unsigned int roleCurrentHp);
+	void setRoleRage(unsigned int roleCurrentRage);
+	void setNpcHp(unsigned int npcCurrentHp);
+	void setNpcRage(unsigned int npcCurrrentRage);
+	
+	//重力加速器
 	void onAcceleration(cocos2d::Acceleration* acc, cocos2d::Event* unused_event);
 
+	//单点触摸函数
 	bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event  *event);
     void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event  *event);
     void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event  *event);
     void onTouchCancelled(cocos2d::Touch* touch, cocos2d::Event  *event);
 	bool contaiinsTouchLocation(cocos2d::Touch* touch);
 
+	//更新
+	void update(float dt);
 private:
 
 	Role1* _role1;
 	Role2* _role2;
 	Role3* _role3;
 	Role4* _role4;
+
+	cocos2d::ProgressTimer* roleHPProgressTimer;
+	cocos2d::ProgressTimer* roleSPProgressTimer;
+	cocos2d::ProgressTimer* npcHpProgressTimer;
+
+	unsigned int roleCurrentHP;
+	unsigned int roleCurrentSP;
+
+	unsigned int npcCurrentHP;
+	unsigned int npcCurrrentSP;
 
 	cocos2d::Animate* cache;
 	cocos2d::Animate* freeAction;

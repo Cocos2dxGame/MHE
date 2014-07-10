@@ -88,6 +88,8 @@ void Person::setMoveAction(cocos2d::SpriteFrameCache* cache)
 	animation->setDelayPerUnit(0.5f);
 	animation->setRestoreOriginalFrame(true);
 	auto action = Animate::create(animation);
+	moveLeftAction = Animate::create(animation);
+	moveRightAction = moveLeftAction->reverse();
 
 	moveAction = RepeatForever::create(Sequence::create(action, NULL));
 }
