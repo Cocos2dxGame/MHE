@@ -2,6 +2,8 @@
 
 USING_NS_CC;
 
+BulletManager* g_BulletManager;
+
 GameScene::GameScene()
 	:roleCurrentHP(0),roleCurrentSP(0),npcCurrentHP(0),npcCurrrentSP(0)
 {
@@ -87,7 +89,14 @@ bool GameScene::init()
 	_role4->setMoveToRight();
 	_role4->runAction(_role4->getNormalAction());
 
-	schedule(schedule_selector(GameScene::update), 0.2f);
+
+	Vec2 g(0, -800);
+	Vec2 velocity(700, 500);
+	Point pos(50, 50);
+	g_BulletManager = BulletManager::create((Layer*)this, g);
+	g_BulletManager->shoot(NormalBullet, pos, velocity);
+
+	this->scheduleUpdate();
 
     return true;
 }
@@ -127,8 +136,9 @@ void GameScene::setProgressBar()
 	addChild(roleSPProgressTimer,1);
 }
 
-void GameScene::update(float dt)
+void GameScene::update(float deltaTime)
 {
+	g_BulletManager->update(deltaTime);
 	//更新血量，怒气
 	roleCurrentHP++;
 	roleCurrentSP++;

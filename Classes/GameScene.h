@@ -5,6 +5,7 @@
 #include "Person.h"
 #include "Bullet.h"
 #include "Role.h"
+#include "BulletManager.h"
 
 #define FIX_POS(_pos, _min, _max) \
  if (_pos < _min)        \
@@ -54,7 +55,8 @@ public:
 	bool contaiinsTouchLocation(cocos2d::Touch* touch);
 
 	//¸üÐÂ
-	void update(float dt);
+	virtual void update(float deltaTime);
+
 private:
 
 	Role1* _role1;
