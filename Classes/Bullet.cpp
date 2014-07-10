@@ -6,11 +6,14 @@ Bullet::Bullet()
 {
 }
 
-Bullet* Bullet::create()
+Bullet* Bullet::create(bulletType type, cocos2d::Point pos, Vec2 velocity)
 {
 	Bullet* bullet = new Bullet();
 	if(bullet && bullet->initWithFile("ball.png"))
 	{	
+		bullet->m_type = type;
+		bullet->m_velocity = velocity;
+		bullet->setPosition(pos);
 		bullet->autorelease();
 		return bullet;
 	}
@@ -18,8 +21,9 @@ Bullet* Bullet::create()
 	return NULL;
 }
 
-
-Vec2 Bullet::getVelocity()
+void Bullet::move(Vec2 acceleration, float deltaTime)
 {
-	return velocity;
+	Point pos = this->getPosition();
+	setPosition(pos+=m_velocity*deltaTime);
+	m_velocity+=acceleration*deltaTime;
 }
