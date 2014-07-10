@@ -57,27 +57,20 @@ bool ChapterScene::init()
 
     // add a label shows "Hello World"
     // create and initialize a label
-    
-    auto label = LabelTTF::create("Hello World", "Arial", 24);
-    
-    // position the label on the center of the screen
-    label->setPosition(Vec2(origin.x + visibleSize.width/2,
-                            origin.y + visibleSize.height - label->getContentSize().height));
-
-    // add the label as a child to this layer
-    this->addChild(label, 1);
 
     // add "ChapterScene" splash screen"
-    auto sprite = Sprite::create("HelloWorld.png");
+    auto background = Sprite::create("background/bg_001.png");
 
     // position the sprite on the center of the screen
-    sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+    background->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+	background->setScaleX(visibleSize.width/background->getContentSize().width);
+	background->setScaleY(visibleSize.height/background->getContentSize().height);
 
     // add the sprite as a child to this layer
-    this->addChild(sprite, 0);
+    this->addChild(background, 0);
 
 	// add the menu icon
-	std::string images[] = {"background/bg_002.jpg", "background/bg_003.jpg", "background/bg_004.jpg"};
+	std::string images[] = {"background/bg_002.png", "background/bg_003.png", "background/bg_004.png"};
 	int imagesNum = 3;
 	m_imageWidth = visibleSize.width * 0.6;
 	m_imageHeight = visibleSize.height * 0.6;
