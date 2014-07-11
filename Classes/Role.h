@@ -1,5 +1,5 @@
-#ifndef __ROLE__H__
-#define __ROLE__H__
+#ifndef __ROLE_H__
+#define __ROLE_H__
 
 #include "Person.h"
 
@@ -38,4 +38,4 @@ public:
 };
 
 
-#endif __ROLE__H__
+#endif

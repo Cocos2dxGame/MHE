@@ -5,7 +5,10 @@ USING_NS_CC;
 BulletManager* g_BulletManager;
 
 GameScene::GameScene()
-	:roleCurrentHP(0),roleCurrentSP(0),npcCurrentHP(0),npcCurrrentSP(0)
+	:roleCurrentHP(0),roleCurrentSP(0),npcCurrentHP(0),npcCurrrentSP(0),
+	skill1CoolDownTime(0.0),skill2CoolDownTime(5.0),skill3CoolDownTime(10.0),
+	skill1NeedTime(0.0),skill2NeedTime(0.0), skill3NeedTime(0.0),
+	currentBulletState(NormalBullet)
 {
 	auto listener = EventListenerTouchOneByOne::create();
 	listener->setSwallowTouches(true);
@@ -14,7 +17,6 @@ GameScene::GameScene()
 	listener->onTouchMoved = CC_CALLBACK_2(GameScene::onTouchMoved, this);
     listener->onTouchEnded = CC_CALLBACK_2(GameScene::onTouchEnded, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
-
 }
 
 Scene* GameScene::createScene()
@@ -52,39 +54,40 @@ bool GameScene::init()
 	addChild(background,0);
 
 	setProgressBar();
+	setMenu();
 
-    auto closeItem = MenuItemImage::create(
-                                           "CloseNormal.png",
-                                           "CloseSelected.png",
-                                           CC_CALLBACK_1(GameScene::menuCloseCallback, this));
-    
-	closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
-                                origin.y + closeItem->getContentSize().height/2));
+ //   auto closeItem = MenuItemImage::create(
+ //                                          "CloseNormal.png",
+ //                                          "CloseSelected.png",
+ //                                          CC_CALLBACK_1(GameScene::menuCloseCallback, this));
+ //   
+	//closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
+ //                               origin.y + closeItem->getContentSize().height/2));
 
-    auto menu = Menu::create(closeItem, NULL);
-    menu->setPosition(Vec2::ZERO);
-    this->addChild(menu, 1);
+ //   auto menu = Menu::create(closeItem, NULL);
+ //   menu->setPosition(Vec2::ZERO);
+ //   this->addChild(menu, 1);
 	
 	_role1 = Role1::create();
-	_role1->setPosition(100,100);
+	_role1->setPosition(100,200);
 	addChild(_role1,1);
 	_role1->setMoveToRight();
 	_role1->runAction(_role1->getNormalAction());
 
 	_role2 = Role2::create();
-	_role2->setPosition(200,100);
+	_role2->setPosition(200,200);
 	addChild(_role2,1);
 	_role2->setMoveToRight();
 	_role2->runAction(_role2->getNormalAction());
 
 	_role3 = Role3::create();
-	_role3->setPosition(300,100);
+	_role3->setPosition(300,200);
 	addChild(_role3,1);
 	_role3->setMoveToRight();
 	_role3->runAction(_role3->getNormalAction());
 
 	_role4 = Role4::create();
-	_role4->setPosition(400,100);
+	_role4->setPosition(400,200);
 	addChild(_role4,1);
 	_role4->setMoveToRight();
 	_role4->runAction(_role4->getNormalAction());
@@ -130,24 +133,143 @@ void GameScene::setProgressBar()
 	roleSPProgressTimer->setMidpoint(ccp(0,0.5));
 	roleSPProgressTimer->setBarChangeRate(ccp(1,0));
 
-	roleSPProgressTimer->setPercentage(100);
+	roleSPProgressTimer->setPercentage(0);
 
 	roleSPProgressTimer->setPosition(bgSprite->getPosition().x + 29, bgSprite->getPosition().y -5);
 	addChild(roleSPProgressTimer,1);
+
+}
+
+void GameScene::setMenu()
+{
+	//退出按钮
+	auto closeItem = MenuItemImage::create(
+                                           "CloseNormal.png",
+                                           "CloseSelected.png",
+                                           CC_CALLBACK_1(GameScene::menuCloseCallback, this));
+    
+	closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
+                                origin.y + closeItem->getContentSize().height/2));
+
+   //技能1按钮
+	skill1Item = MenuItemSprite::create(Sprite::create("skill/skill1.png"),
+		Sprite::create("skill/skill1_selected.png"),
+		Sprite::create("skill/skill1_disabled.png"),
+		CC_CALLBACK_1(GameScene::selectedSkill1,this));
+    
+	skill1Item->setPosition(Vec2(skill1Item->getContentSize().width/2+200,
+                                skill1Item->getContentSize().height/2));
+
+	//设置Skill1的冷却条
+	Sprite* skill1CoolSprite = Sprite::create("skill/skill1_disabled.png");
+
+	skill1CoolBar = ProgressTimer::create(skill1CoolSprite);
+	skill1CoolBar->setType(kCCProgressTimerTypeBar);
+	skill1CoolBar->setMidpoint(ccp(0.5,0));
+	skill1CoolBar->setBarChangeRate(ccp(0,1));
+	skill1CoolBar->setPercentage(0);
+	skill1CoolBar->setPosition(skill1Item->getPosition().x, skill1Item->getPosition().y);
+	addChild(skill1CoolBar,2);
+
+	//技能2按钮
+	skill2Item = MenuItemSprite::create(Sprite::create("skill/skill2.png"),
+		Sprite::create("skill/skill2_selected.png"),
+		Sprite::create("skill/skill2_disabled.png"),
+		CC_CALLBACK_1(GameScene::selectedSkill2,this));
+    
+	skill2Item->setPosition(Vec2(skill1Item->getPosition().x + 60 ,
+                                skill1Item->getPosition().y));
+
+	//设置Skill2的冷却条
+	Sprite* skill2CoolSprite = Sprite::create("skill/skill2_disabled.png");
+
+	skill2CoolBar = ProgressTimer::create(skill2CoolSprite);
+	skill2CoolBar->setType(kCCProgressTimerTypeBar);
+	skill2CoolBar->setMidpoint(ccp(0.5,0));
+	skill2CoolBar->setBarChangeRate(ccp(0,1));
+	skill2CoolBar->setPercentage(0);
+	skill2CoolBar->setPosition(skill2Item->getPosition().x, skill2Item->getPosition().y);
+	addChild(skill2CoolBar,2);
+
+	//技能3按钮
+	skill3Item = MenuItemSprite::create(Sprite::create("skill/skill3.png"),
+		Sprite::create("skill/skill3_selected.png"),
+		Sprite::create("skill/skill3_disabled.png"),
+		CC_CALLBACK_1(GameScene::selectedSkill3,this));
+    
+	skill3Item->setPosition(Vec2(skill2Item->getPosition().x + 60 ,
+                                skill2Item->getPosition().y));
+
+	//设置Skill的冷却条
+	Sprite* skill3CoolSprite = Sprite::create("skill/skill3_disabled.png");
+
+	skill3CoolBar = ProgressTimer::create(skill3CoolSprite);
+	skill3CoolBar->setType(kCCProgressTimerTypeBar);
+	skill3CoolBar->setMidpoint(ccp(0.5,0));
+	skill3CoolBar->setBarChangeRate(ccp(0,1));
+	skill3CoolBar->setPercentage(0);
+	skill3CoolBar->setPosition(skill3Item->getPosition().x, skill3Item->getPosition().y);
+	addChild(skill3CoolBar,2);
+
+	auto menu = Menu::create(closeItem, skill1Item, skill2Item, skill3Item, NULL);
+    menu->setPosition(Vec2::ZERO);
+    this->addChild(menu, 1);
+}
+
+void GameScene::selectedSkill1(Ref* pSender)
+{
+	currentBulletState = NormalBullet;
+}
+
+void GameScene::selectedSkill2(Ref* pSender)
+{
+	currentBulletState = SpecialBullet;
+}
+
+
+void GameScene::selectedSkill3(Ref* pSender)
+{
+	currentBulletState = StunBullet;
 }
 
 void GameScene::update(float deltaTime)
 {
 	g_BulletManager->update(deltaTime);
 	//更新血量，怒气
-	roleCurrentHP++;
-	roleCurrentSP++;
-	roleHPProgressTimer->setPercentage(roleCurrentHP);
-	roleSPProgressTimer->setPercentage(roleCurrentSP);
-}
+	
+	//更新bullet的选择状态
+	switch (currentBulletState)
+	{
+	case NormalBullet:
+		skill1Item->selected();
+		skill2Item->unselected();
+		skill3Item->unselected();
+		break;
+	case SpecialBullet:
+		skill2Item->selected();
+		skill1Item->unselected();
+		skill3Item->unselected();
+		break;
+	case StunBullet:
+		skill3Item->selected();
+		skill1Item->unselected();
+		skill2Item->unselected();
+		break;
+	default:
+		break;
+	}
 
-void GameScene::setRoleHp(unsigned int roleCurrentHP)
-{
+	//更新冷却时间
+	if(skill1NeedTime - deltaTime> 0)
+	{
+		skill1NeedTime -= deltaTime;
+		skill1CoolBar->setPercentage(skill1NeedTime/skill1CoolDownTime * 100);
+	}
+	else
+	{
+		skill1NeedTime = 0.0f;
+		skill1CoolBar->setPercentage(0);
+	}
 }
 
 //重写重力加速器方法  
@@ -192,12 +314,9 @@ bool GameScene::contaiinsTouchLocation(Touch* touch)
 
 bool GameScene::onTouchBegan(Touch* touch, Event* event)
 {
-	CCLOG("Paddle::onTouchBegan id = %d, x = %f, y = %f", touch->getID(), touch->getLocation().x, touch->getLocation().y);
-	
 	if ( !contaiinsTouchLocation(touch) ) return false;
     
 	startPosition = touch->getLocation();
-    CCLOG("return true");
     return true;
 }
 
@@ -209,14 +328,36 @@ void GameScene::onTouchMoved(Touch* touch, Event* event)
 void GameScene::onTouchEnded(Touch* touch, Event* event)
 {
 	endPosition = touch->getLocation();
-	Vec2 vertex = endPosition - startPosition;
 	
-
-
-	nextState = Fire_Action;
+	dealEndTouch();
 }
 
 void GameScene::onTouchCancelled(Touch* touches, Event* event)
 {
 
+}
+
+void GameScene::dealEndTouch()
+{
+	switch (currentBulletState)
+	{
+	case NormalBullet:
+		if(skill1NeedTime > 0)
+		{
+			CCLOG("cd time");
+		}
+		else
+		{
+			skill1NeedTime = skill1CoolDownTime;
+
+			Vec2 g(0, -800);
+			Vec2 velocity = endPosition - startPosition;
+			Vec2 pos = _role1->getPosition();
+			g_BulletManager = BulletManager::create((Layer*)this, g);
+			g_BulletManager->shoot(NormalBullet, pos, velocity);
+		}
+	default:
+		break;
+	}
+	
 }
