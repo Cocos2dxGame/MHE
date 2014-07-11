@@ -19,5 +19,5 @@ private:
 
 	cocos2d::Layer* m_layer;
 	cocos2d::Vec2 m_g;
-	cocos2d::Array* m_BulletArray;
+	cocos2d::Vector<Bullet*> m_BulletVector;
 };
