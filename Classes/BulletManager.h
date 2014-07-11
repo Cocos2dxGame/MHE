@@ -14,6 +14,7 @@ public:
 	void shoot(bulletType type, cocos2d::Point pos, cocos2d::Vec2 velocity);
 	void deleteBullet(Bullet* pBullet);
 	void clean();
+	cocos2d::Vector<Bullet*> getBulletVector();
 
 private:
 

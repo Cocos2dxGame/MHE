@@ -8,6 +8,7 @@ BulletManager::BulletManager()
 
 BulletManager::~BulletManager()
 {
+	clean();
 }
 
 BulletManager* BulletManager::create(Layer* curLayer, Vec2 g)
@@ -29,18 +30,30 @@ void BulletManager::update(float deltaTime)
 void BulletManager::shoot(bulletType type, Point pos, Vec2 velocity)
 {
 	Bullet* pBullet = Bullet::create(type, pos, velocity);
-	//auto pBullet = Sprite::create("ball.png");
 	m_layer->addChild(pBullet, 0);
 	m_BulletVector.pushBack(pBullet);
-	CCLOG("%d", m_BulletVector.size());
 }
 
 void BulletManager::deleteBullet(Bullet* pBullet)
 {
-
+	Vector<Bullet*>::iterator iter;
+	iter = m_BulletVector.find(pBullet);
+	pBullet->release();
+	m_BulletVector.erase(iter);
+	m_layer->removeChild(pBullet);
 }
 
 void BulletManager::clean()
 {
+	for( Bullet* pBullet : m_BulletVector )
+	{
+		m_layer->removeChild(pBullet);
+		pBullet->release();
+	}
+	m_BulletVector.clear();
+}
 
+Vector<Bullet*> BulletManager::getBulletVector()
+{
+	return m_BulletVector;
 }
