@@ -93,10 +93,13 @@ bool GameScene::init()
 	_role4->setMoveToRight();
 	_role4->runAction(_role4->getNormalAction());
 
-
+	/*
 	Vec2 g(0, -800);
 	Vec2 velocity(700, 500);
 	Point pos(50, 50);
+	
+	*/
+	Vec2 g(0, -800);
 	g_BulletManager = BulletManager::create((Layer*)this, g);
 
 	this->scheduleUpdate();
@@ -386,7 +389,6 @@ void GameScene::dealEndTouch()
 		{
 			skill1NeedTime = skill1CoolDownTime;
 
-			Vec2 g(0, -800);
 			Vec2 velocity;
 			Vec2 pos = _role1->getPosition();
 			
