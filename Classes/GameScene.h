@@ -39,7 +39,8 @@ public:
     void menuCloseCallback(cocos2d::Ref* pSender);
 
 	//血条、怒气条、技能冷却条设置
-	void setProgressBar();
+	void setRoleProgressBar();
+	void setNpcProgressBar();
 	void setRoleHp(unsigned int roleCurrentHp);
 	void setRoleRage(unsigned int roleCurrentRage);
 	void setNpcHp(unsigned int npcCurrentHp);

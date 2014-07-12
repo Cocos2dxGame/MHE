@@ -6,7 +6,7 @@ BulletManager* g_BulletManager;
 
 GameScene::GameScene()
 	:roleCurrentHP(0),roleCurrentSP(0),npcCurrentHP(0),npcCurrrentSP(0),
-	skill1CoolDownTime(0.0),skill2CoolDownTime(5.0),skill3CoolDownTime(10.0),
+	skill1CoolDownTime(2.0),skill2CoolDownTime(5.0),skill3CoolDownTime(10.0),
 	skill1NeedTime(0.0),skill2NeedTime(0.0), skill3NeedTime(0.0),
 	currentBulletState(NormalBullet)
 {
@@ -53,7 +53,8 @@ bool GameScene::init()
 	background->setPosition(visibleSize.width/2, visibleSize.height/2);
 	addChild(background,0);
 
-	setProgressBar();
+	//setRoleProgressBar();
+	setNpcProgressBar();
 	setMenu();
 
  //   auto closeItem = MenuItemImage::create(
@@ -97,14 +98,13 @@ bool GameScene::init()
 	Vec2 velocity(700, 500);
 	Point pos(50, 50);
 	g_BulletManager = BulletManager::create((Layer*)this, g);
-	g_BulletManager->shoot(NormalBullet, pos, velocity);
 
 	this->scheduleUpdate();
 
     return true;
 }
 
-void GameScene::setProgressBar()
+void GameScene::setRoleProgressBar()
 {
 	Sprite* bgSprite = Sprite::create("system/ProgressBarBackground1.png");
 	bgSprite->setPosition(bgSprite->getContentSize().width/2 + 10, visibleSize.height-20);
@@ -138,6 +138,42 @@ void GameScene::setProgressBar()
 	roleSPProgressTimer->setPosition(bgSprite->getPosition().x + 29, bgSprite->getPosition().y -5);
 	addChild(roleSPProgressTimer,1);
 
+}
+
+void GameScene::setNpcProgressBar()
+{
+	Sprite* bgSprite = Sprite::create("system/ProgressBarBackground1.png");
+	bgSprite ->setScaleX(-1.0);
+	bgSprite->setPosition(visibleSize.width - bgSprite->getContentSize().width/2 - 10, visibleSize.height-20);
+	addChild(bgSprite,1);
+
+	//设置npc的血量
+	Sprite* npcHPSprite = Sprite::create("system/HPTotal.png");
+
+	npcHPProgressTimer = ProgressTimer::create(npcHPSprite);
+	npcHPProgressTimer->setType(kCCProgressTimerTypeBar);
+
+	npcHPProgressTimer->setMidpoint(ccp(1,0.5));
+	npcHPProgressTimer->setBarChangeRate(ccp(1,0));
+
+	npcHPProgressTimer->setPercentage(50);
+
+	npcHPProgressTimer->setPosition(bgSprite->getPosition().x - 33, bgSprite->getPosition().y + 9);
+	addChild(npcHPProgressTimer,1);
+	
+	//设置npc的怒气
+	Sprite* npcSPSprite = Sprite::create("system/SPTotal.png");
+
+	npcSPProgressTimer = ProgressTimer::create(npcSPSprite);
+	npcSPProgressTimer->setType(kCCProgressTimerTypeBar);
+
+	npcSPProgressTimer->setMidpoint(ccp(1,0.5));
+	npcSPProgressTimer->setBarChangeRate(ccp(1,0));
+
+	npcSPProgressTimer->setPercentage(0);
+
+	npcSPProgressTimer->setPosition(bgSprite->getPosition().x - 29, bgSprite->getPosition().y -5);
+	addChild(npcSPProgressTimer,1);
 }
 
 void GameScene::setMenu()
@@ -351,13 +387,50 @@ void GameScene::dealEndTouch()
 			skill1NeedTime = skill1CoolDownTime;
 
 			Vec2 g(0, -800);
+			Vec2 velocity;
+			Vec2 pos = _role1->getPosition();
+			
+			velocity.x= (endPosition.x - startPosition.x) / visibleSize.width * 2000 ;
+			velocity.y= (endPosition.y - startPosition.y) / visibleSize.height * 2000;
+
+			g_BulletManager->shoot(NormalBullet, pos, velocity);
+		}
+		break;
+	case SpecialBullet:
+		if(skill1NeedTime > 0)
+		{
+			CCLOG("cd time");
+		}
+		else
+		{
+			skill2NeedTime = skill2CoolDownTime;
+
+			Vec2 g(0, -800);
 			Vec2 velocity = endPosition - startPosition;
 			Vec2 pos = _role1->getPosition();
 			g_BulletManager = BulletManager::create((Layer*)this, g);
 			g_BulletManager->shoot(NormalBullet, pos, velocity);
 		}
+		break;
+	case StunBullet:
+		if(skill3NeedTime > 0)
+		{
+			CCLOG("cd time");
+		}
+		else
+		{
+			skill3NeedTime = skill1CoolDownTime;
+
+			Vec2 g(0, -1);
+			Vec2 velocity;
+			velocity.x= (endPosition.x - startPosition.x) / visibleSize.width * 10000 ;
+			velocity.y= (endPosition.y - startPosition.y) / visibleSize.height * 10000;
+			Vec2 pos = _role1->getPosition();
+			g_BulletManager = BulletManager::create((Layer*)this, g);
+			g_BulletManager->shoot(NormalBullet, pos, velocity);
+		}
+		break;
 	default:
 		break;
-	}
-	
+	}	
 }
