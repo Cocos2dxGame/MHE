@@ -8,7 +8,7 @@ GameScene::GameScene()
 	:roleCurrentHP(0),roleCurrentSP(0),npcCurrentHP(0),npcCurrrentSP(0),
 	skill1CoolDownTime(2.0),skill2CoolDownTime(5.0),skill3CoolDownTime(10.0),
 	skill1NeedTime(0.0),skill2NeedTime(0.0), skill3NeedTime(0.0),
-	currentBulletState(NormalBullet)
+	currentBulletState(NormalBullet),currentActionState(Normal_Action),nextActionState(Normal_Action)
 {
 	auto listener = EventListenerTouchOneByOne::create();
 	listener->setSwallowTouches(true);
@@ -53,21 +53,11 @@ bool GameScene::init()
 	background->setPosition(visibleSize.width/2, visibleSize.height/2);
 	addChild(background,0);
 
-	//setRoleProgressBar();
+	//设置角色和npc的血条、怒气条
+	setRoleProgressBar();
 	setNpcProgressBar();
+	//设置技能按钮
 	setMenu();
-
- //   auto closeItem = MenuItemImage::create(
- //                                          "CloseNormal.png",
- //                                          "CloseSelected.png",
- //                                          CC_CALLBACK_1(GameScene::menuCloseCallback, this));
- //   
-	//closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
- //                               origin.y + closeItem->getContentSize().height/2));
-
- //   auto menu = Menu::create(closeItem, NULL);
- //   menu->setPosition(Vec2::ZERO);
- //   this->addChild(menu, 1);
 	
 	_role1 = Role1::create();
 	_role1->setPosition(100,200);
@@ -81,24 +71,19 @@ bool GameScene::init()
 	_role2->setMoveToRight();
 	_role2->runAction(_role2->getNormalAction());
 
-	_role3 = Role3::create();
-	_role3->setPosition(300,200);
-	addChild(_role3,1);
-	_role3->setMoveToRight();
-	_role3->runAction(_role3->getNormalAction());
+	//_role3 = Role3::create();
+	//_role3->setPosition(300,200);
+	//addChild(_role3,1);
+	//_role3->setMoveToRight();
+	//_role3->runAction(_role3->getNormalAction());
 
-	_role4 = Role4::create();
-	_role4->setPosition(400,200);
-	addChild(_role4,1);
-	_role4->setMoveToRight();
-	_role4->runAction(_role4->getNormalAction());
+	//_role4 = Role4::create();
+	//_role4->setPosition(400,200);
+	//addChild(_role4,1);
+	//_role4->setMoveToRight();
+	//_role4->runAction(_role4->getNormalAction());
 
-	/*
-	Vec2 g(0, -800);
-	Vec2 velocity(700, 500);
-	Point pos(50, 50);
-	
-	*/
+	//设置重力以及初始化BulletManager
 	Vec2 g(0, -800);
 	g_BulletManager = BulletManager::create((Layer*)this, g);
 
@@ -159,7 +144,7 @@ void GameScene::setNpcProgressBar()
 	npcHPProgressTimer->setMidpoint(ccp(1,0.5));
 	npcHPProgressTimer->setBarChangeRate(ccp(1,0));
 
-	npcHPProgressTimer->setPercentage(50);
+	npcHPProgressTimer->setPercentage(100);
 
 	npcHPProgressTimer->setPosition(bgSprite->getPosition().x - 33, bgSprite->getPosition().y + 9);
 	addChild(npcHPProgressTimer,1);
@@ -298,7 +283,7 @@ void GameScene::update(float deltaTime)
 		break;
 	}
 
-	//更新冷却时间
+	//更新技能1冷却时间
 	if(skill1NeedTime - deltaTime> 0)
 	{
 		skill1NeedTime -= deltaTime;
@@ -309,28 +294,74 @@ void GameScene::update(float deltaTime)
 		skill1NeedTime = 0.0f;
 		skill1CoolBar->setPercentage(0);
 	}
-}
-
-//重写重力加速器方法  
-void GameScene::onAcceleration(Acceleration* acc, Event* event)
-{
-	/*if(acc->x > 0)
+	//更新技能2冷却时间
+	if(skill2NeedTime - deltaTime> 0)
 	{
-		_person->setMoveToRight();
-		_person->runAction(_person->getMoveAction());
-		
-		if((_person->getPosition().x + 32) < visibleSize.width)
-			_person->setPosition(_person->getPosition().x+2,_person->getPosition().y);
+		skill2NeedTime -= deltaTime;
+		skill2CoolBar->setPercentage(skill2NeedTime/skill2CoolDownTime * 100);
 	}
 	else
 	{
-		_person->setMoveToLeft();
-		_person->runAction(_person->getMoveAction());
+		skill2NeedTime = 0.0f;
+		skill2CoolBar->setPercentage(0);
+	}
+	//更新技能3冷却时间
+	if(skill3NeedTime - deltaTime> 0)
+	{
+		skill3NeedTime -= deltaTime;
+		skill3CoolBar->setPercentage(skill3NeedTime/skill3CoolDownTime * 100);
+	}
+	else
+	{
+		skill3NeedTime = 0.0f;
+		skill3CoolBar->setPercentage(0);
+	}
+
+	collisionDetection();
+}
+
+//重力加速器方法  
+void GameScene::onAcceleration(Acceleration* acc, Event* event)
+{
+	if(acc->x > 10)
+	{
+		_role1->setMoveToRight();
+		currentActionState = Move;
+		if((_role1->getPosition().x + 32) < visibleSize.width)
+			_role1->setPosition(_role1->getPosition().x+2,_role1->getPosition().y);
+	}
+	else
+	{
+		_role1->setMoveToLeft();
+		_role1->runAction(_role1->getNormalAction());
 		
-		if(_person->getPosition().x > 0)
-			_person->setPosition(_person->getPosition().x-2,_person->getPosition().y);
-	}*/
-}  
+		if(_role1->getPosition().x > 0)
+			_role1->setPosition(_role1->getPosition().x-2,_role1->getPosition().y);
+	}
+}
+
+void GameScene::dealAction()
+{
+	switch (currentActionState)
+	{
+	case Attacked:
+		break;
+	case Fire:
+		break;
+	case Jump:
+		break;
+	case Move:
+		break;
+	case Normal:
+		break;
+	case Victory:
+		break;
+	case Fail:
+		break;
+	default:
+		break;
+	}
+}
 
 void GameScene::menuCloseCallback(Ref* pSender)
 {
@@ -389,9 +420,8 @@ void GameScene::dealEndTouch()
 		{
 			skill1NeedTime = skill1CoolDownTime;
 
-			Vec2 velocity;
 			Vec2 pos = _role1->getPosition();
-			
+			Vec2 velocity;
 			velocity.x= (endPosition.x - startPosition.x) / visibleSize.width * 2000 ;
 			velocity.y= (endPosition.y - startPosition.y) / visibleSize.height * 2000;
 
@@ -399,19 +429,20 @@ void GameScene::dealEndTouch()
 		}
 		break;
 	case SpecialBullet:
-		if(skill1NeedTime > 0)
+		if(skill2NeedTime > 0)
 		{
 			CCLOG("cd time");
 		}
 		else
 		{
 			skill2NeedTime = skill2CoolDownTime;
-
-			Vec2 g(0, -800);
-			Vec2 velocity = endPosition - startPosition;
+			
 			Vec2 pos = _role1->getPosition();
-			g_BulletManager = BulletManager::create((Layer*)this, g);
-			g_BulletManager->shoot(NormalBullet, pos, velocity);
+			Vec2 velocity;
+			velocity.x= (endPosition.x - startPosition.x) / visibleSize.width * 2000 ;
+			velocity.y= (endPosition.y - startPosition.y) / visibleSize.height * 2000;
+
+			g_BulletManager->shoot(SpecialBullet, pos, velocity);
 		}
 		break;
 	case StunBullet:
@@ -421,18 +452,32 @@ void GameScene::dealEndTouch()
 		}
 		else
 		{
-			skill3NeedTime = skill1CoolDownTime;
+			skill3NeedTime = skill3CoolDownTime;
 
-			Vec2 g(0, -1);
-			Vec2 velocity;
-			velocity.x= (endPosition.x - startPosition.x) / visibleSize.width * 10000 ;
-			velocity.y= (endPosition.y - startPosition.y) / visibleSize.height * 10000;
 			Vec2 pos = _role1->getPosition();
-			g_BulletManager = BulletManager::create((Layer*)this, g);
-			g_BulletManager->shoot(NormalBullet, pos, velocity);
+			Vec2 velocity;
+			velocity.x= (endPosition.x - startPosition.x) / visibleSize.width * 2000 ;
+			velocity.y= (endPosition.y - startPosition.y) / visibleSize.height * 2000;
+
+			g_BulletManager->shoot(StunBullet, pos, velocity);
 		}
 		break;
 	default:
 		break;
 	}	
+}
+
+void GameScene::collisionDetection()
+{
+	_role1->decreaseHP(50);
+	roleHPProgressTimer->setPercentage(float(_role1->getCurrentHP() * 100 / _role1->getTotalHP()));
+	
+	_role1->increaseSP(1);
+	roleSPProgressTimer->setPercentage(float(_role1->getCurrentSP() * 100 / _role1->getTotalSP()));
+
+	_role2->decreaseHP(1);
+	npcHPProgressTimer->setPercentage(float(_role2->getCurrentHP() * 100 / _role2->getTotalHP()));
+	
+	_role2->increaseSP(1);
+	npcSPProgressTimer->setPercentage(float(_role2->getCurrentSP() * 100 / _role2->getTotalSP()));
 }

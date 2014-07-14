@@ -7,8 +7,9 @@ USING_NS_CC;
 
 Role1::Role1()
 {
-	HP = 100;
-	Rage = 100;
+	totalHP = 200;
+	HP = 200;
+	SP = 0;
 	speed = 10;
 	jumpSpeed  = 10;
 	moveRight = true;
@@ -47,8 +48,9 @@ Role1* Role1::create()
 
 Role2::Role2()
 {
+	totalHP = 200;
 	HP = 200;
-	Rage = 200;
+	SP = 200;
 	speed = 20;
 	jumpSpeed  = 20;
 	moveRight = true;
@@ -84,8 +86,9 @@ Role2* Role2::create()
 
 Role3::Role3()
 {
+	totalHP = 200;
 	HP = 200;
-	Rage = 200;
+	SP = 200;
 	speed = 10;
 	jumpSpeed  = 10;
 	moveRight = true;
@@ -124,8 +127,9 @@ Role3* Role3::create()
 
 Role4::Role4()
 {
+	totalHP = 200;
 	HP = 200;
-	Rage = 200;
+	SP = 200;
 	speed = 10;
 	jumpSpeed  = 10;
 	moveRight = true;

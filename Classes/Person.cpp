@@ -4,8 +4,9 @@ USING_NS_CC;
 
 Person::Person()
 {
+	totalHP = 200;
 	HP = 200;
-	Rage = 200;
+	SP = 200;
 	speed = 10;
 	jumpSpeed  = 10;
 	moveRight = true;
@@ -85,7 +86,7 @@ void Person::setMoveAction(cocos2d::SpriteFrameCache* cache)
         animation->addSpriteFrame(cache->spriteFrameByName(keyname));  
 	}
 
-	animation->setDelayPerUnit(0.5f);
+	animation->setDelayPerUnit(1.0f);
 	animation->setRestoreOriginalFrame(true);
 	auto action = Animate::create(animation);
 	moveLeftAction = Animate::create(animation);
@@ -168,4 +169,60 @@ Rect Person::getRect()
 {
 	auto s = getContentSize();
 	return Rect(getPosition().x-s.width/2,getPosition().y-s.height/2, s.width, s.height);
+}
+
+void Person::increaseHP(int hp)
+{
+	HP += hp;
+	if(HP > totalHP)
+	{
+		HP = totalHP;
+	}
+}
+
+void Person::decreaseHP(int hp)
+{
+	HP -= hp;
+	if(HP<0)
+	{
+		HP = 0;
+	}
+}
+
+int Person::getTotalHP()
+{
+	return totalHP;
+}
+
+int Person::getCurrentHP()
+{
+	return HP;
+}
+
+void Person::increaseSP(int sp)
+{
+	SP += sp;
+	if(SP > 100)
+	{
+		SP = 100;
+	}
+}
+
+void Person::descreaseSP(int sp)
+{
+	SP -= sp;
+	if(SP<0)
+	{
+		SP = 0;
+	}
+}
+
+int Person::getTotalSP()
+{
+	return 100;
+}
+
+int Person::getCurrentSP()
+{
+	return SP;
 }

@@ -3,6 +3,16 @@
 
 #include "cocos2d.h"
 
+typedef enum {
+    Normal_Action = 0,
+    Move_Action,
+	Jump_Action,
+	Fire_Action,
+    Attacked_Action,
+    Vectory_Action,
+	Fail_Action,
+} ActionState;
+
 class Person: public cocos2d::Sprite
 {
 public:
@@ -29,11 +39,24 @@ public:
 
 	void setFireAction(cocos2d::SpriteFrameCache* cache);
 	cocos2d::Animate* getFireAction();
+
+	//设置血条、怒气条
+	void increaseHP(int hp);
+	void decreaseHP(int hp);
+	int getTotalHP();
+	int getCurrentHP();
+	
+	//设置怒气条
+	void increaseSP(int sp);
+	void descreaseSP(int sp);
+	int getTotalSP();
+	int getCurrentSP();
 	
 	cocos2d::Rect getRect();
 protected:
+	int totalHP;
 	int HP;
-	int Rage;
+	int SP;
 	int jumpSpeed;
 	int speed;
 	bool moveRight;
