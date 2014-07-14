@@ -8,6 +8,7 @@ BulletManager::BulletManager()
 
 BulletManager::~BulletManager()
 {
+	clean();
 }
 
 BulletManager* BulletManager::create(Layer* curLayer, Vec2 g)
@@ -15,34 +16,40 @@ BulletManager* BulletManager::create(Layer* curLayer, Vec2 g)
 	BulletManager* newManager = new BulletManager();
 	newManager->m_g = g;
 	newManager->m_layer = curLayer;
-	newManager->m_BulletArray = Array::create();
-	newManager->m_BulletArray->retain();
 	return newManager;
 }
 
 void BulletManager::update(float deltaTime)
 {
-	Object *pObj;
-	CCARRAY_FOREACH(m_BulletArray, pObj)
+	for( Bullet* pBullet : m_BulletVector )
 	{
-		((Bullet*)pObj)->move(m_g, deltaTime);
+		pBullet->update(m_g, deltaTime);
 	}
 }
 
 void BulletManager::shoot(bulletType type, Point pos, Vec2 velocity)
 {
-	auto pBullet = Bullet::create(type, pos, velocity);
-	//auto pBullet = Sprite::create("ball.png");
+	Bullet* pBullet = Bullet::create(type, pos, velocity, this);
 	m_layer->addChild(pBullet, 0);
-	m_BulletArray->addObject(pBullet);
-}
-
-void BulletManager::deleteBullet(Bullet* pBullet)
-{
-
+	m_BulletVector.pushBack(pBullet);
 }
 
 void BulletManager::clean()
 {
+	for( Bullet* pBullet : m_BulletVector )
+	{
+		pBullet->removeBullet();
+	}
 
+	m_BulletVector.clear();
+}
+
+cocos2d::Vector<Bullet*>* BulletManager::getBulletVector()
+{
+	return &m_BulletVector;
+}
+
+cocos2d::Layer* BulletManager::getLayer()
+{
+	return m_layer;
 }
