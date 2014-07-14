@@ -8,7 +8,7 @@ GameScene::GameScene()
 	:roleCurrentHP(0),roleCurrentSP(0),npcCurrentHP(0),npcCurrrentSP(0),
 	skill1CoolDownTime(2.0),skill2CoolDownTime(5.0),skill3CoolDownTime(10.0),
 	skill1NeedTime(0.0),skill2NeedTime(0.0), skill3NeedTime(0.0),
-	currentBulletState(NormalBullet),currentActionState(Normal_Action),nextActionState(Normal_Action)
+	currentBulletState(NormalBullet)
 {
 	auto listener = EventListenerTouchOneByOne::create();
 	listener->setSwallowTouches(true);
@@ -63,25 +63,14 @@ bool GameScene::init()
 	_role1->setPosition(100,200);
 	addChild(_role1,1);
 	_role1->setMoveToRight();
-	_role1->runAction(_role1->getNormalAction());
+	_role1->normalAction();
 
 	_role2 = Role2::create();
-	_role2->setPosition(200,200);
+	_role2->setPosition(400,200);
 	addChild(_role2,1);
 	_role2->setMoveToRight();
 	_role2->runAction(_role2->getNormalAction());
 
-	//_role3 = Role3::create();
-	//_role3->setPosition(300,200);
-	//addChild(_role3,1);
-	//_role3->setMoveToRight();
-	//_role3->runAction(_role3->getNormalAction());
-
-	//_role4 = Role4::create();
-	//_role4->setPosition(400,200);
-	//addChild(_role4,1);
-	//_role4->setMoveToRight();
-	//_role4->runAction(_role4->getNormalAction());
 
 	//设置重力以及初始化BulletManager
 	Vec2 g(0, -800);
@@ -175,6 +164,14 @@ void GameScene::setMenu()
 	closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
                                 origin.y + closeItem->getContentSize().height/2));
 
+	//Jump按钮
+	auto jumpItem = MenuItemImage::create(
+                                           "CloseNormal.png",
+                                           "CloseSelected.png",
+                                           CC_CALLBACK_1(GameScene::jump, this));
+    
+	jumpItem->setPosition(Vec2(visibleSize.width - 100, jumpItem->getContentSize().height/2));
+
    //技能1按钮
 	skill1Item = MenuItemSprite::create(Sprite::create("skill/skill1.png"),
 		Sprite::create("skill/skill1_selected.png"),
@@ -235,7 +232,7 @@ void GameScene::setMenu()
 	skill3CoolBar->setPosition(skill3Item->getPosition().x, skill3Item->getPosition().y);
 	addChild(skill3CoolBar,2);
 
-	auto menu = Menu::create(closeItem, skill1Item, skill2Item, skill3Item, NULL);
+	auto menu = Menu::create(closeItem, jumpItem, skill1Item, skill2Item, skill3Item, NULL);
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 }
@@ -317,49 +314,32 @@ void GameScene::update(float deltaTime)
 		skill3CoolBar->setPercentage(0);
 	}
 
-	collisionDetection();
 }
 
 //重力加速器方法  
 void GameScene::onAcceleration(Acceleration* acc, Event* event)
 {
-	if(acc->x > 10)
+	if(acc->x > 0.25)
 	{
 		_role1->setMoveToRight();
-		currentActionState = Move;
 		if((_role1->getPosition().x + 32) < visibleSize.width)
+		{
+			_role1->setFlippedX(false);
 			_role1->setPosition(_role1->getPosition().x+2,_role1->getPosition().y);
+			_role1->normalAction();
+		}
 	}
-	else
+
+	if(acc->x < -0.25)
 	{
 		_role1->setMoveToLeft();
-		_role1->runAction(_role1->getNormalAction());
 		
 		if(_role1->getPosition().x > 0)
+		{
+			_role1->setFlippedX(true);
 			_role1->setPosition(_role1->getPosition().x-2,_role1->getPosition().y);
-	}
-}
-
-void GameScene::dealAction()
-{
-	switch (currentActionState)
-	{
-	case Attacked:
-		break;
-	case Fire:
-		break;
-	case Jump:
-		break;
-	case Move:
-		break;
-	case Normal:
-		break;
-	case Victory:
-		break;
-	case Fail:
-		break;
-	default:
-		break;
+			_role1->normalAction();
+		}
 	}
 }
 
@@ -379,7 +359,7 @@ void GameScene::menuCloseCallback(Ref* pSender)
 
 bool GameScene::contaiinsTouchLocation(Touch* touch)
 {
-	return _role1->getRect().containsPoint(convertTouchToNodeSpace(touch));
+	return _role1->getBoundingBox().containsPoint(convertTouchToNodeSpace(touch));
 }
 
 bool GameScene::onTouchBegan(Touch* touch, Event* event)
@@ -426,6 +406,7 @@ void GameScene::dealEndTouch()
 			velocity.y= (endPosition.y - startPosition.y) / visibleSize.height * 2000;
 
 			g_BulletManager->shoot(NormalBullet, pos, velocity);
+			//_role1->fireAction();
 		}
 		break;
 	case SpecialBullet:
@@ -443,6 +424,7 @@ void GameScene::dealEndTouch()
 			velocity.y= (endPosition.y - startPosition.y) / visibleSize.height * 2000;
 
 			g_BulletManager->shoot(SpecialBullet, pos, velocity);
+			_role1->fireAction();
 		}
 		break;
 	case StunBullet:
@@ -460,6 +442,7 @@ void GameScene::dealEndTouch()
 			velocity.y= (endPosition.y - startPosition.y) / visibleSize.height * 2000;
 
 			g_BulletManager->shoot(StunBullet, pos, velocity);
+			_role1->fireAction();
 		}
 		break;
 	default:
@@ -469,7 +452,7 @@ void GameScene::dealEndTouch()
 
 void GameScene::collisionDetection()
 {
-	_role1->decreaseHP(50);
+	_role1->decreaseHP(1);
 	roleHPProgressTimer->setPercentage(float(_role1->getCurrentHP() * 100 / _role1->getTotalHP()));
 	
 	_role1->increaseSP(1);
@@ -480,4 +463,9 @@ void GameScene::collisionDetection()
 	
 	_role2->increaseSP(1);
 	npcSPProgressTimer->setPercentage(float(_role2->getCurrentSP() * 100 / _role2->getTotalSP()));
+}
+
+void GameScene::jump(Ref* pSender)
+{
+	_role1->jumpAction();
 }

@@ -13,15 +13,6 @@
 else if (_pos > _max)   \
  _pos = _max;        \
 
-typedef enum{
-	Attacked = 1,
-	Fire = 2,
-	Jump, 
-	Move,
-	Normal,
-	Victory,
-	Fail,
-}ActionTrigger;
 
 class GameScene : public cocos2d::Layer
 {
@@ -61,11 +52,10 @@ public:
     void onTouchCancelled(cocos2d::Touch* touch, cocos2d::Event  *event);
 	bool contaiinsTouchLocation(cocos2d::Touch* touch);
 
-	//Action管理
-	void dealAction();
-
 	//触摸结束后处理事件
 	void dealEndTouch();
+
+	void jump(Ref* pSender);
 
 	//碰撞检测
 	void collisionDetection();
@@ -79,6 +69,8 @@ private:
 	Role2* _role2;
 	Role3* _role3;
 	Role4* _role4;
+
+
 
 
 	//人物的血条、怒气条
@@ -124,10 +116,6 @@ private:
 	//触摸的开始点和结束点
 	cocos2d::Vec2 startPosition;
 	cocos2d::Vec2 endPosition;
-
-	//角色当前动作的状态值
-	unsigned int currentActionState;
-	unsigned int nextActionState;
 
     CREATE_FUNC(GameScene);
 };

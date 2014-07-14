@@ -15,8 +15,6 @@ Role1::Role1()
 	moveRight = true;
 	strcpy(roleName, "Role1");
 
-	CCLog("roleName = %s",roleName);
-
 	char plistFileName[100];
 	sprintf(plistFileName,"character/%s.plist", roleName);  
 	cache = SpriteFrameCache::sharedSpriteFrameCache();

@@ -16,6 +16,7 @@ Person::Person()
 	sprintf(plistFileName,"character/%s.plist", roleName);  
 	cache = SpriteFrameCache::sharedSpriteFrameCache();
 	//cache->addSpriteFramesWithFile(plistFileName);
+	callbackNormal = CallFunc::create(std::bind(&Person::normalAction, this));
 }
 
 Person* Person::create()
@@ -37,6 +38,7 @@ Person* Person::create()
 
 void Person::setAction(SpriteFrameCache* cache)
 {
+	
 	this->setNormalAction(cache);
 	this->setAttackedAction(cache);
 	this->setJumpAction( cache);
@@ -64,17 +66,22 @@ void Person::setNormalAction(cocos2d::SpriteFrameCache* cache)
         animation->addSpriteFrame(cache->spriteFrameByName(keyname));
 	}
 
-	animation->setDelayPerUnit(0.1f);
-	animation->setRestoreOriginalFrame(true);
+	animation->setDelayPerUnit(0.4f);
+	//animation->setRestoreOriginalFrame(true);
 	auto action = Animate::create(animation);
 
-	normalAction = RepeatForever::create(Sequence::create(action, NULL));
+	_normalAction = RepeatForever::create(Sequence::create(action, NULL));
 }
-RepeatForever* Person::getNormalAction()
+Action* Person::getNormalAction()
 {
-	return normalAction;
+	return _normalAction;
 }
 
+void Person::normalAction()
+{
+	if(changeState(Normal_Action))
+		runAction(_normalAction);
+}
 void Person::setMoveAction(cocos2d::SpriteFrameCache* cache)
 {
 	char keyname[100];
@@ -89,19 +96,21 @@ void Person::setMoveAction(cocos2d::SpriteFrameCache* cache)
 	animation->setDelayPerUnit(1.0f);
 	animation->setRestoreOriginalFrame(true);
 	auto action = Animate::create(animation);
-	moveLeftAction = Animate::create(animation);
-	moveRightAction = moveLeftAction->reverse();
+	_moveLeftAction = Animate::create(animation);
+	_moveRightAction = _moveLeftAction->reverse();
 
-	moveAction = RepeatForever::create(Sequence::create(action, NULL));
+	_moveAction = RepeatForever::create(Sequence::create(action, NULL));
 }
 
-RepeatForever* Person::getMoveAction()
+Action* Person::getMoveAction()
 {
-	return moveAction;
+	return _moveAction;
 }
 
 void Person::setAttackedAction(cocos2d::SpriteFrameCache* cache)
 {
+	CallFunc *callbackNormal = CallFunc::create(std::bind(&Person::normalAction, this));
+
 	char keyname[100];
 	auto animation = Animation::create();
 	for (int i = 1; i < 3; i++)
@@ -112,34 +121,42 @@ void Person::setAttackedAction(cocos2d::SpriteFrameCache* cache)
 
 	animation->setDelayPerUnit(0.1f);
 	animation->setRestoreOriginalFrame(true);
-	attackedAction = Animate::create(animation);
-
-	//auto action = Animate::create(animation);
-	//normalAction = RepeatForever::create(Sequence::create(action, NULL));
+	_attackedAction = Sequence::create(Animate::create(animation), callbackNormal, NULL);
 }
 	
-Animate* Person::getAttackedAction()
+Action* Person::getAttackedAction()
 {
-	return attackedAction;
+	return _attackedAction;
+}
+
+void Person::attackedAction()
+{
+	if(changeState(Attacked_Action))
+		runAction(_attackedAction);
 }
 
 void Person::setJumpAction(cocos2d::SpriteFrameCache* cache)
 {
 	char keyname[100];
 	auto animation = Animation::create();
-	sprintf(keyname, "%sJump.png", roleName);  
-    animation->addSpriteFrame(cache->spriteFrameByName(keyname));  
+	sprintf(keyname, "%sJump.png", roleName);
+    animation->addSpriteFrame(cache->spriteFrameByName(keyname)); 
 
 	animation->setDelayPerUnit(0.1f);
 	animation->setRestoreOriginalFrame(true);
-	jumpAction = Animate::create(animation);
+	_jumpAction = Animate::create(animation);
 
-	//normalAction = RepeatForever::create(Sequence::create(action, NULL));
 }
 
-Animate* Person::getJumpAction()
+Action* Person::getJumpAction()
 {
-	return jumpAction;
+	return _jumpAction;
+}
+
+void Person::jumpAction()
+{
+	if(changeState(Jump_Action))
+		runAction(_jumpAction);
 }
 
 void Person::setFireAction(cocos2d::SpriteFrameCache* cache)
@@ -147,22 +164,53 @@ void Person::setFireAction(cocos2d::SpriteFrameCache* cache)
 	char keyname[100];
 	auto animation = Animation::create();
 
-	//sprintf(keyname,"%s.png","BoyNormal1");
-	//animation->addSpriteFrame(cache->spriteFrameByName(keyname));
+	sprintf(keyname,"%sNormal1.png", roleName);
+	animation->addSpriteFrame(cache->spriteFrameByName(keyname));
 
 	sprintf(keyname, "%sFire.png", roleName);
-    animation->addSpriteFrame(cache->spriteFrameByName(keyname));  
+    animation->addSpriteFrame(cache->spriteFrameByName(keyname));
+
+	sprintf(keyname,"%sNormal1.png", roleName);
+	animation->addSpriteFrame(cache->spriteFrameByName(keyname));
 
 	animation->setDelayPerUnit(0.5f);
-	animation->setRestoreOriginalFrame(true);
-	fireAction = Animate::create(animation);
 
-	//moveAction = RepeatForever::create(Sequence::create(action, NULL));
+	_fireAction = Sequence::create(Animate::create(animation), callbackNormal, NULL);
 }
 
-Animate* Person::getFireAction()
+Action* Person::getFireAction()
 {
-	return fireAction;
+	return _fireAction;
+}
+
+void Person::fireAction()
+{
+	if(changeState(Fire_Action))
+		runAction(_fireAction);
+}
+
+bool Person::changeState(ActionState state)
+{
+	// 已经胜利，就不能再出发其他动作了！
+    if (_currentState == Vectory_Action) {
+        return false;
+    }
+    
+	if(_currentState == Fail_Action)
+	{
+		return false;
+	}
+
+    // 已经处于要改变的状态，就没必要在改变了！
+    if (_currentState == state) {
+        return false;
+    }
+
+    // 改变动作之前，先停止所有动作
+    this->stopAllActions();
+
+    _currentState = state;
+    return true;
 }
 
 Rect Person::getRect()
