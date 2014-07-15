@@ -14,13 +14,13 @@ Bullet::~Bullet()
 Bullet* Bullet::create(bulletType type, Point pos, Vec2 velocity, BulletManager* pBulletManager)
 {
 	Bullet* bullet = new Bullet();
-	if(bullet && bullet->initWithFile("bullet/bl_001.png"))
+	if(bullet && bullet->initWithFile("bullet/bl_000.png"))
 	{	
 		bullet->m_type = type;
 		bullet->m_velocity = velocity;
 		bullet->setPosition(pos);
 		bullet->m_pBulletManager = pBulletManager;
-		bullet->setScale(Director::getInstance()->getVisibleSize().height/12/bullet->getContentSize().height);
+		bullet->setScale(Director::getInstance()->getVisibleSize().height/bullet->getContentSize().height*0.07);
 		return bullet;
 	}
 
@@ -94,9 +94,4 @@ bool Bullet::update(Vec2 acceleration, float deltaTime)
 bulletType Bullet::getType()
 {
 	return m_type;
-}
-
-void Bullet::removeBullet()
-{	
-	m_pBulletManager->getLayer()->removeChild(this);
 }

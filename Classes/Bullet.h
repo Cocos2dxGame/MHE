@@ -16,10 +16,11 @@ public:
 	Bullet();
 	~Bullet();
 	static Bullet* create(bulletType type, cocos2d::Point pos, cocos2d::Vec2 velocity, BulletManager* pBulletManager);
+	
+	/*return true to delete*/
 	bool update(cocos2d::Vec2 acceleration, float deltaTime);
 
 	bulletType getType();
-	void removeBullet();
 
 private:
 
