@@ -4,7 +4,8 @@
 #include "cocos2d.h"
 #include "Person.h"
 #include "Bullet.h"
-#include "Role.h"
+#include "Player.h"
+#include "NPC.h"
 #include "BulletManager.h"
 
 #define FIX_POS(_pos, _min, _max) \
@@ -65,13 +66,8 @@ public:
 
 private:
 
-	Role1* _role1;
-	Role2* _role2;
-	Role3* _role3;
-	Role4* _role4;
-
-
-
+	Player* _player;
+	NPC1* _npc;
 
 	//人物的血条、怒气条
 	cocos2d::ProgressTimer* roleHPProgressTimer;

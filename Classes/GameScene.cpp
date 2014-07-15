@@ -59,16 +59,18 @@ bool GameScene::init()
 	//设置技能按钮
 	setMenu();
 	
-	_role1 = Role1::create();
-	_role1->retain();
-	_role1->setPosition(100,200);
-	addChild(_role1,1);
-	_role1->normalAction();
+	_player = Player::create();
+	_player->retain();
+	_player->setPosition(100,200);
+	_player->setScale(0.5);
+	addChild(_player,1);
+	_player->normalAction();
 
-	//_role2 = Role2::create();
-	//_role2->setPosition(400,200);
-	//addChild(_role2,1);
-	//_role2->runAction(_role2->getNormalAction());
+	_npc = NPC1::create();
+	_npc->setPosition(400,200);
+	_npc->setScale(0.5);
+	addChild(_npc,1);
+	_npc->normalAction();
 
 
 	//设置重力以及初始化BulletManager
@@ -165,8 +167,8 @@ void GameScene::setMenu()
 
 	//Jump按钮
 	auto jumpItem = MenuItemImage::create(
-                                           "CloseNormal.png",
-                                           "CloseSelected.png",
+                                           "Jump.png",
+                                           "Jump.png",
                                            CC_CALLBACK_1(GameScene::jump, this));
     
 	jumpItem->setPosition(Vec2(visibleSize.width - 100, jumpItem->getContentSize().height/2));
@@ -318,22 +320,22 @@ void GameScene::onAcceleration(Acceleration* acc, Event* event)
 {
 	if(acc->x > 0.25)
 	{
-		if((_role1->getPosition().x + 32) < visibleSize.width)
+		if((_player->getPosition().x + 32) < visibleSize.width)
 		{
-			_role1->setFlippedX(false);
-			_role1->setPosition(_role1->getPosition().x+2,_role1->getPosition().y);
-			_role1->normalAction();
+			_player->setFlippedX(false);
+			_player->setPosition(_player->getPosition().x+2,_player->getPosition().y);
+			_player->normalAction();
 		}
 	}
 
 	if(acc->x < -0.25)
 	{
 		
-		if(_role1->getPosition().x > 0)
+		if(_player->getPosition().x > 0)
 		{
-			_role1->setFlippedX(true);
-			_role1->setPosition(_role1->getPosition().x-2,_role1->getPosition().y);
-			_role1->normalAction();
+			_player->setFlippedX(true);
+			_player->setPosition(_player->getPosition().x-2,_player->getPosition().y);
+			_player->normalAction();
 		}
 	}
 }
@@ -354,7 +356,7 @@ void GameScene::menuCloseCallback(Ref* pSender)
 
 bool GameScene::contaiinsTouchLocation(Touch* touch)
 {
-	return _role1->getBoundingBox().containsPoint(convertTouchToNodeSpace(touch));
+	return _player->getBoundingBox().containsPoint(convertTouchToNodeSpace(touch));
 }
 
 bool GameScene::onTouchBegan(Touch* touch, Event* event)
@@ -395,14 +397,13 @@ void GameScene::dealEndTouch()
 		{
 			skill1NeedTime = skill1CoolDownTime;
 
-			Vec2 pos;
-			pos = _role1->getPosition() + Vec2(_role1->getContentSize().width/2, 0);
+			Vec2 pos = _player->getPosition();
 			Vec2 velocity;
 			velocity.x= (endPosition.x - startPosition.x) / visibleSize.width * 2000 ;
 			velocity.y= (endPosition.y - startPosition.y) / visibleSize.height * 2000;
 
 			g_BulletManager->shoot(NormalBullet, pos, velocity);
-			_role1->fireAction();
+			_player->fireAction();
 		}
 		break;
 	case SpecialBullet:
@@ -414,13 +415,13 @@ void GameScene::dealEndTouch()
 		{
 			skill2NeedTime = skill2CoolDownTime;
 			
-			Vec2 pos = _role1->getPosition();
+			Vec2 pos = _player->getPosition();
 			Vec2 velocity;
 			velocity.x= (endPosition.x - startPosition.x) / visibleSize.width * 2000 ;
 			velocity.y= (endPosition.y - startPosition.y) / visibleSize.height * 2000;
 
 			g_BulletManager->shoot(SpecialBullet, pos, velocity);
-			_role1->fireAction();
+			_player->fireAction();
 		}
 		break;
 	case StunBullet:
@@ -432,13 +433,13 @@ void GameScene::dealEndTouch()
 		{
 			skill3NeedTime = skill3CoolDownTime;
 
-			Vec2 pos = _role1->getPosition();
+			Vec2 pos = _player->getPosition();
 			Vec2 velocity;
 			velocity.x= (endPosition.x - startPosition.x) / visibleSize.width * 2000 ;
 			velocity.y= (endPosition.y - startPosition.y) / visibleSize.height * 2000;
 
 			g_BulletManager->shoot(StunBullet, pos, velocity);
-			_role1->fireAction();
+			_player->fireAction();
 		}
 		break;
 	default:
@@ -453,5 +454,5 @@ void GameScene::collisionDetection()
 
 void GameScene::jump(Ref* pSender)
 {
-	_role1->jumpAction();
+	_player->jumpAction();
 }
