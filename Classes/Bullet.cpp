@@ -26,7 +26,7 @@ Bullet* Bullet::create(bulletType type, Point pos, Vec2 velocity, BulletManager*
 	return NULL;
 }
 
-void Bullet::update(Vec2 acceleration, float deltaTime)
+bool Bullet::update(Vec2 acceleration, float deltaTime)
 {
 	
 	// update position
@@ -35,28 +35,30 @@ void Bullet::update(Vec2 acceleration, float deltaTime)
 	m_velocity+=acceleration*deltaTime;
 
 	// if the bullet leave the screen
-	Size visiblesize = Director::getInstance()->getVisibleSize();
-	Rect screen(0, 0, visiblesize.width, visiblesize.height);
-	if(!(this->getBoundingBox().intersectsRect(screen)))
+	if((this->getBoundingBox().getMaxY()<0))
 	{
-		this->removeBullet();
+		m_pBulletManager->getLayer()->removeChild(this);
+		return true;
 	}
 	else
 	{
 		// detect bullet collision
-		for(Bullet* pBullet : *(m_pBulletManager->getBulletVector()))
+		std::list<Bullet*>::iterator iter;
+		for(iter=m_pBulletManager->getBulletList()->begin(); iter!=m_pBulletManager->getBulletList()->end(); iter++)
 		{
-			if(pBullet != this)
+			if(*iter != this)
 			{
-				if(pBullet->getBoundingBox().intersectsRect(this->getBoundingBox()))
+				if((*iter)->getBoundingBox().intersectsRect(this->getBoundingBox()))
 				{
-					pBullet->removeBullet();
-					this->removeBullet();
+					m_pBulletManager->getLayer()->removeChild(this);
+					m_pBulletManager->getLayer()->removeChild(*iter);
+					m_pBulletManager->getBulletList()->erase(iter);
+					return true;
 				}
 			}
 		}
 	}
-	
+	return false;
 }
 
 bulletType Bullet::getType()
@@ -65,10 +67,6 @@ bulletType Bullet::getType()
 }
 
 void Bullet::removeBullet()
-{
-	
-	m_pBulletManager->getBulletVector()->erase(m_pBulletManager->getBulletVector()->find(this));
+{	
 	m_pBulletManager->getLayer()->removeChild(this);
-	this->release();
-	
 }

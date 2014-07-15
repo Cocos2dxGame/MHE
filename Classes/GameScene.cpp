@@ -6,7 +6,7 @@ BulletManager* g_BulletManager;
 
 GameScene::GameScene()
 	:roleCurrentHP(0),roleCurrentSP(0),npcCurrentHP(0),npcCurrrentSP(0),
-	skill1CoolDownTime(2.0),skill2CoolDownTime(5.0),skill3CoolDownTime(10.0),
+	skill1CoolDownTime(0.2),skill2CoolDownTime(5.0),skill3CoolDownTime(10.0),
 	skill1NeedTime(0.0),skill2NeedTime(0.0), skill3NeedTime(0.0),
 	currentBulletState(NormalBullet),currentActionState(Normal_Action),nextActionState(Normal_Action)
 {

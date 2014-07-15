@@ -21,9 +21,20 @@ BulletManager* BulletManager::create(Layer* curLayer, Vec2 g)
 
 void BulletManager::update(float deltaTime)
 {
-	for( Bullet* pBullet : m_BulletVector )
+	std::list<Bullet*>::iterator iter;
+	for( iter=m_BulletList.begin(); iter!=m_BulletList.end(); )
 	{
-		pBullet->update(m_g, deltaTime);
+		if((*iter)->update(m_g, deltaTime))
+		{
+			iter = m_BulletList.erase(iter);
+		}
+		else
+		{
+			if(iter!=m_BulletList.end())
+			{
+				iter++;
+			}
+		}
 	}
 }
 
@@ -31,22 +42,22 @@ void BulletManager::shoot(bulletType type, Point pos, Vec2 velocity)
 {
 	Bullet* pBullet = Bullet::create(type, pos, velocity, this);
 	m_layer->addChild(pBullet, 0);
-	m_BulletVector.pushBack(pBullet);
+	m_BulletList.push_back(pBullet);
 }
 
 void BulletManager::clean()
 {
-	for( Bullet* pBullet : m_BulletVector )
+	for( Bullet* pBullet : m_BulletList )
 	{
 		pBullet->removeBullet();
 	}
 
-	m_BulletVector.clear();
+	m_BulletList.clear();
 }
 
-cocos2d::Vector<Bullet*>* BulletManager::getBulletVector()
+std::list<Bullet*>* BulletManager::getBulletList()
 {
-	return &m_BulletVector;
+	return &m_BulletList;
 }
 
 cocos2d::Layer* BulletManager::getLayer()
