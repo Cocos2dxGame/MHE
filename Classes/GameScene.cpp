@@ -167,8 +167,8 @@ void GameScene::setMenu()
 
 	//Jump°´Å¥
 	auto jumpItem = MenuItemImage::create(
-                                           "Jump.png",
-                                           "Jump.png",
+                                           "jump.png",
+                                           "jump.png",
                                            CC_CALLBACK_1(GameScene::jump, this));
     
 	jumpItem->setPosition(Vec2(visibleSize.width - 100, jumpItem->getContentSize().height/2));
