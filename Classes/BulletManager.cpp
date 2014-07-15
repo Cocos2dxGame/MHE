@@ -49,7 +49,7 @@ void BulletManager::clean()
 {
 	for( Bullet* pBullet : m_BulletList )
 	{
-		pBullet->removeBullet();
+		m_layer->removeChild(pBullet);
 	}
 
 	m_BulletList.clear();

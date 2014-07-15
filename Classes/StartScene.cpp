@@ -31,51 +31,26 @@ bool StartScene::init()
 
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 
-	TTFConfig config_font96("Marker Felt.ttf", 96);
-	TTFConfig config_font52("Marker Felt.ttf", 52);
+	// add background image
+	Sprite* bg = Sprite::create("background/bg_000.png");
+	bg->setPosition(visibleSize.width/2, visibleSize.height/2);
+	bg->setScaleX(visibleSize.width/bg->getContentSize().width);
+	bg->setScaleY(visibleSize.height/bg->getContentSize().height);
+	this->addChild(bg);
 
-	Label *titleLeft = Label::createWithTTF(config_font96, "Menu ");
-	Label *titleRight = Label::createWithTTF(config_font96, " System");
-	Label *titleQuotes = Label::createWithTTF(config_font96, ""                        "");
-	Label *titleCenterTop = Label::createWithTTF(config_font52, "How to build a...");
-	Label *titleCenterBottom = Label::createWithTTF(config_font96, "Part 1");
+	// create new scene
+	MenuItemImage *newgame = MenuItemImage::create("button/bt_000.png", "button/bts_000.png", CC_CALLBACK_1(StartScene::onNewGame, this));
+	MenuItemImage *config = MenuItemImage::create("button/bt_001.png", "button/bts_001.png", CC_CALLBACK_1(StartScene::onNewGame, this));
+	MenuItemImage *help = MenuItemImage::create("button/bt_002.png", "button/bts_002.png", CC_CALLBACK_1(StartScene::onNewGame, this));
+	float scale = visibleSize.width/800;
+	newgame->setScale(scale);
+	config->setScale(scale);
+	help->setScale(scale);
 
-	//create new scene
-	MenuItemFont *startNew = MenuItemFont::create("New Game", CC_CALLBACK_1(StartScene::onNewGame, this));
-	MenuItemFont *credits = MenuItemFont::create("Credits", CC_CALLBACK_1(StartScene::onNewGame, this));
+	Menu *menu = Menu::create(newgame, config ,help, NULL);
 
-	Menu *menu = Menu::create(startNew, credits, NULL);
-
-	titleCenterTop->setPosition(
-		Point( (visibleSize.width - titleCenterTop->getContentSize().width)/2,
-		visibleSize.height - 100) );
-	this->addChild(titleCenterTop);
-
-	titleQuotes->setPosition(
-		Point((visibleSize.width - titleQuotes->getContentSize().width)/2,
-		titleCenterTop->getPosition().y - titleQuotes->getContentSize().height - 40) );
-	this->addChild(titleQuotes);
-
-	int tileWidth = titleLeft->getContentSize().width + titleRight->getContentSize().width + 50;
-	titleLeft->setPosition(
-		Point( (visibleSize.width - tileWidth)/2,
-		titleCenterTop->getPosition().y - titleLeft->getContentSize().height - 40) );
-	this->addChild(titleLeft);
-
-	titleRight->setPosition(
-		Point( (visibleSize.width - tileWidth)/2 + titleLeft->getContentSize().width + 50,
-		titleCenterTop->getPosition().y - titleRight->getContentSize().height - 40) );
-	this->addChild(titleRight);
-
-	titleCenterBottom->setPosition(
-		Point( (visibleSize.width - titleCenterBottom->getContentSize().width)/2,
-		titleRight->getPosition().y - titleCenterBottom->getContentSize().height - 40) );
-	this->addChild(titleCenterBottom);
-
-	menu->setPosition(
-		Point( visibleSize.width / 2,
-		titleCenterBottom->getPosition().y-150 ) );
-	menu->alignItemsVerticallyWithPadding(80.0f);
+	menu->setPosition(visibleSize.width*0.73, visibleSize.height*0.286);
+	menu->alignItemsVerticallyWithPadding(0.05*visibleSize.height);
 	this->addChild(menu, 2);
 
 	return true;
