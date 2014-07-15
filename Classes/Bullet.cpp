@@ -14,12 +14,13 @@ Bullet::~Bullet()
 Bullet* Bullet::create(bulletType type, Point pos, Vec2 velocity, BulletManager* pBulletManager)
 {
 	Bullet* bullet = new Bullet();
-	if(bullet && bullet->initWithFile("ball.png"))
+	if(bullet && bullet->initWithFile("bullet/bl_001.png"))
 	{	
 		bullet->m_type = type;
 		bullet->m_velocity = velocity;
 		bullet->setPosition(pos);
 		bullet->m_pBulletManager = pBulletManager;
+		bullet->setScale(Director::getInstance()->getVisibleSize().height/12/bullet->getContentSize().height);
 		return bullet;
 	}
 
@@ -58,6 +59,35 @@ bool Bullet::update(Vec2 acceleration, float deltaTime)
 			}
 		}
 	}
+
+	// update rotation
+	if(m_velocity.x == 0)
+	{
+		if(m_velocity.y>0)
+		{
+			setRotation(270);
+		}
+		else if(m_velocity.y<0)
+		{
+			setRotation(90);
+		}
+	}
+	else
+	{
+		float cita = atan(m_velocity.y/m_velocity.x);
+		setRotation(-cita*180/3.14);
+	}
+
+	// update scale
+	if(m_velocity.x < 0)
+	{
+		setScaleX(-abs(this->getScaleX()));
+	}
+	else 
+	{
+		setScaleX(abs(this->getScaleX()));
+	}
+
 	return false;
 }
 
