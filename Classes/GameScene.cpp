@@ -60,16 +60,15 @@ bool GameScene::init()
 	setMenu();
 	
 	_role1 = Role1::create();
+	_role1->retain();
 	_role1->setPosition(100,200);
 	addChild(_role1,1);
-	_role1->setMoveToRight();
 	_role1->normalAction();
 
-	_role2 = Role2::create();
-	_role2->setPosition(400,200);
-	addChild(_role2,1);
-	_role2->setMoveToRight();
-	_role2->runAction(_role2->getNormalAction());
+	//_role2 = Role2::create();
+	//_role2->setPosition(400,200);
+	//addChild(_role2,1);
+	//_role2->runAction(_role2->getNormalAction());
 
 
 	//设置重力以及初始化BulletManager
@@ -247,7 +246,6 @@ void GameScene::selectedSkill2(Ref* pSender)
 	currentBulletState = SpecialBullet;
 }
 
-
 void GameScene::selectedSkill3(Ref* pSender)
 {
 	currentBulletState = StunBullet;
@@ -313,7 +311,6 @@ void GameScene::update(float deltaTime)
 		skill3NeedTime = 0.0f;
 		skill3CoolBar->setPercentage(0);
 	}
-
 }
 
 //重力加速器方法  
@@ -321,7 +318,6 @@ void GameScene::onAcceleration(Acceleration* acc, Event* event)
 {
 	if(acc->x > 0.25)
 	{
-		_role1->setMoveToRight();
 		if((_role1->getPosition().x + 32) < visibleSize.width)
 		{
 			_role1->setFlippedX(false);
@@ -332,7 +328,6 @@ void GameScene::onAcceleration(Acceleration* acc, Event* event)
 
 	if(acc->x < -0.25)
 	{
-		_role1->setMoveToLeft();
 		
 		if(_role1->getPosition().x > 0)
 		{
@@ -400,13 +395,14 @@ void GameScene::dealEndTouch()
 		{
 			skill1NeedTime = skill1CoolDownTime;
 
-			Vec2 pos = _role1->getPosition();
+			Vec2 pos;
+			pos = _role1->getPosition() + Vec2(_role1->getContentSize().width/2, 0);
 			Vec2 velocity;
 			velocity.x= (endPosition.x - startPosition.x) / visibleSize.width * 2000 ;
 			velocity.y= (endPosition.y - startPosition.y) / visibleSize.height * 2000;
 
 			g_BulletManager->shoot(NormalBullet, pos, velocity);
-			//_role1->fireAction();
+			_role1->fireAction();
 		}
 		break;
 	case SpecialBullet:
@@ -452,17 +448,7 @@ void GameScene::dealEndTouch()
 
 void GameScene::collisionDetection()
 {
-	_role1->decreaseHP(1);
-	roleHPProgressTimer->setPercentage(float(_role1->getCurrentHP() * 100 / _role1->getTotalHP()));
 	
-	_role1->increaseSP(1);
-	roleSPProgressTimer->setPercentage(float(_role1->getCurrentSP() * 100 / _role1->getTotalSP()));
-
-	_role2->decreaseHP(1);
-	npcHPProgressTimer->setPercentage(float(_role2->getCurrentHP() * 100 / _role2->getTotalHP()));
-	
-	_role2->increaseSP(1);
-	npcSPProgressTimer->setPercentage(float(_role2->getCurrentSP() * 100 / _role2->getTotalSP()));
 }
 
 void GameScene::jump(Ref* pSender)

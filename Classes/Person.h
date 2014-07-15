@@ -17,67 +17,39 @@ class Person: public cocos2d::Sprite
 {
 public:
 	Person();
+	~Person();
 
-	static Person* create();
-
-	void setMoveToLeft();
-	void setMoveToRight();
-
-	void setAction(cocos2d::SpriteFrameCache* cache);
-
-	void setNormalAction(cocos2d::SpriteFrameCache* cache);
-	cocos2d::Action* getNormalAction();
 	void normalAction();
-
-	void setMoveAction(cocos2d::SpriteFrameCache* cache);
-	cocos2d::Action* getMoveAction();
-
-	void setAttackedAction(cocos2d::SpriteFrameCache* cache);
-	cocos2d::Action* getAttackedAction();
-	void attackedAction();
-
-	void setJumpAction(cocos2d::SpriteFrameCache* cache);
-	cocos2d::Action* getJumpAction();
-	void jumpAction();
-
-	void setFireAction(cocos2d::SpriteFrameCache* cache);
-	cocos2d::Action* getFireAction();
 	void fireAction();
+	void attackedAction();
+	void moveAction();
+	void jumpAction();
+	void victoryAction();
+	void failAction();
+
+	 // 定义每个状态动作的get/set方法
+    CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _normalAction, NormalAction);
+	CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _attackedAction, AttackedAction);
+    CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _fireAction, FireAction);
+    CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _moveAction, MoveAction);
+	CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _jumpAction, JumpAction);
+    CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _victoryAction, VictoryAction);
+
 
 	//设置血条、怒气条
-	void increaseHP(int hp);
-	void decreaseHP(int hp);
-	int getTotalHP();
-	int getCurrentHP();
-	
-	//设置怒气条
-	void increaseSP(int sp);
-	void descreaseSP(int sp);
-	int getTotalSP();
-	int getCurrentSP();
-	
-	cocos2d::Rect getRect();
+	CC_SYNTHESIZE(unsigned int, _hp, HP); // 生命值
+    CC_SYNTHESIZE(unsigned int, _sp, SP); // 怒气值
+
 protected:
+	cocos2d::Animation* createAnimation(const char* fmt, int count, float fps);
+
 	int totalHP;
 	int HP;
 	int SP;
-	int jumpSpeed;
-	int speed;
-	bool moveRight;
 	char roleName[100];
-	//cocos2d::String* roleName;
 
-	cocos2d::CallFunc *callbackNormal;
 	cocos2d::SpriteFrameCache* cache;
 
-	cocos2d::Action* _normalAction;
-	cocos2d::Action* _attackedAction;
-	cocos2d::Action* _jumpAction;
-	cocos2d::Action* _fireAction;
-
-	cocos2d::Action* _moveLeftAction;
-	cocos2d::Action* _moveRightAction;
-	cocos2d::Action* _moveAction;
 private:
 	bool changeState(ActionState state);
 	ActionState _currentState;

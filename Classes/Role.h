@@ -7,9 +7,9 @@ class Role1 : public Person
 {
 public:
 	Role1();
-	
-	static Role1* create();
-
+	~Role1();
+	bool init();
+	CREATE_FUNC(Role1);
 };
 
 
@@ -17,9 +17,9 @@ class Role2: public Person
 {
 public:
 	Role2();
-
-	static Role2* create();
-
+	~Role2();
+	bool init();
+	CREATE_FUNC(Role2);
 };
 
 
@@ -27,14 +27,18 @@ class Role3: public Person
 {
 public:
 	Role3();
-	static Role3* create();
+	~Role3();
+	bool init();
+	CREATE_FUNC(Role3);
 };
 
 class Role4: public Person
 {
 public:
 	Role4();
-	static Role4* create();
+	~Role4();
+	bool init();
+	CREATE_FUNC(Role4);;
 };
 
 

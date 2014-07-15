@@ -10,33 +10,60 @@ Role1::Role1()
 	totalHP = 200;
 	HP = 200;
 	SP = 0;
-	speed = 10;
-	jumpSpeed  = 10;
-	moveRight = true;
 	strcpy(roleName, "Role1");
 
 	char plistFileName[100];
 	sprintf(plistFileName,"character/%s.plist", roleName);  
 	cache = SpriteFrameCache::sharedSpriteFrameCache();
 	cache->addSpriteFramesWithFile(plistFileName);
+}
+
+Role1::~Role1()
+{
 
 }
 
-Role1* Role1::create()
+bool Role1::init()
 {
-	Role1* role1 = new Role1();
-
-	char keyname[100];
-	sprintf(keyname,"%sNormal1.png", role1->roleName);
-
-	if(role1 && role1->initWithSpriteFrame(role1->cache->spriteFrameByName(keyname)))
+	do 
 	{
-		role1->setAction(role1->cache);
-		role1->autorelease();
-		return role1;
-	}
 
-	return NULL;
+		CC_BREAK_IF(!Person::initWithSpriteFrameName("Role1Normal1.png"));
+
+		CallFunc *callbackNormal = CallFunc::create(std::bind(&Role1::normalAction, this));
+
+		Size visibleSize = Director::getInstance()->getVisibleSize();
+		Vec2 origin = Director::getInstance()->getVisibleOrigin();
+
+		//正常状态下动画
+		const char* normalPng = String::createWithFormat("%s%s", roleName, "Normal")->getCString();
+		Animation* normalAnimation = createAnimation(normalPng,6,12);
+		setNormalAction(RepeatForever::create(Animate::create(normalAnimation)));
+
+		//移动状态下
+		//const char* movePng = String::createWithFormat(roleName,"Move")->getCString();
+		//Animation* moveAnimation = createAnimation(movePng,6,12);
+		setMoveAction(RepeatForever::create(Animate::create(normalAnimation)));
+
+		//攻击状态下动画
+		const char* firePng = String::createWithFormat("%s%s", roleName, "Fire")->getCString();
+		Animation* fireAnimation = createAnimation(firePng,2,10);
+		setFireAction(Sequence::create(Animate::create(fireAnimation), callbackNormal, NULL));
+
+		//受到攻击状态下动画
+		const char* attackedPng = String::createWithFormat("%s%s", roleName, "Attacked")->getCString();
+		Animation* attackedAnimation = createAnimation(attackedPng,3,12);
+		setAttackedAction(Sequence::create(Animate::create(attackedAnimation), callbackNormal, NULL));
+
+		//跳跃状态下动画
+		auto actionBy = JumpBy::create(2, Vec2(0,0), visibleSize.height/4, 1);
+		//auto actionByBack = actionBy->reverse();
+		setJumpAction(Sequence::create(actionBy, callbackNormal, NULL));
+
+		return true;
+	}while(0);
+
+	return false;
 }
 
 
@@ -49,9 +76,6 @@ Role2::Role2()
 	totalHP = 200;
 	HP = 200;
 	SP = 200;
-	speed = 20;
-	jumpSpeed  = 20;
-	moveRight = true;
 	strcpy(roleName, "Role2");
 
 	char plistFileName[100];
@@ -60,24 +84,45 @@ Role2::Role2()
 	cache->addSpriteFramesWithFile(plistFileName);
 }
 
-Role2* Role2::create()
+Role2::~Role2()
 {
-	Role2* role2 = new Role2();
-	
-	char keyname[100];
-	sprintf(keyname,"%sNormal1.png", role2->roleName);
 
-	if(role2 && role2->initWithSpriteFrame(role2->cache->spriteFrameByName(keyname)))
-	{
-		role2->setAction(role2->cache);
-		role2->autorelease();
-		return role2;
-	}
-
-	return NULL;
 }
 
+bool Role2::init()
+{
+	do 
+	{
 
+		CC_BREAK_IF(!Person::initWithSpriteFrameName("Role2Normal1.png"));
+
+		CallFunc *callbackNormal = CallFunc::create(std::bind(&Role2::normalAction, this));
+
+		//正常状态下动画
+		const char* normalPng = String::createWithFormat("%s%s", roleName, "Normal")->getCString();
+		Animation* normalAnimation = createAnimation(normalPng,6,12);
+		setNormalAction(RepeatForever::create(Animate::create(normalAnimation)));
+
+		//移动状态下
+		//const char* movePng = String::createWithFormat(roleName,"Move")->getCString();
+		//Animation* moveAnimation = createAnimation(movePng,6,12);
+		setMoveAction(RepeatForever::create(Animate::create(normalAnimation)));
+
+		//攻击状态下动画
+		const char* firePng = String::createWithFormat("%s%s", roleName, "Fire")->getCString();
+		Animation* fireAnimation = createAnimation(firePng,2,20);
+		setFireAction(Sequence::create(Animate::create(fireAnimation), callbackNormal, NULL));
+
+		//受到攻击状态下动画
+		const char* attackedPng = String::createWithFormat("%s%s", roleName, "Attacked")->getCString();
+		Animation* attackedAnimation = createAnimation(attackedPng,3,12);
+		setAttackedAction(Sequence::create(Animate::create(attackedAnimation), callbackNormal, NULL));
+
+		return true;
+	}while(0);
+
+	return false;
+}
 //Role3
 //--------------------------------------------------------------------------
 //--------------------------------------------------------------------------
@@ -87,9 +132,6 @@ Role3::Role3()
 	totalHP = 200;
 	HP = 200;
 	SP = 200;
-	speed = 10;
-	jumpSpeed  = 10;
-	moveRight = true;
 	strcpy(roleName, "Role3");
 
 	char plistFileName[100];
@@ -100,24 +142,45 @@ Role3::Role3()
 	cache->addSpriteFramesWithFile(plistFileName);
 }
 
-Role3* Role3::create()
+Role3::~Role3()
 {
-	Role3* role3 = new Role3();
 
-	char keyname[100];
-	sprintf(keyname,"%sNormal1.png", role3->roleName);
-
-	if(role3 && role3->initWithSpriteFrame(role3->cache->spriteFrameByName(keyname)))
-	{
-		role3->setAction(role3->cache);
-		role3->autorelease();
-		return role3;
-	}
-
-	return NULL;
 }
 
+bool Role3::init()
+{
+	do 
+	{
 
+		CC_BREAK_IF(!Person::initWithSpriteFrameName("Role3Normal1.png"));
+
+		CallFunc *callbackNormal = CallFunc::create(std::bind(&Role3::normalAction, this));
+
+		//正常状态下动画
+		const char* normalPng = String::createWithFormat("%s%s", roleName, "Normal")->getCString();
+		Animation* normalAnimation = createAnimation(normalPng,6,12);
+		setNormalAction(RepeatForever::create(Animate::create(normalAnimation)));
+
+		//移动状态下
+		//const char* movePng = String::createWithFormat(roleName,"Move")->getCString();
+		//Animation* moveAnimation = createAnimation(movePng,6,12);
+		setMoveAction(RepeatForever::create(Animate::create(normalAnimation)));
+
+		//攻击状态下动画
+		const char* firePng = String::createWithFormat("%s%s", roleName, "Fire")->getCString();
+		Animation* fireAnimation = createAnimation(firePng,2,20);
+		setFireAction(Sequence::create(Animate::create(fireAnimation), callbackNormal, NULL));
+
+		//受到攻击状态下动画
+		const char* attackedPng = String::createWithFormat("%s%s", roleName, "Attacked")->getCString();
+		Animation* attackedAnimation = createAnimation(attackedPng,3,12);
+		setAttackedAction(Sequence::create(Animate::create(attackedAnimation), callbackNormal, NULL));
+
+		return true;
+	}while(0);
+
+	return false;
+}
 
 //Role4
 //--------------------------------------------------------------------------
@@ -128,9 +191,6 @@ Role4::Role4()
 	totalHP = 200;
 	HP = 200;
 	SP = 200;
-	speed = 10;
-	jumpSpeed  = 10;
-	moveRight = true;
 	strcpy(roleName, "Role4");
 
 	char plistFileName[100];
@@ -141,19 +201,42 @@ Role4::Role4()
 	cache->addSpriteFramesWithFile(plistFileName);
 }
 
-Role4* Role4::create()
+Role4::~Role4()
 {
-	Role4* role4 = new Role4();
 
-	char keyname[100];
-	sprintf(keyname,"%sNormal1.png", role4->roleName);
+}
 
-	if(role4 && role4->initWithSpriteFrame(role4->cache->spriteFrameByName(keyname)))
+bool Role4::init()
+{
+	do 
 	{
-		role4->setAction(role4->cache);
-		role4->autorelease();
-		return role4;
-	}
 
-	return NULL;
+		CC_BREAK_IF(!Person::initWithSpriteFrameName("Role4Normal1.png"));
+
+		CallFunc *callbackNormal = CallFunc::create(std::bind(&Role4::normalAction, this));
+
+		//正常状态下动画
+		const char* normalPng = String::createWithFormat("%s%s", roleName, "Normal")->getCString();
+		Animation* normalAnimation = createAnimation(normalPng,6,12);
+		setNormalAction(RepeatForever::create(Animate::create(normalAnimation)));
+
+		//移动状态下
+		//const char* movePng = String::createWithFormat(roleName,"Move")->getCString();
+		//Animation* moveAnimation = createAnimation(movePng,6,12);
+		setMoveAction(RepeatForever::create(Animate::create(normalAnimation)));
+
+		//攻击状态下动画
+		const char* firePng = String::createWithFormat("%s%s", roleName, "Fire")->getCString();
+		Animation* fireAnimation = createAnimation(firePng,2,20);
+		setFireAction(Sequence::create(Animate::create(fireAnimation), callbackNormal, NULL));
+
+		//受到攻击状态下动画
+		const char* attackedPng = String::createWithFormat("%s%s", roleName, "Attacked")->getCString();
+		Animation* attackedAnimation = createAnimation(attackedPng,3,12);
+		setAttackedAction(Sequence::create(Animate::create(attackedAnimation), callbackNormal, NULL));
+
+		return true;
+	}while(0);
+
+	return false;
 }
