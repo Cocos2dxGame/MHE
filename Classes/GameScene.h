@@ -4,7 +4,8 @@
 #include "cocos2d.h"
 #include "Person.h"
 #include "Bullet.h"
-#include "Role.h"
+#include "Player.h"
+#include "NPC.h"
 #include "BulletManager.h"
 
 #define FIX_POS(_pos, _min, _max) \
@@ -13,15 +14,6 @@
 else if (_pos > _max)   \
  _pos = _max;        \
 
-typedef enum{
-	Attacked = 1,
-	Fire = 2,
-	Jump, 
-	Move,
-	Normal,
-	Victory,
-	Fail,
-}ActionTrigger;
 
 class GameScene : public cocos2d::Layer
 {
@@ -61,11 +53,10 @@ public:
     void onTouchCancelled(cocos2d::Touch* touch, cocos2d::Event  *event);
 	bool contaiinsTouchLocation(cocos2d::Touch* touch);
 
-	//Action管理
-	void dealAction();
-
 	//触摸结束后处理事件
 	void dealEndTouch();
+
+	void jump(Ref* pSender);
 
 	//碰撞检测
 	void collisionDetection();
@@ -75,11 +66,8 @@ public:
 
 private:
 
-	Role1* _role1;
-	Role2* _role2;
-	Role3* _role3;
-	Role4* _role4;
-
+	Player* _player;
+	NPC1* _npc;
 
 	//人物的血条、怒气条
 	cocos2d::ProgressTimer* roleHPProgressTimer;
@@ -124,10 +112,6 @@ private:
 	//触摸的开始点和结束点
 	cocos2d::Vec2 startPosition;
 	cocos2d::Vec2 endPosition;
-
-	//角色当前动作的状态值
-	unsigned int currentActionState;
-	unsigned int nextActionState;
 
     CREATE_FUNC(GameScene);
 };
