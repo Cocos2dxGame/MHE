@@ -44,6 +44,7 @@ bool NPC1::init()
 		CC_BREAK_IF(!Person::initWithSpriteFrameName("Role2Normal1.png"));
 
 		CallFunc *callbackNormal = CallFunc::create(std::bind(&NPC1::normalAction, this));
+		CallFunc *callbackJumpEnd = CallFunc::create(std::bind(&NPC1::jumpActionEnd, this));
 
 		Size visibleSize = Director::getInstance()->getVisibleSize();
 		Vec2 origin = Director::getInstance()->getVisibleOrigin();

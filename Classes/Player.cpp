@@ -26,6 +26,7 @@ bool Player::init()
 		CC_BREAK_IF(!Person::initWithSpriteFrameName("Role1Normal1.png"));
 
 		CallFunc *callbackNormal = CallFunc::create(std::bind(&Player::normalAction, this));
+		CallFunc *callbackJumpEnd = CallFunc::create(std::bind(&Player::jumpActionEnd, this));
 
 		Size visibleSize = Director::getInstance()->getVisibleSize();
 		Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -53,7 +54,7 @@ bool Player::init()
 		//ÌøÔ¾×´Ì¬ÏÂ¶¯»­
 		auto actionBy = JumpBy::create(1, Vec2(0,0), visibleSize.height/4, 1);
 		//auto actionByBack = actionBy->reverse();
-		setJumpAction(Sequence::create(actionBy, callbackNormal, NULL));
+		setJumpAction(Sequence::create(actionBy, callbackJumpEnd, NULL));
 
 		return true;
 	}while(0);

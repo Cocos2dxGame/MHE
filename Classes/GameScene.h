@@ -68,6 +68,7 @@ private:
 
 	Player* _player;
 	NPC1* _npc;
+	cocos2d::Sprite* obstacle;
 
 	//人物的血条、怒气条
 	cocos2d::ProgressTimer* roleHPProgressTimer;

@@ -11,6 +11,7 @@ Person::Person()
     _jumpAction = NULL;
 	_victoryAction = NULL;
 
+	isJumping =false;
 	strcpy(roleName, "Role2");
 	
 	char plistFileName[100];
@@ -53,9 +54,7 @@ void Person::fireAction()
 void Person::attackedAction()
 {
 	if(changeState(Attacked_Action))
-	{
 		runAction(_attackedAction);
-	}
 }
 
 void Person::moveAction()
@@ -70,10 +69,18 @@ void Person::jumpAction()
 		runAction(_jumpAction);
 }
 
+void Person::jumpActionEnd()
+{
+	_currentState = Normal_Action;
+	runAction(_normalAction);
+}
+
+
 bool Person::changeState(ActionState state)
 {
 	// 已经胜利，就不能再出发其他动作了！
-    if (_currentState == Vectory_Action) {
+    if (_currentState == Vectory_Action) 
+	{
         return false;
     }
     
@@ -82,8 +89,14 @@ bool Person::changeState(ActionState state)
 		return false;
 	}
 
+	if(_currentState == Jump_Action)
+	{
+		return false;
+	}
+
     // 已经处于要改变的状态，就没必要在改变了！
-    if (_currentState == state) {
+    if (_currentState == state) 
+	{
         return false;
     }
 

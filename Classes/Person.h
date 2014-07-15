@@ -26,6 +26,7 @@ public:
 	void jumpAction();
 	void victoryAction();
 	void failAction();
+	void jumpActionEnd();
 
 	 // 定义每个状态动作的get/set方法
     CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _normalAction, NormalAction);
@@ -53,6 +54,7 @@ protected:
 private:
 	bool changeState(ActionState state);
 	ActionState _currentState;
+	bool isJumping;
 
 };
 

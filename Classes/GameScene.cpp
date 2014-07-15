@@ -1,4 +1,5 @@
 #include "GameScene.h"
+#include "SimpleAudioEngine.h"
 
 USING_NS_CC;
 
@@ -53,12 +54,16 @@ bool GameScene::init()
 	background->setPosition(visibleSize.width/2, visibleSize.height/2);
 	addChild(background,0);
 
+	//music
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("music/background.mp3", true);
+
 	//设置角色和npc的血条、怒气条
 	setRoleProgressBar();
 	setNpcProgressBar();
 	//设置技能按钮
 	setMenu();
 	
+	//设置player
 	_player = Player::create();
 	_player->retain();
 	_player->setPosition(100,200);
@@ -66,12 +71,17 @@ bool GameScene::init()
 	addChild(_player,1);
 	_player->normalAction();
 
+	//设置npc
 	_npc = NPC1::create();
-	_npc->setPosition(400,200);
+	_npc->setPosition(700,200);
 	_npc->setScale(0.5);
 	addChild(_npc,1);
 	_npc->normalAction();
 
+	//中间障碍物
+	obstacle = Sprite::create("obstacle.png");
+	obstacle->setPosition(Vec2(visibleSize.width/2, 220));
+	addChild(obstacle,1);
 
 	//设置重力以及初始化BulletManager
 	Vec2 g(0, -800);
@@ -320,21 +330,20 @@ void GameScene::onAcceleration(Acceleration* acc, Event* event)
 {
 	if(acc->x > 0.25)
 	{
-		if((_player->getPosition().x + 32) < visibleSize.width)
+		if((_player->getPosition().x + _player->getContentSize().width/2) < obstacle->getPosition().x - obstacle->getContentSize().width/2)
 		{
 			_player->setFlippedX(false);
-			_player->setPosition(_player->getPosition().x+2,_player->getPosition().y);
+			_player->setPosition(_player->getPosition().x+2, _player->getPosition().y);
 			_player->normalAction();
 		}
 	}
 
 	if(acc->x < -0.25)
 	{
-		
-		if(_player->getPosition().x > 0)
+		if(_player->getPosition().x - _player->getContentSize().width/2 > 0)
 		{
 			_player->setFlippedX(true);
-			_player->setPosition(_player->getPosition().x-2,_player->getPosition().y);
+			_player->setPosition(_player->getPosition().x-2, _player->getPosition().y);
 			_player->normalAction();
 		}
 	}
@@ -402,7 +411,15 @@ void GameScene::dealEndTouch()
 			velocity.x= (endPosition.x - startPosition.x) / visibleSize.width * 2000 ;
 			velocity.y= (endPosition.y - startPosition.y) / visibleSize.height * 2000;
 
+			if(_player->isFlippedX())
+				if(velocity.x > 0)
+					_player->setFlippedX(-1);
+			else
+				if(velocity.x < 0)
+					_player->setFlippedX(-1);
+
 			g_BulletManager->shoot(NormalBullet, pos, velocity);
+			//CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect();
 			_player->fireAction();
 		}
 		break;
@@ -421,6 +438,7 @@ void GameScene::dealEndTouch()
 			velocity.y= (endPosition.y - startPosition.y) / visibleSize.height * 2000;
 
 			g_BulletManager->shoot(SpecialBullet, pos, velocity);
+			//CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect();
 			_player->fireAction();
 		}
 		break;
@@ -439,6 +457,7 @@ void GameScene::dealEndTouch()
 			velocity.y= (endPosition.y - startPosition.y) / visibleSize.height * 2000;
 
 			g_BulletManager->shoot(StunBullet, pos, velocity);
+			//CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect();
 			_player->fireAction();
 		}
 		break;
