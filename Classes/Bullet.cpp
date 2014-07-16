@@ -77,7 +77,7 @@ void Bullet::update(Vec2 acceleration, float deltaTime)
 					if(pBullet->getBoundingBox().intersectsRect(this->getBoundingBox()))
 					{
 						m_pBulletManager->deleteBullet(pBullet);
-						m_pBulletManager->deleteBullet(pBullet);
+						m_pBulletManager->deleteBullet(this);
 						return ;
 					}
 				}
