@@ -68,6 +68,7 @@ bool GameScene::init()
 	_player->retain();
 	_player->setPosition(100,200);
 	_player->setScale(0.5);
+	_player->setTag(1);
 	addChild(_player,1);
 	_player->normalAction();
 
@@ -75,17 +76,23 @@ bool GameScene::init()
 	_npc = NPC1::create();
 	_npc->setPosition(700,200);
 	_npc->setScale(0.5);
+	_npc->setTag(2);
 	addChild(_npc,1);
 	_npc->normalAction();
 
 	//中间障碍物
 	obstacle = Sprite::create("obstacle.png");
 	obstacle->setPosition(Vec2(visibleSize.width/2, 220));
+	obstacle->setTag(3);
 	addChild(obstacle,1);
+
+	spritesVector->pushBack(_player);
+	spritesVector->pushBack(_npc);
+	spritesVector->pushBack(obstacle);
 
 	//设置重力以及初始化BulletManager
 	Vec2 g(0, -800);
-	g_BulletManager = BulletManager::create((GameScene*)this, g);
+	g_BulletManager = BulletManager::create((GameScene*)this, spritesVector, g);
 
 	this->scheduleUpdate();
 

@@ -81,7 +81,7 @@ public:
 	
 
 private:
-
+	cocos2d::Vector<Sprite*>* spritesVector;
 	Player* _player;
 	NPC1* _npc;
 	cocos2d::Sprite* obstacle;

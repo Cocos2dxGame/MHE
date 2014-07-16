@@ -2,6 +2,9 @@
 #define __PAUSE_LAYER__
 
 #include "cocos2d.h"
+#include "SceneManager.h"
+
+class GameScene;
 
 class PauseLayer :public cocos2d::Layer
 {
