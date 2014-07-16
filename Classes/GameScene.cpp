@@ -167,8 +167,8 @@ void GameScene::setNpcProgressBar()
 void GameScene::setMenu()
 {
 	auto pauseItem = MenuItemImage::create(
-										"system/pause.png",
-										"system/pause_selected.png",
+										"button/pause.png",
+										"button/pause_selected.png",
 										CC_CALLBACK_1(GameScene::doPause, this));
 	pauseItem->setScale(visibleSize.width/20/pauseItem->getContentSize().width);
 

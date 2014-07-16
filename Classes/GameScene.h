@@ -70,7 +70,7 @@ public:
 	NPC* getNPC();
 
 	//获取中间障碍物指针
-	Sprite* getObstacle();
+	cocos2d::Sprite* getObstacle();
 
 	//碰撞检测
 	void collisionDetection();
