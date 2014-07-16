@@ -45,8 +45,12 @@ bool PauseLayer::init()
 
 void PauseLayer::reBegin(Ref* pSender)
 {
-	/*Scene* pScene = GameScene::createScene();
-	SceneManager::go(pScene);*/
+	CCDirector::sharedDirector()->resume();  
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->resumeBackgroundMusic();  
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->resumeAllEffects();
+
+	Scene* pScene = GameScene::createScene();
+	SceneManager::go(pScene);
 }
 
 void PauseLayer::goBack(Ref* pSender)
@@ -59,5 +63,10 @@ void PauseLayer::goBack(Ref* pSender)
 
 void PauseLayer::goChapter(Ref* pSender)
 {
+	CCDirector::sharedDirector()->resume();  
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->resumeBackgroundMusic();  
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->resumeAllEffects();
 
+	Scene* pScene = ChapterScene::createScene();
+	SceneManager::go(pScene);
 }

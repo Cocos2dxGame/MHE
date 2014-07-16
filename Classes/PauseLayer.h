@@ -3,8 +3,8 @@
 
 #include "cocos2d.h"
 #include "SceneManager.h"
-
-class GameScene;
+#include "GameScene.h"
+#include "ChapterScene.h"
 
 class PauseLayer :public cocos2d::Layer
 {
