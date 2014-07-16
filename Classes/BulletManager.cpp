@@ -11,7 +11,7 @@ BulletManager::~BulletManager()
 	clean();
 }
 
-BulletManager* BulletManager::create(Layer* curLayer, Vec2 g)
+BulletManager* BulletManager::create(Layer* curLayer, Vector<Sprite*>* pSpriteVector, Vec2 g)
 {
 	BulletManager* newManager = new BulletManager();
 	newManager->m_g = g;

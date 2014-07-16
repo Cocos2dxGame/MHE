@@ -36,7 +36,7 @@ bool StartScene::init()
 	bg->setPosition(visibleSize.width/2, visibleSize.height/2);
 	bg->setScaleX(visibleSize.width/bg->getContentSize().width);
 	bg->setScaleY(visibleSize.height/bg->getContentSize().height);
-	this->addChild(bg);
+	this->addChild(bg, 0);
 
 	// create new scene
 	MenuItemImage *newgame = MenuItemImage::create("button/bt_000.png", "button/bts_000.png", CC_CALLBACK_1(StartScene::onNewGame, this));

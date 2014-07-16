@@ -86,13 +86,13 @@ bool GameScene::init()
 	obstacle->setTag(3);
 	addChild(obstacle,1);
 
-	spritesVector->pushBack(_player);
-	spritesVector->pushBack(_npc);
-	spritesVector->pushBack(obstacle);
+	spritesVector.pushBack(_player);
+	spritesVector.pushBack(_npc);
+	spritesVector.pushBack(obstacle);
 
 	//设置重力以及初始化BulletManager
 	Vec2 g(0, -800);
-	g_BulletManager = BulletManager::create((Layer*)this, spritesVector, g);
+	g_BulletManager = BulletManager::create((Layer*)this, &spritesVector, g);
 
 	this->scheduleUpdate();
 
