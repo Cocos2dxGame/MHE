@@ -75,6 +75,35 @@ void Person::jumpActionEnd()
 	runAction(_normalAction);
 }
 
+void Person::attacked(bulletType type)
+{
+	if(changeState(Attacked_Action))
+		runAction(_attackedAction);
+
+	switch (type)
+	{
+	case NormalBullet:
+		if(getHP()-10 > 0)
+			setHP(getHP()-10);
+		else
+			setHP(0);
+		break;
+	case SpecialBullet:
+		if(getHP()-20 > 0)
+			setHP(getHP()-20);
+		else
+			setHP(0);
+		break;
+	case StunBullet:
+		if(getHP()-30 > 0)
+			setHP(getHP()-30);
+		else
+			setHP(0);
+		break;
+	default:
+		break;
+	}
+}
 
 bool Person::changeState(ActionState state)
 {

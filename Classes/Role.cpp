@@ -7,9 +7,6 @@ USING_NS_CC;
 
 Role1::Role1()
 {
-	totalHP = 200;
-	HP = 200;
-	SP = 0;
 	strcpy(roleName, "Role1");
 
 	char plistFileName[100];
@@ -73,9 +70,6 @@ bool Role1::init()
 
 Role2::Role2()
 {
-	totalHP = 200;
-	HP = 200;
-	SP = 200;
 	strcpy(roleName, "Role2");
 
 	char plistFileName[100];
@@ -129,9 +123,6 @@ bool Role2::init()
 
 Role3::Role3()
 {
-	totalHP = 200;
-	HP = 200;
-	SP = 200;
 	strcpy(roleName, "Role3");
 
 	char plistFileName[100];
@@ -188,9 +179,6 @@ bool Role3::init()
 
 Role4::Role4()
 {
-	totalHP = 200;
-	HP = 200;
-	SP = 200;
 	strcpy(roleName, "Role4");
 
 	char plistFileName[100];

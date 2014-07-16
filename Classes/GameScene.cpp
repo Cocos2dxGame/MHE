@@ -85,7 +85,7 @@ bool GameScene::init()
 
 	//设置重力以及初始化BulletManager
 	Vec2 g(0, -800);
-	g_BulletManager = BulletManager::create((Layer*)this, g);
+	g_BulletManager = BulletManager::create((GameScene*)this, g);
 
 	this->scheduleUpdate();
 
@@ -132,7 +132,7 @@ void GameScene::setNpcProgressBar()
 {
 	Sprite* bgSprite = Sprite::create("system/ProgressBarBackground1.png");
 	bgSprite ->setScaleX(-1.0);
-	bgSprite->setPosition(visibleSize.width - bgSprite->getContentSize().width/2 - 10, visibleSize.height-20);
+	bgSprite->setPosition(visibleSize.width - bgSprite->getContentSize().width/2 - 70, visibleSize.height-20);
 	addChild(bgSprite,1);
 
 	//设置npc的血量
@@ -166,6 +166,15 @@ void GameScene::setNpcProgressBar()
 
 void GameScene::setMenu()
 {
+	auto pauseItem = MenuItemImage::create(
+										"system/pause.png",
+										"system/pause_selected.png",
+										CC_CALLBACK_1(GameScene::doPause, this));
+	pauseItem->setScale(visibleSize.width/20/pauseItem->getContentSize().width);
+
+	pauseItem->setPosition(Vec2(visibleSize.width - visibleSize.width/12/2,
+		visibleSize.height - visibleSize.height/12/2));
+
 	//退出按钮
 	auto closeItem = MenuItemImage::create(
                                            "CloseNormal.png",
@@ -243,7 +252,7 @@ void GameScene::setMenu()
 	skill3CoolBar->setPosition(skill3Item->getPosition().x, skill3Item->getPosition().y);
 	addChild(skill3CoolBar,2);
 
-	auto menu = Menu::create(closeItem, jumpItem, skill1Item, skill2Item, skill3Item, NULL);
+	auto menu = Menu::create(pauseItem, closeItem, jumpItem, skill1Item, skill2Item, skill3Item, NULL);
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 }
@@ -323,6 +332,8 @@ void GameScene::update(float deltaTime)
 		skill3NeedTime = 0.0f;
 		skill3CoolBar->setPercentage(0);
 	}
+
+	collisionDetection();
 }
 
 //重力加速器方法  
@@ -466,12 +477,40 @@ void GameScene::dealEndTouch()
 	}	
 }
 
+Player* GameScene::getPlayer()
+{
+	return _player;
+}
+
+NPC* GameScene::getNPC()
+{
+	return (NPC*)_npc;
+}
+
+Sprite* GameScene::getObstacle()
+{
+	return obstacle;
+}
+
 void GameScene::collisionDetection()
 {
-	
+	roleHPProgressTimer->setPercentage(_player->getHP()*100 / _player->getTotalHP());
+	roleSPProgressTimer->setPercentage(_player->getSP()*100 / _player->getTotalSP());
+
+	npcHPProgressTimer->setPercentage(_npc->getHP()*100 / _npc->getTotalHP());
+	npcSPProgressTimer->setPercentage(_npc->getSP()*100 / _npc->getTotalSP());
 }
 
 void GameScene::jump(Ref* pSender)
 {
 	_player->jumpAction();
+}
+
+void GameScene::doPause(Ref* pSender)
+{
+	CCDirector::sharedDirector()->pause();  
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();  
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseAllEffects();  
+    PauseLayer *pauseLayer = PauseLayer::create();  
+    addChild(pauseLayer,9999); 
 }

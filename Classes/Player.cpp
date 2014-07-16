@@ -4,9 +4,6 @@ USING_NS_CC;
 
 Player::Player()
 {
-	totalHP = 200;
-	HP = 200;
-	SP = 0;
 	strcpy(roleName, "Role1");
 
 	char plistFileName[100];
@@ -55,6 +52,12 @@ bool Player::init()
 		auto actionBy = JumpBy::create(1, Vec2(0,0), visibleSize.height/4, 1);
 		//auto actionByBack = actionBy->reverse();
 		setJumpAction(Sequence::create(actionBy, callbackJumpEnd, NULL));
+
+		setTotalHP(100);
+		setTotalSP(100);
+
+		setHP(100);
+		setSP(0);
 
 		return true;
 	}while(0);

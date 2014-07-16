@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "NPC.h"
 #include "BulletManager.h"
+#include "PauseLayer.h"
 
 #define FIX_POS(_pos, _min, _max) \
  if (_pos < _min)        \
@@ -28,6 +29,11 @@ public:
     
     //退出按钮
     void menuCloseCallback(cocos2d::Ref* pSender);
+	//跳跃按钮
+	void jump(Ref* pSender);
+	//暂停
+	void doPause(Ref* pSender);
+
 
 	//血条、怒气条、技能冷却条设置
 	void setRoleProgressBar();
@@ -56,13 +62,23 @@ public:
 	//触摸结束后处理事件
 	void dealEndTouch();
 
-	void jump(Ref* pSender);
+	
+	//获取player指针
+	Player* getPlayer();
+	
+	//获取npc指针
+	NPC* getNPC();
+
+	//获取中间障碍物指针
+	Sprite* getObstacle();
 
 	//碰撞检测
 	void collisionDetection();
 
 	//更新
 	virtual void update(float deltaTime);
+
+	
 
 private:
 

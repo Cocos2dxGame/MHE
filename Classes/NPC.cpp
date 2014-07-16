@@ -3,9 +3,6 @@ USING_NS_CC;
 
 NPC::NPC()
 {
-	totalHP = 200;
-	HP = 200;
-	SP = 0;
 	strcpy(roleName, "Role1");
 
 	char plistFileName[100];
@@ -22,9 +19,6 @@ NPC::~NPC()
 //第一个npc
 NPC1::NPC1()
 {
-	totalHP = 200;
-	HP = 200;
-	SP = 0;
 	strcpy(roleName, "Role2");
 
 	char plistFileName[100];
@@ -73,6 +67,12 @@ bool NPC1::init()
 		auto actionBy = JumpBy::create(2, Vec2(0,0), visibleSize.height/4, 1);
 		//auto actionByBack = actionBy->reverse();
 		setJumpAction(Sequence::create(actionBy, callbackNormal, NULL));
+		
+		setTotalHP(100);
+		setTotalSP(100);
+
+		setHP(100);
+		setSP(0);
 
 		return true;
 	}while(0);
@@ -83,9 +83,6 @@ bool NPC1::init()
 //第二个npc
 NPC2::NPC2()
 {
-	totalHP = 200;
-	HP = 200;
-	SP = 0;
 	strcpy(roleName, "Role3");
 
 	char plistFileName[100];
@@ -143,9 +140,6 @@ bool NPC2::init()
 //第三个
 NPC3::NPC3()
 {
-	totalHP = 200;
-	HP = 200;
-	SP = 0;
 	strcpy(roleName, "Role4");
 
 	char plistFileName[100];

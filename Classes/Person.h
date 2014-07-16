@@ -2,6 +2,7 @@
 #define __PERSON_H__
 
 #include "cocos2d.h"
+#include "Bullet.h"
 
 typedef enum {
     Normal_Action = 0,
@@ -27,6 +28,7 @@ public:
 	void victoryAction();
 	void failAction();
 	void jumpActionEnd();
+	void attacked(bulletType type);
 
 	 // 定义每个状态动作的get/set方法
     CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _normalAction, NormalAction);
@@ -41,12 +43,12 @@ public:
 	CC_SYNTHESIZE(unsigned int, _hp, HP); // 生命值
     CC_SYNTHESIZE(unsigned int, _sp, SP); // 怒气值
 
+	CC_SYNTHESIZE(unsigned int, _totalHp, TotalHP); // 生命值
+    CC_SYNTHESIZE(unsigned int, _totalSp, TotalSP); // 怒气值
+
 protected:
 	cocos2d::Animation* createAnimation(const char* fmt, int count, float fps);
 
-	int totalHP;
-	int HP;
-	int SP;
 	char roleName[100];
 
 	cocos2d::SpriteFrameCache* cache;
