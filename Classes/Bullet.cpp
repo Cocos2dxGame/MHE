@@ -1,5 +1,6 @@
 #include "Bullet.h"
 #include "BulletManager.h"
+#include "Person.h"
 
 USING_NS_CC;
 
@@ -18,8 +19,9 @@ Bullet* Bullet::create(bulletType type, Point pos, Vec2 velocity, BulletManager*
 	{	
 		bullet->m_type = type;
 		bullet->m_velocity = velocity;
-		bullet->setPosition(pos);
+		bullet->m_leave = false;
 		bullet->m_pBulletManager = pBulletManager;
+		bullet->setPosition(pos);
 		bullet->setScale(Director::getInstance()->getVisibleSize().height/bullet->getContentSize().height*0.07);
 		return bullet;
 	}
@@ -27,7 +29,7 @@ Bullet* Bullet::create(bulletType type, Point pos, Vec2 velocity, BulletManager*
 	return NULL;
 }
 
-bool Bullet::update(Vec2 acceleration, float deltaTime)
+void Bullet::update(Vec2 acceleration, float deltaTime)
 {
 	
 	// update position
@@ -35,30 +37,68 @@ bool Bullet::update(Vec2 acceleration, float deltaTime)
 	setPosition(pos+=m_velocity*deltaTime+acceleration*deltaTime*deltaTime/2);
 	m_velocity+=acceleration*deltaTime;
 
-	// if the bullet leave the screen
-	if((this->getBoundingBox().getMaxY()<0))
+	if(m_leave)
 	{
-		m_pBulletManager->getLayer()->removeChild(this);
-		return true;
-	}
-	else
-	{
-		// detect bullet collision
-		std::list<Bullet*>::iterator iter;
-		for(iter=m_pBulletManager->getBulletList()->begin(); iter!=m_pBulletManager->getBulletList()->end(); iter++)
+		// if the bullet leave the screen
+		if((this->getBoundingBox().getMaxY()<0))
 		{
-			if(*iter != this)
+			m_pBulletManager->deleteBullet(this);
+			return ;
+		}
+		else
+		{
+			//std::list<Bullet*>::iterator iter;
+			// detect person collision
+			for(Sprite* pSprite : *(m_pBulletManager->getSpriteVector()))
 			{
-				if((*iter)->getBoundingBox().intersectsRect(this->getBoundingBox()))
+				if(pSprite->getBoundingBox().intersectsRect(this->getBoundingBox()))
 				{
-					m_pBulletManager->getLayer()->removeChild(this);
-					m_pBulletManager->getLayer()->removeChild(*iter);
-					m_pBulletManager->getBulletList()->erase(iter);
-					return true;
+					m_pBulletManager->deleteBullet(this);
+
+					switch (pSprite->getTag())
+					{
+					case 1:
+						((Person*)pSprite)->attacked(this->m_type);
+						break;
+					case 2:
+						((Person*)pSprite)->attacked(this->m_type);
+						break;
+					default:
+						break;
+					}
+				}
+			}
+
+			// detect bullet collision
+			for(Bullet* pBullet : *(m_pBulletManager->getBulletVector()))
+			{
+				if(pBullet != this)
+				{
+					if(pBullet->getBoundingBox().intersectsRect(this->getBoundingBox()))
+					{
+						m_pBulletManager->deleteBullet(pBullet);
+						m_pBulletManager->deleteBullet(pBullet);
+						return ;
+					}
 				}
 			}
 		}
 	}
+	else
+	{
+		m_leave = true;
+		for(Sprite* pSprite : *(m_pBulletManager->getSpriteVector()))
+		{
+			if(pSprite->getTag() < 3)
+			{
+				if(pSprite->getBoundingBox().intersectsRect(this->getBoundingBox()))
+				{
+					m_leave = false;
+				}
+			}
+		}
+	}
+	
 
 	// update rotation
 	if(m_velocity.x == 0)
@@ -88,7 +128,6 @@ bool Bullet::update(Vec2 acceleration, float deltaTime)
 		setScaleX(abs(this->getScaleX()));
 	}
 
-	return false;
 }
 
 bulletType Bullet::getType()

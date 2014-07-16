@@ -18,13 +18,14 @@ public:
 	static Bullet* create(bulletType type, cocos2d::Point pos, cocos2d::Vec2 velocity, BulletManager* pBulletManager);
 	
 	/*return true to delete*/
-	bool update(cocos2d::Vec2 acceleration, float deltaTime);
+	void update(cocos2d::Vec2 acceleration, float deltaTime);
 
 	bulletType getType();
 
 private:
 
-	bulletType m_type;
-	cocos2d::Vec2 m_velocity;
-	BulletManager* m_pBulletManager;
+	bulletType		m_type;
+	cocos2d::Vec2	m_velocity;
+	BulletManager*	m_pBulletManager;
+	bool			m_leave;
 };
