@@ -3,13 +3,18 @@
 #include "cocos2d.h"
 #include "Bullet.h"
 
+enum GameSceneType
+{
+	GameScene1, GameScene2, GameScene3
+};
+
 class BulletManager
 {
 public:
 	BulletManager();
 	~BulletManager();
 
-	static BulletManager* create(cocos2d::Layer* curLayer, cocos2d::Vector<cocos2d::Sprite*>* pSpriteVector, cocos2d::Vec2 g);	/* init bullet manager */
+	static BulletManager* create(GameSceneType gamescenetype, cocos2d::Layer* curLayer, cocos2d::Vector<cocos2d::Sprite*>* pSpriteVector, cocos2d::Vec2 g);	/* init bullet manager */
 	void update(float deltaTime);												/* return true delete bullet */
 	void shoot(bulletType type, cocos2d::Point pos, cocos2d::Vec2 velocity);
 	void deleteBullet(Bullet* pBullet);
