@@ -40,11 +40,11 @@ public:
 
 
 	//设置血条、怒气条
-	CC_SYNTHESIZE(unsigned int, _hp, HP); // 生命值
-    CC_SYNTHESIZE(unsigned int, _sp, SP); // 怒气值
+	CC_SYNTHESIZE(int, _hp, HP); // 生命值
+    CC_SYNTHESIZE(int, _sp, SP); // 怒气值
 
-	CC_SYNTHESIZE(unsigned int, _totalHp, TotalHP); // 生命值
-    CC_SYNTHESIZE(unsigned int, _totalSp, TotalSP); // 怒气值
+	CC_SYNTHESIZE(int, _totalHp, TotalHP); // 生命值
+    CC_SYNTHESIZE(int, _totalSp, TotalSP); // 怒气值
 
 protected:
 	cocos2d::Animation* createAnimation(const char* fmt, int count, float fps);

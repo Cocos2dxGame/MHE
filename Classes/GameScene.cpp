@@ -11,13 +11,6 @@ GameScene::GameScene()
 	skill1NeedTime(0.0),skill2NeedTime(0.0), skill3NeedTime(0.0),
 	currentBulletState(NormalBullet)
 {
-	auto listener = EventListenerTouchOneByOne::create();
-	listener->setSwallowTouches(true);
-
-    listener->onTouchBegan = CC_CALLBACK_2(GameScene::onTouchBegan, this);
-	listener->onTouchMoved = CC_CALLBACK_2(GameScene::onTouchMoved, this);
-    listener->onTouchEnded = CC_CALLBACK_2(GameScene::onTouchEnded, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 }
 
 Scene* GameScene::createScene()
@@ -42,6 +35,15 @@ bool GameScene::init()
     {
         return false;
     }
+
+	//´¥Ãþ¼àÌý
+	auto listener = EventListenerTouchOneByOne::create();
+	listener->setSwallowTouches(true);
+
+    listener->onTouchBegan = CC_CALLBACK_2(GameScene::onTouchBegan, this);
+	listener->onTouchMoved = CC_CALLBACK_2(GameScene::onTouchMoved, this);
+    listener->onTouchEnded = CC_CALLBACK_2(GameScene::onTouchEnded, this);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
 	this->setAccelerometerEnabled(true);
 
