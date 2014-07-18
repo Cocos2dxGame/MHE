@@ -43,7 +43,7 @@ void BulletManager::update(float deltaTime)
 void BulletManager::shoot(bulletType type, Point pos, Vec2 velocity)
 {
 	Bullet* pBullet = Bullet::create(type, pos, velocity, this);
-	m_layer->addChild(pBullet, 0);
+	m_layer->addChild(pBullet, 1);
 	m_BulletVector.pushBack(pBullet);
 }
 

@@ -70,9 +70,6 @@ public:
 
 protected:
 	GameSceneType curScene;
-
-
-private:
 	cocos2d::Vector<cocos2d::Sprite*> spritesVector;
 	cocos2d::Sprite* background;
 	Player* _player;

@@ -11,13 +11,13 @@ GameScene::GameScene()
 	skill1NeedTime(0.0),skill2NeedTime(0.0), skill3NeedTime(0.0),
 	currentBulletState(NormalBullet),_npc1(nullptr),_npc2(nullptr),_npc3(nullptr),background(nullptr)
 {
-	curScene = GameScene2;
+	//curScene = GameScene3;
 }
 
 Scene* GameScene::createScene()
 {
     // 'scene' is an autorelease object
-    auto scene = Scene::createWithPhysics();
+    auto scene = Scene::create();
     
     // 'layer' is an autorelease object
     auto layer = GameScene::create();

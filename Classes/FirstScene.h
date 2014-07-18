@@ -10,7 +10,9 @@ public:
 	FirstScene();
 	~FirstScene();
 
-    CREATE_FUNC(FirstScene);
+	static cocos2d::Scene* createScene();
+
+	CREATE_FUNC(FirstScene);
 };
 
 #endif // __FirstScene_SCENE_H__

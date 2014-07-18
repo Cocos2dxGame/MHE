@@ -10,7 +10,9 @@ public:
 	SecondScene();
 	~SecondScene();
 
-    CREATE_FUNC(SecondScene);
+	static cocos2d::Scene* createScene();
+
+	CREATE_FUNC(SecondScene);
 };
 
 #endif 

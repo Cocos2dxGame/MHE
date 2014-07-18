@@ -10,7 +10,10 @@ public:
 	ThirdScene();
 	~ThirdScene();
 
-    CREATE_FUNC(ThirdScene);
+	static cocos2d::Scene* createScene();
+
+	CREATE_FUNC(ThirdScene);
+
 };
 
 #endif 

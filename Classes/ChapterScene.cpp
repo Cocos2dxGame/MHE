@@ -75,8 +75,7 @@ bool ChapterScene::init()
 	std::string images[] = {"background/bg_002.png", "background/bg_003.png", "background/bg_004.png"};
 	int imagesNum = 3;
 	m_imageWidth = visibleSize.width * 0.6;
-	//m_imageHeight = visibleSize.height * 0.6;
-	m_imageHeight = 384;
+	m_imageHeight = visibleSize.height * 0.6;
 	m_imageSpace = visibleSize.width * 0.05;
 	float imageOrigin = m_imageSpace + m_imageWidth/2;
 	m_xmin = 0;
