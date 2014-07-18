@@ -4,18 +4,10 @@ USING_NS_CC;
 
 FirstScene::FirstScene()
 {
-
+	curScene = GameScene1;
 }
 
 FirstScene::~FirstScene()
 {
 
-}
-
-bool FirstScene::init()
-{
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
-
-	return true;
 }

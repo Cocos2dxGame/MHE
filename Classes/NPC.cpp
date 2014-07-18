@@ -102,6 +102,7 @@ bool NPC2::init()
 		CC_BREAK_IF(!Person::initWithSpriteFrameName("Role3Normal1.png"));
 
 		CallFunc *callbackNormal = CallFunc::create(std::bind(&NPC2::normalAction, this));
+		CallFunc *callbackJumpEnd = CallFunc::create(std::bind(&NPC2::jumpActionEnd, this));
 
 		Size visibleSize = Director::getInstance()->getVisibleSize();
 		Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -130,6 +131,12 @@ bool NPC2::init()
 		auto actionBy = JumpBy::create(2, Vec2(0,0), visibleSize.height/4, 1);
 		//auto actionByBack = actionBy->reverse();
 		setJumpAction(Sequence::create(actionBy, callbackNormal, NULL));
+		
+		setTotalHP(100);
+		setTotalSP(100);
+
+		setHP(100);
+		setSP(0);
 
 		return true;
 	}while(0);
@@ -159,6 +166,7 @@ bool NPC3::init()
 		CC_BREAK_IF(!Person::initWithSpriteFrameName("Role4Normal1.png"));
 
 		CallFunc *callbackNormal = CallFunc::create(std::bind(&NPC3::normalAction, this));
+		CallFunc *callbackJumpEnd = CallFunc::create(std::bind(&NPC3::jumpActionEnd, this));
 
 		Size visibleSize = Director::getInstance()->getVisibleSize();
 		Vec2 origin = Director::getInstance()->getVisibleOrigin();
@@ -187,6 +195,12 @@ bool NPC3::init()
 		auto actionBy = JumpBy::create(2, Vec2(0,0), visibleSize.height/4, 1);
 		//auto actionByBack = actionBy->reverse();
 		setJumpAction(Sequence::create(actionBy, callbackNormal, NULL));
+		
+		setTotalHP(100);
+		setTotalSP(100);
+
+		setHP(100);
+		setSP(0);
 
 		return true;
 	}while(0);

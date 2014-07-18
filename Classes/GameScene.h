@@ -44,7 +44,7 @@ public:
 	void setNpcRage(unsigned int npcCurrrentRage);
 	
 	//技能栏设置
-	void setMenu();
+	void setMenu(GameSceneType curScene);
 	void selectedSkill1(cocos2d::Ref* pSender);
 	void selectedSkill2(cocos2d::Ref* pSender);
 	void selectedSkill3(cocos2d::Ref* pSender);
@@ -62,29 +62,26 @@ public:
 	//触摸结束后处理事件
 	void dealEndTouch();
 
-	
-	//获取player指针
-	Player* getPlayer();
-	
-	//获取npc指针
-	NPC* getNPC();
-
-	//获取中间障碍物指针
-	cocos2d::Sprite* getObstacle();
-
 	//碰撞检测
 	void collisionDetection();
 
 	//更新
 	virtual void update(float deltaTime);
 
-	
+protected:
+	GameSceneType curScene;
+
 
 private:
 	cocos2d::Vector<cocos2d::Sprite*> spritesVector;
+	cocos2d::Sprite* background;
 	Player* _player;
-	NPC1* _npc;
+	NPC1* _npc1;
+	NPC2* _npc2;
+	NPC3* _npc3;
+	NPC* _curNPC;
 	cocos2d::Sprite* obstacle;
+	cocos2d::Vec2 g;
 
 	//人物的血条、怒气条
 	cocos2d::ProgressTimer* roleHPProgressTimer;
@@ -96,6 +93,10 @@ private:
 	cocos2d::MenuItemSprite* skill1Item;
 	cocos2d::MenuItemSprite* skill2Item;
 	cocos2d::MenuItemSprite* skill3Item;
+
+	cocos2d::Sprite* skill1CoolSprite;
+	cocos2d::Sprite* skill2CoolSprite;
+	cocos2d::Sprite* skill3CoolSprite;
 
 	//3个技能的冷却条
 	cocos2d::ProgressTimer* skill1CoolBar;

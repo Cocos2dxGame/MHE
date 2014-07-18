@@ -9,8 +9,9 @@ GameScene::GameScene()
 	:roleCurrentHP(0),roleCurrentSP(0),npcCurrentHP(0),npcCurrrentSP(0),
 	skill1CoolDownTime(0.2),skill2CoolDownTime(5.0),skill3CoolDownTime(10.0),
 	skill1NeedTime(0.0),skill2NeedTime(0.0), skill3NeedTime(0.0),
-	currentBulletState(NormalBullet)
+	currentBulletState(NormalBullet),_npc1(nullptr),_npc2(nullptr),_npc3(nullptr),background(nullptr)
 {
+	curScene = GameScene2;
 }
 
 Scene* GameScene::createScene()
@@ -49,22 +50,71 @@ bool GameScene::init()
 
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
+	
+	//music
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("music/background.mp3", true);
 
-	Sprite* background = Sprite::create("background/bg_003.png");
+	
+	//设置角色的血条、怒气条
+	setRoleProgressBar();
+
+	//设置npc的血条、怒气条
+	setNpcProgressBar();
+	//设置技能按钮
+	setMenu(curScene);
+
+	switch (curScene)
+	{
+	case GameScene1:
+		//背景
+		background = Sprite::create("background/bg_002.png");
+
+		//设置npc
+		_npc1 = NPC1::create();
+		_curNPC = (NPC*)_npc1;
+		//_curNPC = NPC2::create();
+
+		//中间障碍物
+		obstacle = Sprite::create("obstacle1.png");
+
+		g = Vec2(0, -800);
+		break;
+	case GameScene2:
+		background = Sprite::create("background/bg_003.png");
+
+		//设置npc
+		_npc2 = NPC2::create();
+		_curNPC = (NPC*)_npc2;
+		//_curNPC = NPC2::create();
+
+		//中间障碍物
+		obstacle = Sprite::create("obstacle2.png");
+
+		g = Vec2(0, -800);
+		break;
+	case GameScene3:
+		background = Sprite::create("background/bg_004.png");
+		
+		//设置npc
+		_npc3 = NPC3::create();
+		_curNPC = (NPC*)_npc3;
+		//_curNPC = NPC2::create();
+
+		//中间障碍物
+		obstacle = Sprite::create("obstacle3.png");
+
+		g = Vec2(0, -800);
+		break;
+	default:
+		break;
+	}
+	
+	//设置背景坐标，以及添加到层
 	background->setScaleX(visibleSize.width/background->getContentSize().width);
 	background->setScaleY(visibleSize.height/background->getContentSize().height);
 	background->setPosition(visibleSize.width/2, visibleSize.height/2);
 	addChild(background,0);
 
-	//music
-	CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("music/background.mp3", true);
-
-	//设置角色和npc的血条、怒气条
-	setRoleProgressBar();
-	setNpcProgressBar();
-	//设置技能按钮
-	setMenu();
-	
 	//设置player
 	_player = Player::create();
 	_player->retain();
@@ -75,26 +125,25 @@ bool GameScene::init()
 	_player->normalAction();
 
 	//设置npc
-	_npc = NPC1::create();
-	_npc->setPosition(700,200);
-	_npc->setScale(0.5);
-	_npc->setTag(2);
-	addChild(_npc,1);
-	_npc->normalAction();
+	_curNPC->setPosition(700,200);
+	_curNPC->setScale(0.5);
+	_curNPC->setTag(2);
+	addChild(_curNPC,1);
+	_curNPC->attackedAction();
 
-	//中间障碍物
-	obstacle = Sprite::create("obstacle.png");
+	//设置障碍物坐标，以及添加到层
 	obstacle->setPosition(Vec2(visibleSize.width/2, 220));
 	obstacle->setTag(3);
 	addChild(obstacle,1);
-
+	
+	//将player添加到spriteVector中
 	spritesVector.pushBack(_player);
-	spritesVector.pushBack(_npc);
+	spritesVector.pushBack(_curNPC);
 	spritesVector.pushBack(obstacle);
 
 	//设置重力以及初始化BulletManager
-	Vec2 g(0, -800);
-	g_BulletManager = BulletManager::create((Layer*)this, &spritesVector, g);
+	
+	g_BulletManager = BulletManager::create(curScene,(Layer*)this, &spritesVector, g);
 
 	this->scheduleUpdate();
 
@@ -173,8 +222,9 @@ void GameScene::setNpcProgressBar()
 	addChild(npcSPProgressTimer,1);
 }
 
-void GameScene::setMenu()
+void GameScene::setMenu(GameSceneType curScene)
 {
+	//暂停按钮
 	auto pauseItem = MenuItemImage::create(
 										"button/pause.png",
 										"button/pause_selected.png",
@@ -195,25 +245,121 @@ void GameScene::setMenu()
 
 	//Jump按钮
 	auto jumpItem = MenuItemImage::create(
-                                           "jump.png",
-                                           "jump.png",
+                                           "button/jump.png",
+                                           "button/jump.png",
                                            CC_CALLBACK_1(GameScene::jump, this));
     
 	jumpItem->setPosition(Vec2(visibleSize.width - 100, jumpItem->getContentSize().height/2));
 
-   //技能1按钮
-	skill1Item = MenuItemSprite::create(Sprite::create("skill/skill1.png"),
-		Sprite::create("skill/skill1_selected.png"),
-		Sprite::create("skill/skill1_disabled.png"),
-		CC_CALLBACK_1(GameScene::selectedSkill1,this));
+	switch (curScene)
+	{
+	case GameScene1:
+		//技能1按钮
+		skill1Item = MenuItemSprite::create(Sprite::create("skill/skill11.png"),
+			Sprite::create("skill/skill11_selected.png"),
+			Sprite::create("skill/skill11_disabled.png"),
+			CC_CALLBACK_1(GameScene::selectedSkill1,this));
+
+		//技能2按钮
+		skill2Item = MenuItemSprite::create(Sprite::create("skill/skill12.png"),
+			Sprite::create("skill/skill12_selected.png"),
+			Sprite::create("skill/skill12_disabled.png"),
+			CC_CALLBACK_1(GameScene::selectedSkill2,this));
+
+		//技能3按钮
+		skill3Item = MenuItemSprite::create(Sprite::create("skill/skill13.png"),
+			Sprite::create("skill/skill13_selected.png"),
+			Sprite::create("skill/skill13_disabled.png"),
+			CC_CALLBACK_1(GameScene::selectedSkill3,this));
+
+		//设置Skill1的冷却条
+		skill1CoolSprite = Sprite::create("skill/skill11_disabled.png");
+		skill1CoolBar = ProgressTimer::create(skill1CoolSprite);
+
+		//设置Skill2的冷却条
+		skill2CoolSprite = Sprite::create("skill/skill12_disabled.png");
+		skill2CoolBar = ProgressTimer::create(skill2CoolSprite);
+
+		//设置Skill3的冷却条
+		skill3CoolSprite = Sprite::create("skill/skill13_disabled.png");
+		skill3CoolBar = ProgressTimer::create(skill3CoolSprite);
+		break;
+	case GameScene2:
+		//技能1按钮
+		skill1Item = MenuItemSprite::create(Sprite::create("skill/skill21.png"),
+			Sprite::create("skill/skill21_selected.png"),
+			Sprite::create("skill/skill21_disabled.png"),
+			CC_CALLBACK_1(GameScene::selectedSkill1,this));
+
+		//技能2按钮
+		skill2Item = MenuItemSprite::create(Sprite::create("skill/skill22.png"),
+			Sprite::create("skill/skill22_selected.png"),
+			Sprite::create("skill/skill22_disabled.png"),
+			CC_CALLBACK_1(GameScene::selectedSkill2,this));
+
+		//技能3按钮
+		skill3Item = MenuItemSprite::create(Sprite::create("skill/skill23.png"),
+			Sprite::create("skill/skill23_selected.png"),
+			Sprite::create("skill/skill23_disabled.png"),
+			CC_CALLBACK_1(GameScene::selectedSkill3,this));
+
+		//设置Skill1的冷却条
+		skill1CoolSprite = Sprite::create("skill/skill21_disabled.png");
+		skill1CoolBar = ProgressTimer::create(skill1CoolSprite);
+
+		//设置Skill2的冷却条
+		skill2CoolSprite = Sprite::create("skill/skill22_disabled.png");
+		skill2CoolBar = ProgressTimer::create(skill2CoolSprite);
+
+		//设置Skill3的冷却条
+		skill3CoolSprite = Sprite::create("skill/skill23_disabled.png");
+		skill3CoolBar = ProgressTimer::create(skill3CoolSprite);
+		break;
+	case GameScene3:
+		//技能1按钮
+		skill1Item = MenuItemSprite::create(Sprite::create("skill/skill31.png"),
+			Sprite::create("skill/skill31_selected.png"),
+			Sprite::create("skill/skill31_disabled.png"),
+			CC_CALLBACK_1(GameScene::selectedSkill1,this));
+
+		//技能2按钮
+		skill2Item = MenuItemSprite::create(Sprite::create("skill/skill32.png"),
+			Sprite::create("skill/skill32_selected.png"),
+			Sprite::create("skill/skill32_disabled.png"),
+			CC_CALLBACK_1(GameScene::selectedSkill2,this));
+
+		//技能3按钮
+		skill3Item = MenuItemSprite::create(Sprite::create("skill/skill33.png"),
+			Sprite::create("skill/skill33_selected.png"),
+			Sprite::create("skill/skill33_disabled.png"),
+			CC_CALLBACK_1(GameScene::selectedSkill3,this));
+
+		//设置Skill1的冷却条
+		skill1CoolSprite = Sprite::create("skill/skill31_disabled.png");
+		skill1CoolBar = ProgressTimer::create(skill1CoolSprite);
+
+		//设置Skill2的冷却条
+		skill2CoolSprite = Sprite::create("skill/skill32_disabled.png");
+		skill2CoolBar = ProgressTimer::create(skill2CoolSprite);
+
+		//设置Skill3的冷却条
+		skill3CoolSprite = Sprite::create("skill/skill33_disabled.png");
+		skill3CoolBar = ProgressTimer::create(skill3CoolSprite);
+		break;
+	default:
+		break;
+	}
+   
     
 	skill1Item->setPosition(Vec2(skill1Item->getContentSize().width/2+200,
                                 skill1Item->getContentSize().height/2));
 
-	//设置Skill1的冷却条
-	Sprite* skill1CoolSprite = Sprite::create("skill/skill1_disabled.png");
+	skill2Item->setPosition(Vec2(skill1Item->getPosition().x + 60 ,
+                                skill1Item->getPosition().y));
 
-	skill1CoolBar = ProgressTimer::create(skill1CoolSprite);
+	skill3Item->setPosition(Vec2(skill2Item->getPosition().x + 60 ,
+                                skill2Item->getPosition().y));
+
 	skill1CoolBar->setType(kCCProgressTimerTypeBar);
 	skill1CoolBar->setMidpoint(ccp(0.5,0));
 	skill1CoolBar->setBarChangeRate(ccp(0,1));
@@ -221,19 +367,6 @@ void GameScene::setMenu()
 	skill1CoolBar->setPosition(skill1Item->getPosition().x, skill1Item->getPosition().y);
 	addChild(skill1CoolBar,2);
 
-	//技能2按钮
-	skill2Item = MenuItemSprite::create(Sprite::create("skill/skill2.png"),
-		Sprite::create("skill/skill2_selected.png"),
-		Sprite::create("skill/skill2_disabled.png"),
-		CC_CALLBACK_1(GameScene::selectedSkill2,this));
-    
-	skill2Item->setPosition(Vec2(skill1Item->getPosition().x + 60 ,
-                                skill1Item->getPosition().y));
-
-	//设置Skill2的冷却条
-	Sprite* skill2CoolSprite = Sprite::create("skill/skill2_disabled.png");
-
-	skill2CoolBar = ProgressTimer::create(skill2CoolSprite);
 	skill2CoolBar->setType(kCCProgressTimerTypeBar);
 	skill2CoolBar->setMidpoint(ccp(0.5,0));
 	skill2CoolBar->setBarChangeRate(ccp(0,1));
@@ -241,19 +374,6 @@ void GameScene::setMenu()
 	skill2CoolBar->setPosition(skill2Item->getPosition().x, skill2Item->getPosition().y);
 	addChild(skill2CoolBar,2);
 
-	//技能3按钮
-	skill3Item = MenuItemSprite::create(Sprite::create("skill/skill3.png"),
-		Sprite::create("skill/skill3_selected.png"),
-		Sprite::create("skill/skill3_disabled.png"),
-		CC_CALLBACK_1(GameScene::selectedSkill3,this));
-    
-	skill3Item->setPosition(Vec2(skill2Item->getPosition().x + 60 ,
-                                skill2Item->getPosition().y));
-
-	//设置Skill的冷却条
-	Sprite* skill3CoolSprite = Sprite::create("skill/skill3_disabled.png");
-
-	skill3CoolBar = ProgressTimer::create(skill3CoolSprite);
 	skill3CoolBar->setType(kCCProgressTimerTypeBar);
 	skill3CoolBar->setMidpoint(ccp(0.5,0));
 	skill3CoolBar->setBarChangeRate(ccp(0,1));
@@ -261,6 +381,7 @@ void GameScene::setMenu()
 	skill3CoolBar->setPosition(skill3Item->getPosition().x, skill3Item->getPosition().y);
 	addChild(skill3CoolBar,2);
 
+	//添加菜单 
 	auto menu = Menu::create(pauseItem, closeItem, jumpItem, skill1Item, skill2Item, skill3Item, NULL);
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
@@ -486,28 +607,13 @@ void GameScene::dealEndTouch()
 	}	
 }
 
-Player* GameScene::getPlayer()
-{
-	return _player;
-}
-
-NPC* GameScene::getNPC()
-{
-	return (NPC*)_npc;
-}
-
-Sprite* GameScene::getObstacle()
-{
-	return obstacle;
-}
-
 void GameScene::collisionDetection()
 {
 	roleHPProgressTimer->setPercentage(_player->getHP()*100 / _player->getTotalHP());
 	roleSPProgressTimer->setPercentage(_player->getSP()*100 / _player->getTotalSP());
 
-	npcHPProgressTimer->setPercentage(_npc->getHP()*100 / _npc->getTotalHP());
-	npcSPProgressTimer->setPercentage(_npc->getSP()*100 / _npc->getTotalSP());
+	npcHPProgressTimer->setPercentage(_curNPC->getHP()*100 / _curNPC->getTotalHP());
+	npcSPProgressTimer->setPercentage(_curNPC->getSP()*100 / _curNPC->getTotalSP());
 }
 
 void GameScene::jump(Ref* pSender)

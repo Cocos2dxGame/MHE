@@ -4,7 +4,7 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>Role3Attaked1.png</key>
+            <key>Role3Attacked1.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{1128,2},{184,217}}</string>
@@ -17,7 +17,7 @@
                 <key>sourceSize</key>
                 <string>{184,217}</string>
             </dict>
-            <key>Role3Attaked2.png</key>
+            <key>Role3Attacked2.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{909,2},{184,217}}</string>

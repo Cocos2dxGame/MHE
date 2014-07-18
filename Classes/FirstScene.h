@@ -10,10 +10,6 @@ public:
 	FirstScene();
 	~FirstScene();
 
-	virtual bool init();  
-    
-    void menuCloseCallback(cocos2d::Ref* pSender);
-    
     CREATE_FUNC(FirstScene);
 };
 
