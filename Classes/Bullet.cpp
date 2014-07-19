@@ -22,7 +22,16 @@ Bullet* Bullet::create(bulletType type, Point pos, Vec2 velocity, BulletManager*
 		bullet->m_leave = false;
 		bullet->m_pBulletManager = pBulletManager;
 		bullet->setPosition(pos);
-		bullet->setScale(Director::getInstance()->getVisibleSize().height/bullet->getContentSize().height*0.07);
+		
+		//根据速度的x分量设置子弹的缩放
+		if(velocity.x < 0)
+		{
+			bullet->setScale(-(Director::getInstance()->getVisibleSize().height/bullet->getContentSize().height*0.07), 
+				Director::getInstance()->getVisibleSize().height/bullet->getContentSize().height*0.07);
+		}
+		else
+			bullet->setScale(Director::getInstance()->getVisibleSize().height/bullet->getContentSize().height*0.07);
+		
 		return bullet;
 	}
 
@@ -116,16 +125,6 @@ void Bullet::update(Vec2 acceleration, float deltaTime)
 	{
 		float cita = atan(m_velocity.y/m_velocity.x);
 		setRotation(-cita*180/3.14);
-	}
-
-	// update scale
-	if(m_velocity.x < 0)
-	{
-		setScaleX(-abs(this->getScaleX()));
-	}
-	else 
-	{
-		setScaleX(abs(this->getScaleX()));
 	}
 
 }
