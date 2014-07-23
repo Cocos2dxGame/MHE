@@ -39,18 +39,18 @@ bool StartScene::init()
 	this->addChild(bg, 0);
 
 	// create new scene
-	MenuItemImage *newgame = MenuItemImage::create("button/bt_000.png", "button/bts_000.png", CC_CALLBACK_1(StartScene::onNewGame, this));
-	MenuItemImage *config = MenuItemImage::create("button/bt_001.png", "button/bts_001.png", CC_CALLBACK_1(StartScene::onNewGame, this));
-	MenuItemImage *help = MenuItemImage::create("button/bt_002.png", "button/bts_002.png", CC_CALLBACK_1(StartScene::onNewGame, this));
-	float scale = visibleSize.width/800;
+	MenuItemImage *newgame = MenuItemImage::create("button/bt_000.png", "button/bt_000.png", CC_CALLBACK_1(StartScene::onNewGame, this));
+	MenuItemImage *config = MenuItemImage::create("button/bt_001.png", "button/bt_001.png", CC_CALLBACK_1(StartScene::onNewGame, this));
+	MenuItemImage *help = MenuItemImage::create("button/bt_002.png", "button/bt_002.png", CC_CALLBACK_1(StartScene::onNewGame, this));
+	float scale = visibleSize.width/1300;
 	newgame->setScale(scale);
 	config->setScale(scale);
 	help->setScale(scale);
 
 	Menu *menu = Menu::create(newgame, config ,help, NULL);
 
-	menu->setPosition(visibleSize.width*0.73, visibleSize.height*0.286);
-	menu->alignItemsVerticallyWithPadding(0.05*visibleSize.height);
+	menu->setPosition(visibleSize.width*0.26, visibleSize.height*0.33);
+	menu->alignItemsVerticallyWithPadding(0.014*visibleSize.height);
 	this->addChild(menu, 2);
 
 	return true;
