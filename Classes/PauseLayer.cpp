@@ -1,4 +1,4 @@
-#include "PauseLayer.h"
+﻿#include "PauseLayer.h"
 USING_NS_CC;
 
 PauseLayer::PauseLayer()

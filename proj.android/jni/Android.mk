@@ -25,7 +25,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 		   ../../Classes/PauseLayer.cpp \
 		   ../../Classes/FirstScene.cpp \
 		   ../../Classes/SecondScene.cpp \
-		   ../../Classes/ThirdScene.cpp 
+		   ../../Classes/ThirdScene.cpp  \
+		   ../../Classes/StateController.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 

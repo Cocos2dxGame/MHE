@@ -46,13 +46,11 @@ bool GameScene::init()
     listener->onTouchEnded = CC_CALLBACK_2(GameScene::onTouchEnded, this);
     _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
-	this->setAccelerometerEnabled(true);
-
     visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
 	
 	//music
-	CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("music/background.mp3", true);
+	//CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("music/background.mp3", true);
 
 	
 	//设置角色的血条、怒气条
@@ -129,10 +127,11 @@ bool GameScene::init()
 	_curNPC->setScale(0.5);
 	_curNPC->setTag(2);
 	addChild(_curNPC,1);
-	_curNPC->attackedAction();
+	_curNPC->normalAction();
 
 	//设置障碍物坐标，以及添加到层
 	obstacle->setPosition(Vec2(visibleSize.width/2, 220));
+	obstacle->setScale(0.6);
 	obstacle->setTag(3);
 	addChild(obstacle,1);
 	
@@ -144,6 +143,9 @@ bool GameScene::init()
 	//设置重力以及初始化BulletManager
 	
 	g_BulletManager = BulletManager::create(curScene,(Layer*)this, &spritesVector, g);
+
+	//NPC* curNPC, Player* curPlayer, cocos2d::Vec2 gravity, BulletManager* m_pBulletManger
+	stateController = StateController::create(_curNPC, _player, g, g_BulletManager);
 
 	this->scheduleUpdate();
 
@@ -243,13 +245,13 @@ void GameScene::setMenu(GameSceneType curScene)
 	closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
                                 origin.y + closeItem->getContentSize().height/2));
 
-	//Jump按钮
-	auto jumpItem = MenuItemImage::create(
-                                           "button/jump.png",
-                                           "button/jump.png",
-                                           CC_CALLBACK_1(GameScene::jump, this));
-    
-	jumpItem->setPosition(Vec2(visibleSize.width - 100, jumpItem->getContentSize().height/2));
+	////Jump按钮
+	//auto jumpItem = MenuItemImage::create(
+ //                                          "button/jump.png",
+ //                                          "button/jump.png",
+ //                                          CC_CALLBACK_1(GameScene::jump, this));
+ //   
+	//jumpItem->setPosition(Vec2(visibleSize.width - 100, jumpItem->getContentSize().height/2));
 
 	switch (curScene)
 	{
@@ -382,7 +384,7 @@ void GameScene::setMenu(GameSceneType curScene)
 	addChild(skill3CoolBar,2);
 
 	//添加菜单 
-	auto menu = Menu::create(pauseItem, closeItem, jumpItem, skill1Item, skill2Item, skill3Item, NULL);
+	auto menu = Menu::create(pauseItem, closeItem, skill1Item, skill2Item, skill3Item, NULL);
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 }
@@ -405,6 +407,17 @@ void GameScene::selectedSkill3(Ref* pSender)
 void GameScene::update(float deltaTime)
 {
 	g_BulletManager->update(deltaTime);
+
+	stateController->update(deltaTime);
+
+	if(_player->getActionState() == Move_Action)
+	{
+		if(playerDestination.x > _player->getPosition().x+1)
+			_player->setPosition(_player->getPosition() + Vec2(2,0));
+		else if(playerDestination.x < _player->getPosition().x-1)
+			_player->setPosition(_player->getPosition() - Vec2(2,0));
+	}
+
 	//更新血量，怒气
 	
 	//更新bullet的选择状态
@@ -466,29 +479,29 @@ void GameScene::update(float deltaTime)
 	collisionDetection();
 }
 
-//重力加速器方法  
-void GameScene::onAcceleration(Acceleration* acc, Event* event)
-{
-	if(acc->x > 0.25)
-	{
-		if((_player->getPosition().x + _player->getContentSize().width/2) < obstacle->getPosition().x - obstacle->getContentSize().width/2)
-		{
-			_player->setFlippedX(false);
-			_player->setPosition(_player->getPosition().x+2, _player->getPosition().y);
-			_player->normalAction();
-		}
-	}
-
-	if(acc->x < -0.25)
-	{
-		if(_player->getPosition().x - _player->getContentSize().width/2 > 0)
-		{
-			_player->setFlippedX(true);
-			_player->setPosition(_player->getPosition().x-2, _player->getPosition().y);
-			_player->normalAction();
-		}
-	}
-}
+////重力加速器方法  
+//void GameScene::onAcceleration(Acceleration* acc, Event* event)
+//{
+//	if(acc->x > 0.25)
+//	{
+//		if((_player->getPosition().x + _player->getContentSize().width/2) < obstacle->getPosition().x - obstacle->getContentSize().width/2)
+//		{
+//			_player->setFlippedX(false);
+//			_player->setPosition(_player->getPosition().x+2, _player->getPosition().y);
+//			_player->normalAction();
+//		}
+//	}
+//
+//	if(acc->x < -0.25)
+//	{
+//		if(_player->getPosition().x - _player->getContentSize().width/2 > 0)
+//		{
+//			_player->setFlippedX(true);
+//			_player->setPosition(_player->getPosition().x-2, _player->getPosition().y);
+//			_player->normalAction();
+//		}
+//	}
+//}
 
 void GameScene::menuCloseCallback(Ref* pSender)
 {
@@ -511,10 +524,18 @@ bool GameScene::contaiinsTouchLocation(Touch* touch)
 
 bool GameScene::onTouchBegan(Touch* touch, Event* event)
 {
-	if ( !contaiinsTouchLocation(touch) ) return false;
-    
+	if ( !contaiinsTouchLocation(touch) )
+	{
+		playerDestination = touch->getLocation();
+		if(playerDestination.y < visibleSize.height/2 && playerDestination.x < visibleSize.width/2)
+			_player->moveAction();
+		else
+			_player->jumpAction();
+		return false;
+	}
+
 	startPosition = touch->getLocation();
-    return true;
+	return true;
 }
 
 void GameScene::onTouchMoved(Touch* touch, Event* event)
@@ -560,6 +581,7 @@ void GameScene::dealEndTouch()
 					_player->setFlippedX(-1);
 
 			g_BulletManager->shoot(NormalBullet, pos, velocity);
+			stateController->playerShooting(pos, velocity);
 			//CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect();
 			_player->fireAction();
 		}
@@ -614,11 +636,6 @@ void GameScene::collisionDetection()
 
 	npcHPProgressTimer->setPercentage(_curNPC->getHP()*100 / _curNPC->getTotalHP());
 	npcSPProgressTimer->setPercentage(_curNPC->getSP()*100 / _curNPC->getTotalSP());
-}
-
-void GameScene::jump(Ref* pSender)
-{
-	_player->jumpAction();
 }
 
 void GameScene::doPause(Ref* pSender)

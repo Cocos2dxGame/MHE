@@ -8,6 +8,7 @@
 #include "NPC.h"
 #include "BulletManager.h"
 #include "PauseLayer.h"
+#include "StateController.h"
 
 #define FIX_POS(_pos, _min, _max) \
  if (_pos < _min)        \
@@ -49,8 +50,8 @@ public:
 	void selectedSkill2(cocos2d::Ref* pSender);
 	void selectedSkill3(cocos2d::Ref* pSender);
 
-	//重力加速器
-	void onAcceleration(cocos2d::Acceleration* acc, cocos2d::Event* unused_event);
+	////重力加速器
+	//void onAcceleration(cocos2d::Acceleration* acc, cocos2d::Event* unused_event);
 
 	//单点触摸函数
 	bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event  *event);
@@ -79,6 +80,7 @@ protected:
 	NPC* _curNPC;
 	cocos2d::Sprite* obstacle;
 	cocos2d::Vec2 g;
+	StateController* stateController;
 
 	//人物的血条、怒气条
 	cocos2d::ProgressTimer* roleHPProgressTimer;
@@ -127,6 +129,7 @@ protected:
 	//触摸的开始点和结束点
 	cocos2d::Vec2 startPosition;
 	cocos2d::Vec2 endPosition;
+	cocos2d::Vec2 playerDestination;
 
     CREATE_FUNC(GameScene);
 };

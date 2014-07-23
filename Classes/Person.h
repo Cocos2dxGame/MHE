@@ -38,6 +38,8 @@ public:
 	CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _jumpAction, JumpAction);
     CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _victoryAction, VictoryAction);
 
+	// 精灵的当前状态
+    CC_SYNTHESIZE(ActionState, _currentState, ActionState);
 
 	//设置血条、怒气条
 	CC_SYNTHESIZE(int, _hp, HP); // 生命值
@@ -50,12 +52,10 @@ protected:
 	cocos2d::Animation* createAnimation(const char* fmt, int count, float fps);
 
 	char roleName[100];
-
 	cocos2d::SpriteFrameCache* cache;
 
 private:
 	bool changeState(ActionState state);
-	ActionState _currentState;
 	bool isJumping;
 
 };

@@ -1,4 +1,4 @@
-#ifndef __NPC_H__
+﻿#ifndef __NPC_H__
 #define __NPC_H__
 #include"Person.h"
 #include"Player.h"
