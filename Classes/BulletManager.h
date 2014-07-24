@@ -23,6 +23,7 @@ public:
 	cocos2d::Layer* getLayer();
 
 	void clean();
+	GameSceneType SceneType;
 
 private:
 
