@@ -121,7 +121,7 @@ void Bullet::update(Vec2 acceleration, float deltaTime)
 	if(m_leave)
 	{
 		// if the bullet leave the screen
-		if((this->getBoundingBox().getMaxY()<0))
+		if((this->getBoundingBox().getMaxY()<Director::getInstance()->getVisibleSize().height*0.18))
 		{
 			m_pBulletManager->deleteBullet(this);
 			return ;
