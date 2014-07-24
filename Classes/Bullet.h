@@ -27,9 +27,9 @@ public:
 
 private:
 
-	bulletType		m_type;
-	cocos2d::Vec2	m_velocity;
+	bulletType					m_type;
+	cocos2d::Vec2				m_velocity;
 	cocos2d::ParticleSystemQuad *m_emitter;
-	BulletManager*	m_pBulletManager;
-	bool			m_leave;
+	BulletManager*				m_pBulletManager;
+	bool						m_leave;
 };

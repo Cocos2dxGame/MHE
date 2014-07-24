@@ -18,13 +18,25 @@ Bullet* Bullet::createBullet(bulletType type, Point pos, Vec2 velocity, BulletMa
 	switch (pBulletManager->SceneType*3+type)
 	{
 	case 0:
-		bullet->initWithFile("bullet/bl_003.png");
+		bullet->initWithFile("bullet/bl_000.png");
+		bullet->m_emitter = ParticleMeteor::create();
+		bullet->m_emitter->setEmissionRate(30);
+		bullet->m_emitter->setLife(0.5);
+		bullet->m_emitter->setLifeVar(0.2);
 		break;
 	case 1:
-		bullet->initWithFile("bullet/bl_003.png");
+		bullet->initWithFile("bullet/bl_001.png");
+		bullet->m_emitter = ParticleMeteor::create();
+		bullet->m_emitter->setEmissionRate(30);
+		bullet->m_emitter->setLife(0.5);
+		bullet->m_emitter->setLifeVar(0.2);
 		break;
 	case 2:
-		bullet->initWithFile("bullet/bl_003.png");
+		bullet->initWithFile("bullet/bl_002.png");
+		bullet->m_emitter = ParticleMeteor::create();
+		bullet->m_emitter->setEmissionRate(30);
+		bullet->m_emitter->setLife(0.5);
+		bullet->m_emitter->setLifeVar(0.2);
 		break;
 	case 3:
 		bullet->initWithFile("bullet/bl_003.png");
@@ -42,20 +54,32 @@ Bullet* Bullet::createBullet(bulletType type, Point pos, Vec2 velocity, BulletMa
 		bullet->m_emitter->setLifeVar(0.2);
 		break;
 	case 5:
-		bullet->initWithFile("bullet/bl_003.png");
+		bullet->initWithFile("bullet/bl_005.png");
 		bullet->m_emitter = ParticleMeteor::create();
 		bullet->m_emitter->setEmissionRate(30);
 		bullet->m_emitter->setLife(0.5);
 		bullet->m_emitter->setLifeVar(0.2);
 		break;
 	case 6:
-		bullet->initWithFile("bullet/bl_003.png");
+		bullet->initWithFile("bullet/bl_006.png");
+		bullet->m_emitter = ParticleMeteor::create();
+		bullet->m_emitter->setEmissionRate(30);
+		bullet->m_emitter->setLife(0.5);
+		bullet->m_emitter->setLifeVar(0.2);
 		break;
 	case 7:
-		bullet->initWithFile("bullet/bl_003.png");
+		bullet->initWithFile("bullet/bl_007.png");
+		bullet->m_emitter = ParticleMeteor::create();
+		bullet->m_emitter->setEmissionRate(30);
+		bullet->m_emitter->setLife(0.5);
+		bullet->m_emitter->setLifeVar(0.2);
 		break;
 	case 8:
-		bullet->initWithFile("bullet/bl_003.png");
+		bullet->initWithFile("bullet/bl_008.png");
+		bullet->m_emitter = ParticleMeteor::create();
+		bullet->m_emitter->setEmissionRate(30);
+		bullet->m_emitter->setLife(0.5);
+		bullet->m_emitter->setLifeVar(0.2);
 		break;
 
 	default:
