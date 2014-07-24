@@ -1,4 +1,5 @@
 #include "StateController.h"
+#include <random>
 USING_NS_CC;
 
 StateController::StateController():
@@ -9,6 +10,8 @@ StateController::StateController():
 {
 	visibleSize = Director::getInstance()->getVisibleSize();
     origin = Director::getInstance()->getVisibleOrigin();
+
+	srand(0);
 }
 
 StateController::~StateController()
@@ -33,25 +36,15 @@ void StateController::playerShooting(cocos2d::Vec2 shootPositon, cocos2d::Vec2 v
 	CCLOG("the hit position is x=%f, y=%f",hitPosition.x, hitPosition.y);
 }
 
-bool StateController::isCollision()
-{
-	if(hitPosition.x > curNPC->getBoundingBox().getMinX() && hitPosition.x < curNPC->getBoundingBox().getMaxX())
-		if(hitPosition.y > curNPC->getBoundingBox().getMinY() && hitPosition.y< curNPC->getBoundingBox().getMaxY())
-			return true;
-
-	return false;
-}
-
 void StateController::update(float dt)
 {
 	time += dt;
-	CCLOG("hitposition x=%f, y=%f", hitPosition.x, hitPosition.y);
-	if(playerShoot && curNPC->getBoundingBox().intersectsRect(Rect(hitPosition.x-5, hitPosition.y-5, 10, 10)))
+	if(playerShoot && curNPC->getBoundingBox().intersectsRect(Rect(hitPosition.x-150, hitPosition.y-150, 300, 300)))
 	{
 		playerShoot = false;
 		avoid();
 	}
-	else if(time > 4)
+	else if(time > 10)
 	{
 		time = 0.0;
 		fire();
@@ -59,47 +52,67 @@ void StateController::update(float dt)
 
 	if(curNPC->getActionState() == Move_Action)
 	{
-		if(curNPC->getActionState() == Move_Action)
-		{
-			if(npcDestination.x > curNPC->getPosition().x+1)
-				curNPC->setPosition(curNPC->getPosition() + Vec2(2,0));
-			else if(npcDestination.x < curNPC->getPosition().x-1)
-				curNPC->setPosition(curNPC->getPosition() - Vec2(2,0));
-		}
+		if(npcDestination.x > curNPC->getPosition().x+1 && curNPC->getBoundingBox().getMaxX()+2 < visibleSize.width-10)
+			curNPC->setPosition(curNPC->getPosition() + Vec2(2,0));
+		else if(npcDestination.x < curNPC->getPosition().x-1 && curNPC->getBoundingBox().getMinX()+2 > visibleSize.width/2+10)
+			curNPC->setPosition(curNPC->getPosition() - Vec2(2,0));
 	}
+
 }
 
 void StateController::fire()
 {
-	Vec2 playerPositon = curPlayer->getPosition();
-	Vec2 shootVelocity;
-	shootVelocity.x =- sqrt((-gravity.y) * (curNPC->getPosition().x - playerPositon.x) / 4);
-	shootVelocity.y = 2 * (-shootVelocity.x);
-	
-	curNPC->fireAction();
-	m_pBulletMangeer->shoot(NormalBullet,curNPC->getPosition(),shootVelocity);
+	if(curNPC->getActionState() != Frozen_Action)
+	{
+		Vec2 playerPositon = curPlayer->getPosition();
+		Vec2 shootVelocity;
 
+		//Ëæ»úÊý
+		int temp = 200 * rand()/(RAND_MAX+1.0);
+		CCLOG("rand is %d", temp);
+
+		Vec2 tempPosition = curNPC->getPosition();
+		tempPosition += Vec2(temp-100,0);
+		CCLOG("tempPosition x=%f, y=%f", tempPosition.x, tempPosition.y);
+	
+		shootVelocity.x =- sqrt((-gravity.y) * (tempPosition.x - playerPositon.x) / 4);
+		shootVelocity.y = 2 * (-shootVelocity.x);
+	
+		curNPC->fireAction();
+		m_pBulletMangeer->shoot(NormalBullet,curNPC->getPosition(),shootVelocity);
+	}
 }
 
 void StateController::avoid()
 {
-	Vec2 temp = curNPC->getPosition();
-	if(hitPosition.x < visibleSize.width* 5/8)
+	if(curNPC->getActionState() != Frozen_Action)
 	{
-		curNPC->moveAction();
-		npcDestination = hitPosition + Vec2(visibleSize.width/8,0);
-	}
-	else if(hitPosition.x < visibleSize.width * 7/8)
-	{
-		curNPC->moveAction();
-		if(hitPosition.x < curNPC->getPosition().x)
-			npcDestination = hitPosition + Vec2(visibleSize.width/8,0);
-		else
-			npcDestination = hitPosition - Vec2(visibleSize.width/8,0);
-	}
-	else if(hitPosition.x < visibleSize.width)
-	{
-		curNPC->moveAction();
-		npcDestination = hitPosition - Vec2(visibleSize.width/8,0);
+		Vec2 temp = curNPC->getPosition();
+		if(hitPosition.x < visibleSize.width* 5/8)
+		{
+			curNPC->moveAction();
+			npcDestination = hitPosition + Vec2(visibleSize.width*2/8,0);
+		}
+		else if(hitPosition.x < visibleSize.width * 6/8)
+		{
+			curNPC->moveAction();
+			if(hitPosition.x < curNPC->getPosition().x)
+				npcDestination = hitPosition + Vec2(visibleSize.width*2/8,0);
+			else
+				npcDestination = hitPosition - Vec2(visibleSize.width/8,0);
+		}
+		else if(hitPosition.x < visibleSize.width * 7/8)
+		{
+			curNPC->moveAction();
+			if(hitPosition.x < curNPC->getPosition().x)
+				npcDestination = hitPosition + Vec2(visibleSize.width/8,0);
+			else
+				npcDestination = hitPosition - Vec2(visibleSize.width*2/8,0);
+		}
+		else if(hitPosition.x < visibleSize.width)
+		{
+			curNPC->moveAction();
+			npcDestination = hitPosition - Vec2(visibleSize.width*3/8,0);
+		}
 	}
 }

@@ -42,31 +42,41 @@ Animation* Person::createAnimation(const char* fmt, int count, float fps)
 void Person::normalAction()
 {
 	if(changeState(Normal_Action))
+	{
 		runAction(_normalAction);
+	}
 }
 
 void Person::fireAction()
 {
 	if(changeState(Fire_Action))
+	{
 		runAction(_fireAction);
+	}
 }
 
 void Person::attackedAction()
 {
 	if(changeState(Attacked_Action))
+	{
 		runAction(_attackedAction);
+	}
 }
 
 void Person::moveAction()
 {
 	if(changeState(Move_Action))
+	{
 		runAction(_moveAction);
+	}
 }
 
 void Person::jumpAction()
 {
 	if(changeState(Jump_Action))
+	{
 		runAction(_jumpAction);
+	}
 }
 
 void Person::jumpActionEnd()
@@ -78,7 +88,9 @@ void Person::jumpActionEnd()
 void Person::attacked(bulletType type)
 {
 	if(changeState(Attacked_Action))
+	{
 		runAction(_attackedAction);
+	}
 
 	switch (type)
 	{
@@ -95,6 +107,7 @@ void Person::attacked(bulletType type)
 			setHP(0);
 		break;
 	case StunBullet:
+		frozen();
 		if(getHP()-30 > 0)
 			setHP(getHP()-30);
 		else
@@ -105,23 +118,29 @@ void Person::attacked(bulletType type)
 	}
 }
 
+void Person::frozen()
+{
+	if(changeState(Frozen_Action))
+		runAction(_frozenAction);
+}
+
 bool Person::changeState(ActionState state)
 {
 	// 已经胜利，就不能再出发其他动作了！
     if (_currentState == Vectory_Action) 
-	{
         return false;
-    }
-    
-	if(_currentState == Fail_Action)
-	{
-		return false;
-	}
 
-	if(_currentState == Jump_Action)
-	{
+	// 已经失败，就不能再出发其他动作了！
+	if(_currentState == Fail_Action)
 		return false;
-	}
+
+	// 被冻住，就不能再出发其他动作了！
+	if (_currentState == Frozen_Action)
+		return false;
+
+	//处于跳跃状态时，不执行动作
+	if(_currentState == Jump_Action)
+		return false;
 
     // 已经处于要改变的状态，就没必要在改变了！
     if (_currentState == state) 

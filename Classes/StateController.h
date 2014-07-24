@@ -15,8 +15,6 @@ public:
 
 	void playerShooting(cocos2d::Vec2 shootPositon, cocos2d::Vec2 velocity);
 
-	bool isCollision();
-
 	void avoid();
 
 	void fire();

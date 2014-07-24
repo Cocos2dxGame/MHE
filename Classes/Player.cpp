@@ -48,11 +48,27 @@ bool Player::init()
 		Animation* attackedAnimation = createAnimation(attackedPng,3,12);
 		setAttackedAction(Sequence::create(Animate::create(attackedAnimation), callbackNormal, NULL));
 
+		//±»¶³×¡×´Ì¬ÏÂ
+		const char* frozenPng = String::createWithFormat("%s%s", roleName, "Frozen")->getCString();
+		Animation* frozenAnimation = createAnimation(frozenPng,2,10);
+		setFrozenAction(Sequence::create(Animate::create(frozenAnimation),  DelayTime::create(5), callbackNormal, NULL));
+
 		//ÌøÔ¾×´Ì¬ÏÂ¶¯»­
 		auto actionBy = JumpBy::create(1, Vec2(0,0), visibleSize.height/4, 1);
 		//auto actionByBack = actionBy->reverse();
 		setJumpAction(Sequence::create(actionBy, callbackJumpEnd, NULL));
 
+		//Ê¤Àû×´Ì¬ÏÂ
+		const char* victoryPng = String::createWithFormat("%s%s", roleName, "Victory")->getCString();
+		Animation* victoryAnimation = createAnimation(victoryPng,2,10);
+		setVictoryAction(Sequence::create(Animate::create(victoryAnimation), DelayTime::create(5), NULL));
+
+		//Ê§°Ü×´Ì¬ÏÂ
+		const char* failPng = String::createWithFormat("%s%s", roleName, "Fail")->getCString();
+		Animation* failAnimation = createAnimation(failPng,2,10);
+		setFailAction(Sequence::create(Animate::create(failAnimation), DelayTime::create(5), NULL));
+
+		
 		setTotalHP(100);
 		setTotalSP(100);
 

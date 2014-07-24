@@ -7,7 +7,7 @@ BulletManager* g_BulletManager;
 
 GameScene::GameScene()
 	:roleCurrentHP(0),roleCurrentSP(0),npcCurrentHP(0),npcCurrrentSP(0),
-	skill1CoolDownTime(0.2),skill2CoolDownTime(5.0),skill3CoolDownTime(10.0),
+	skill1CoolDownTime(1.0),skill2CoolDownTime(1.0),skill3CoolDownTime(1.0),
 	skill1NeedTime(0.0),skill2NeedTime(0.0), skill3NeedTime(0.0),
 	currentBulletState(NormalBullet),_npc1(nullptr),_npc2(nullptr),_npc3(nullptr),background(nullptr)
 {
@@ -51,7 +51,9 @@ bool GameScene::init()
 	
 	//music
 	//CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("music/background.mp3", true);
-
+	powerBarBg = Sprite::create("power.png");
+	addChild(powerBarBg,1);
+	powerBarBg->setVisible(false);
 	
 	//设置角色的血条、怒气条
 	setRoleProgressBar();
@@ -116,22 +118,22 @@ bool GameScene::init()
 	//设置player
 	_player = Player::create();
 	_player->retain();
-	_player->setPosition(100,200);
+	_player->setPosition(visibleSize.width/8,visibleSize.height*3/16);
 	_player->setScale(0.5);
 	_player->setTag(1);
 	addChild(_player,1);
 	_player->normalAction();
 
 	//设置npc
-	_curNPC->setPosition(700,200);
+	_curNPC->setPosition(visibleSize.width*7/8,visibleSize.height*3/16);
 	_curNPC->setScale(0.5);
 	_curNPC->setTag(2);
 	addChild(_curNPC,1);
 	_curNPC->normalAction();
 
 	//设置障碍物坐标，以及添加到层
-	obstacle->setPosition(Vec2(visibleSize.width/2, 220));
-	obstacle->setScale(0.6);
+	obstacle->setPosition(Vec2(visibleSize.width/2, visibleSize.height*3/16));
+	obstacle->setScale(0.5);
 	obstacle->setTag(3);
 	addChild(obstacle,1);
 	
@@ -412,9 +414,9 @@ void GameScene::update(float deltaTime)
 
 	if(_player->getActionState() == Move_Action)
 	{
-		if(playerDestination.x > _player->getPosition().x+1)
+		if(playerDestination.x > _player->getPosition().x+1 && _player->getBoundingBox().getMaxX()+2 < visibleSize.width/2-10)
 			_player->setPosition(_player->getPosition() + Vec2(2,0));
-		else if(playerDestination.x < _player->getPosition().x-1)
+		else if(playerDestination.x < _player->getPosition().x-1 && _player->getBoundingBox().getMinX()-2 > 10)
 			_player->setPosition(_player->getPosition() - Vec2(2,0));
 	}
 
@@ -540,13 +542,15 @@ bool GameScene::onTouchBegan(Touch* touch, Event* event)
 
 void GameScene::onTouchMoved(Touch* touch, Event* event)
 {
-
+	Vec2 position = touch->getLocation();
+	powerBarBg->setPosition(position);
+	powerBarBg->setVisible(true);
 }
 
 void GameScene::onTouchEnded(Touch* touch, Event* event)
 {
 	endPosition = touch->getLocation();
-	
+	powerBarBg->setVisible(false);
 	dealEndTouch();
 }
 

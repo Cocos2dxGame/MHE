@@ -12,6 +12,7 @@ typedef enum {
     Attacked_Action,
     Vectory_Action,
 	Fail_Action,
+	Frozen_Action,
 } ActionState;
 
 class Person: public cocos2d::Sprite
@@ -23,6 +24,7 @@ public:
 	void normalAction();
 	void fireAction();
 	void attackedAction();
+	void frozen();
 	void moveAction();
 	void jumpAction();
 	void victoryAction();
@@ -33,10 +35,12 @@ public:
 	 // 定义每个状态动作的get/set方法
     CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _normalAction, NormalAction);
 	CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _attackedAction, AttackedAction);
+	CC_SYNTHESIZE(cocos2d::Action*, _frozenAction, FrozenAction);
     CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _fireAction, FireAction);
     CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _moveAction, MoveAction);
 	CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _jumpAction, JumpAction);
-    CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _victoryAction, VictoryAction);
+    CC_SYNTHESIZE(cocos2d::Action*, _victoryAction, VictoryAction);
+	CC_SYNTHESIZE(cocos2d::Action*, _failAction, FailAction);
 
 	// 精灵的当前状态
     CC_SYNTHESIZE(ActionState, _currentState, ActionState);

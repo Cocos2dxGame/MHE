@@ -73,6 +73,7 @@ protected:
 	GameSceneType curScene;
 	cocos2d::Vector<cocos2d::Sprite*> spritesVector;
 	cocos2d::Sprite* background;
+	cocos2d::Sprite* powerBarBg;
 	Player* _player;
 	NPC1* _npc1;
 	NPC2* _npc2;
