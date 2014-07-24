@@ -17,6 +17,7 @@ BulletManager* BulletManager::create(GameSceneType gamescenetype, Layer* curLaye
 	newManager->m_g = g;
 	newManager->m_layer = curLayer;
 	newManager->m_pSpriteVector = pSpriteVector;
+	newManager->SceneType = gamescenetype;
 	return newManager;
 }
 
@@ -28,11 +29,14 @@ void BulletManager::update(float deltaTime)
 		pBullet->update(m_g, deltaTime);
 	}
 
+	// remove bullet per second
 	for( Bullet* pBullet : m_BulletDeleteVector )
 	{
 		iter = m_BulletVector.find(pBullet);
 		if(iter != m_BulletVector.end())
 		{
+			(*iter)->getEmitter()->setAutoRemoveOnFinish(true);
+			(*iter)->getEmitter()->stopSystem();
 			m_layer->removeChild(*iter);
 			m_BulletVector.erase(iter);
 		}
@@ -42,7 +46,8 @@ void BulletManager::update(float deltaTime)
 
 void BulletManager::shoot(bulletType type, Point pos, Vec2 velocity)
 {
-	Bullet* pBullet = Bullet::create(type, pos, velocity, this);
+	Bullet* pBullet = Bullet::createBullet(type, pos, velocity, this);
+	m_layer->addChild(pBullet->getEmitter(), 1);
 	m_layer->addChild(pBullet, 1);
 	m_BulletVector.pushBack(pBullet);
 }
