@@ -91,27 +91,54 @@ void Person::attacked(bulletType type)
 	switch (type)
 	{
 	case NormalBullet:
+		//设置HP
 		if(getHP()-10 > 0)
 			setHP(getHP()-10);
 		else
 			setHP(0);
+
+		//设置SP
+		if(getSP() + 20 < getTotalSP())
+			setSP(getSP()+20);
+		else
+			setSP(getTotalSP());
+
+		//动作
 		if(changeState(Attacked_Action))
 			runAction(_attackedAction);
 		break;
 
 	case SpecialBullet:
+		//设置HP
 		if(getHP()-20 > 0)
 			setHP(getHP()-20);
 		else
 			setHP(0);
+
+		//设置SP
+		if(getSP() + 20 < getTotalSP())
+			setSP(getSP()+20);
+		else
+			setSP(getTotalSP());
+
+		//动作
 		if(changeState(Attacked_Action))
 			runAction(_attackedAction);
 		break;
 	case StunBullet:
+		//设置HP
 		if(getHP()-30 > 0)
 			setHP(getHP()-30);
 		else
 			setHP(0);
+
+		//设置SP
+		if(getSP() + 20 < getTotalSP())
+			setSP(getSP() + 20);
+		else
+			setSP(getTotalSP());
+
+		//动作
 		if(changeState(Frozen_Action))
 			runAction(_frozenAction);
 		break;

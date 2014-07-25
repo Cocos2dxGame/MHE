@@ -28,20 +28,20 @@ bool FailureLayer::init()
 	addChild(failure_background,10);
 
 	auto failure_sprite = Sprite::create("background/failure.png");
-	failure_sprite->setPosition(Director::sharedDirector()->getVisibleSize()/2 + Size(0,80));
+	failure_sprite->setPosition(Director::sharedDirector()->getVisibleSize()/2 + Size(0,100));
 	addChild(failure_sprite, 999);
 
 	auto reBeginItem = MenuItemImage::create(
 		"button/rebegin.png",
 		"button/rebegin_selected.png",
 		CC_CALLBACK_1(FailureLayer::reBegin, this));
-	reBeginItem->setPosition(Vec2(Director::sharedDirector()->getVisibleSize()/2));
+	reBeginItem->setPosition(Director::sharedDirector()->getVisibleSize()/2 +Size(-50,-40));
 
 	auto goChapterItem = MenuItemImage::create(
 		"button/goChapter.png",
 		"button/goChapter_selected.png",
 		CC_CALLBACK_1(FailureLayer::goChapter, this));
-	goChapterItem->setPosition(Director::sharedDirector()->getVisibleSize()/2 + Size(70,0));
+	goChapterItem->setPosition(Director::sharedDirector()->getVisibleSize()/2 + Size(50,-40));
 
 	auto menu = Menu::create(reBeginItem, goChapterItem,NULL);
 	menu->setPosition(Vec2::ZERO);

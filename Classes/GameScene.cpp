@@ -54,7 +54,7 @@ bool GameScene::init()
     origin = Director::getInstance()->getVisibleOrigin();
 	
 	//music
-	//CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("music/background.mp3", true);
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("music/background.mp3", true);
 	
 	//设置力度条
 	setPowerBar();
@@ -137,8 +137,8 @@ bool GameScene::init()
 	_curNPC->normalAction();
 
 	//设置障碍物坐标，以及添加到层
-	obstacle->setPosition(Vec2(visibleSize.width/2, visibleSize.height/4));
-	obstacle->setScale(0.6, 1);
+	obstacle->setPosition(Vec2(visibleSize.width/2, visibleSize.height/4-20));
+	obstacle->setScale(0.8, 1);
 	obstacle->setTag(3);
 	addChild(obstacle,1);
 	
@@ -441,7 +441,7 @@ void GameScene::update(float deltaTime)
 
 	if(_player->getActionState() == Move_Action)
 	{
-		if(playerDestination.x > _player->getPosition().x+1 && _player->getBoundingBox().getMaxX()+2 < visibleSize.width/2-10)
+		if(playerDestination.x > _player->getPosition().x+1 && _player->getBoundingBox().getMaxX()+2 < visibleSize.width/2-30)
 			_player->setPosition(_player->getPosition() + Vec2(2,0));
 		else if(playerDestination.x < _player->getPosition().x-1 && _player->getBoundingBox().getMinX()-2 > 10)
 			_player->setPosition(_player->getPosition() - Vec2(2,0));
@@ -720,7 +720,7 @@ void GameScene::doPause(Ref* pSender)
     addChild(pauseLayer,9999); 
 }
 
-void GameScene::success()
+void GameScene::failure()
 {
 	gameover = true;
 	CCDirector::sharedDirector()->pause();  
@@ -730,7 +730,7 @@ void GameScene::success()
 	addChild(failureLayer,9999); 
 }
 
-void GameScene::failure()
+void GameScene::success()
 {
 	gameover = true;
 	CCDirector::sharedDirector()->pause();  
