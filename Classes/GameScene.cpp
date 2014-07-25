@@ -1,5 +1,8 @@
 #include "GameScene.h"
 #include "SimpleAudioEngine.h"
+#include "SuccessLayer.h"
+#include "FailureLayer.h"
+#include "PauseLayer.h"
 
 USING_NS_CC;
 
@@ -9,7 +12,8 @@ GameScene::GameScene()
 	:roleCurrentHP(0),roleCurrentSP(0),npcCurrentHP(0),npcCurrrentSP(0),
 	skill1CoolDownTime(1.0),skill2CoolDownTime(1.0),skill3CoolDownTime(1.0),
 	skill1NeedTime(0.0),skill2NeedTime(0.0), skill3NeedTime(0.0),
-	currentBulletState(NormalBullet),_npc1(nullptr),_npc2(nullptr),_npc3(nullptr),background(nullptr)
+	currentBulletState(NormalBullet),_npc1(nullptr),_npc2(nullptr),_npc3(nullptr),background(nullptr),
+	gameover(false)
 {
 	//curScene = GameScene3;
 }
@@ -51,15 +55,16 @@ bool GameScene::init()
 	
 	//music
 	//CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("music/background.mp3", true);
-	powerBarBg = Sprite::create("power.png");
-	addChild(powerBarBg,1);
-	powerBarBg->setVisible(false);
+	
+	//设置力度条
+	setPowerBar();
 	
 	//设置角色的血条、怒气条
 	setRoleProgressBar();
 
 	//设置npc的血条、怒气条
 	setNpcProgressBar();
+
 	//设置技能按钮
 	setMenu(curScene);
 
@@ -132,8 +137,8 @@ bool GameScene::init()
 	_curNPC->normalAction();
 
 	//设置障碍物坐标，以及添加到层
-	obstacle->setPosition(Vec2(visibleSize.width/2, visibleSize.height*3/16));
-	obstacle->setScale(0.5);
+	obstacle->setPosition(Vec2(visibleSize.width/2, visibleSize.height/4));
+	obstacle->setScale(0.6, 1);
 	obstacle->setTag(3);
 	addChild(obstacle,1);
 	
@@ -166,8 +171,8 @@ void GameScene::setRoleProgressBar()
 	roleHPProgressTimer = ProgressTimer::create(roleHPSprite);
 	roleHPProgressTimer->setType(kCCProgressTimerTypeBar);
 
-	roleHPProgressTimer->setMidpoint(ccp(0,0.5));
-	roleHPProgressTimer->setBarChangeRate(ccp(1,0));
+	roleHPProgressTimer->setMidpoint(Vec2(0,0.5));
+	roleHPProgressTimer->setBarChangeRate(Vec2(1,0));
 
 	roleHPProgressTimer->setPercentage(100);
 
@@ -224,6 +229,28 @@ void GameScene::setNpcProgressBar()
 
 	npcSPProgressTimer->setPosition(bgSprite->getPosition().x - 29, bgSprite->getPosition().y -5);
 	addChild(npcSPProgressTimer,1);
+}
+
+void GameScene::setPowerBar()
+{
+	//力度条
+	powerBarBg = Sprite::create("power_bg.png");
+	powerBarBg->setAnchorPoint(Vec2(0,0.5));
+	addChild(powerBarBg,1);
+
+	auto temp = Sprite::create("power.png");
+	powerBar = ProgressTimer::create(temp);
+	powerBar->setAnchorPoint(Vec2(0, 0.5));
+	powerBar->setType(kCCProgressTimerTypeBar);
+	powerBar->setMidpoint(ccp(0,0.5));
+	powerBar->setBarChangeRate(ccp(1,0));
+
+	powerBar->setPercentage(10);
+
+	addChild(powerBar,1);
+
+	powerBar->setVisible(false);
+	powerBarBg->setVisible(false);
 }
 
 void GameScene::setMenu(GameSceneType curScene)
@@ -379,8 +406,8 @@ void GameScene::setMenu(GameSceneType curScene)
 	addChild(skill2CoolBar,2);
 
 	skill3CoolBar->setType(kCCProgressTimerTypeBar);
-	skill3CoolBar->setMidpoint(ccp(0.5,0));
-	skill3CoolBar->setBarChangeRate(ccp(0,1));
+	skill3CoolBar->setMidpoint(Vec2(0.5,0));
+	skill3CoolBar->setBarChangeRate(Vec2(0,1));
 	skill3CoolBar->setPercentage(0);
 	skill3CoolBar->setPosition(skill3Item->getPosition().x, skill3Item->getPosition().y);
 	addChild(skill3CoolBar,2);
@@ -478,32 +505,8 @@ void GameScene::update(float deltaTime)
 		skill3CoolBar->setPercentage(0);
 	}
 
-	collisionDetection();
+	updateHPandSP();
 }
-
-////重力加速器方法  
-//void GameScene::onAcceleration(Acceleration* acc, Event* event)
-//{
-//	if(acc->x > 0.25)
-//	{
-//		if((_player->getPosition().x + _player->getContentSize().width/2) < obstacle->getPosition().x - obstacle->getContentSize().width/2)
-//		{
-//			_player->setFlippedX(false);
-//			_player->setPosition(_player->getPosition().x+2, _player->getPosition().y);
-//			_player->normalAction();
-//		}
-//	}
-//
-//	if(acc->x < -0.25)
-//	{
-//		if(_player->getPosition().x - _player->getContentSize().width/2 > 0)
-//		{
-//			_player->setFlippedX(true);
-//			_player->setPosition(_player->getPosition().x-2, _player->getPosition().y);
-//			_player->normalAction();
-//		}
-//	}
-//}
 
 void GameScene::menuCloseCallback(Ref* pSender)
 {
@@ -529,7 +532,7 @@ bool GameScene::onTouchBegan(Touch* touch, Event* event)
 	if ( !contaiinsTouchLocation(touch) )
 	{
 		playerDestination = touch->getLocation();
-		if(playerDestination.y < visibleSize.height/2 && playerDestination.x < visibleSize.width/2)
+		if(playerDestination.y < visibleSize.height/2)
 			_player->moveAction();
 		else
 			_player->jumpAction();
@@ -542,15 +545,61 @@ bool GameScene::onTouchBegan(Touch* touch, Event* event)
 
 void GameScene::onTouchMoved(Touch* touch, Event* event)
 {
-	Vec2 position = touch->getLocation();
-	powerBarBg->setPosition(position);
+	powerBarBg->setPosition(startPosition);
+	powerBar->setPosition(startPosition);
 	powerBarBg->setVisible(true);
+	powerBar->setVisible(true);
+
+	Vec2 position = touch->getLocation();
+	Vec2 direction = position - startPosition;
+
+	//旋转
+	if(direction.x == 0)
+	{
+		if(direction.y>0)
+		{
+			powerBarBg->setRotation(270);
+			powerBar->setRotation(270);
+		}
+		else if(direction.y<0)
+		{
+			powerBarBg->setRotation(90);
+			powerBar->setRotation(90);
+		}
+	}
+	else if( direction.x > 0)
+	{
+		float cita = atan(direction.y/direction.x);
+		powerBarBg->setRotation(-cita*180/3.14);
+		powerBar->setRotation(-cita*180/3.14);
+	}
+	else if (direction.x < 0)
+	{
+		float cita = atan(direction.y/direction.x);
+		powerBarBg->setRotation(-cita*180/3.14 + 180);
+		powerBar->setRotation(-cita*180/3.14 + 180);
+	}
+
+	//设置进度
+	float lineDirection = sqrt(direction.x * direction.x + direction.y * direction.y);
+	float powerBarLengthWidth = (powerBarBg->getBoundingBox().getMaxX()-powerBarBg->getBoundingBox().getMinX());
+	float powerBarLengthHeight = (powerBarBg->getBoundingBox().getMaxY()-powerBarBg->getBoundingBox().getMinY());
+	float powerBarLength = powerBarLengthWidth > powerBarLengthHeight ? powerBarLengthWidth : powerBarLengthHeight;
+	if(lineDirection < powerBarLength)
+	{
+		powerBar->setPercentage(lineDirection*100 / powerBarLength);
+	}
+	else
+	{
+		powerBar->setPercentage(100);
+	}
 }
 
 void GameScene::onTouchEnded(Touch* touch, Event* event)
 {
 	endPosition = touch->getLocation();
 	powerBarBg->setVisible(false);
+	powerBar->setVisible(false);
 	dealEndTouch();
 }
 
@@ -574,8 +623,8 @@ void GameScene::dealEndTouch()
 
 			Vec2 pos = _player->getPosition();
 			Vec2 velocity;
-			velocity.x= (endPosition.x - startPosition.x) / visibleSize.width * 2000 ;
-			velocity.y= (endPosition.y - startPosition.y) / visibleSize.height * 2000;
+			velocity.x= (endPosition.x - startPosition.x) / visibleSize.height * 2500 ;
+			velocity.y= (endPosition.y - startPosition.y) / visibleSize.height * 2500;
 
 			if(_player->isFlippedX())
 				if(velocity.x > 0)
@@ -584,10 +633,13 @@ void GameScene::dealEndTouch()
 				if(velocity.x < 0)
 					_player->setFlippedX(-1);
 
-			g_BulletManager->shoot(NormalBullet, pos, velocity);
-			stateController->playerShooting(pos, velocity);
-			//CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect();
-			_player->fireAction();
+			if(_player->getActionState() != Frozen_Action)
+			{
+				g_BulletManager->shoot(NormalBullet, pos, velocity);
+				stateController->playerShooting(pos, velocity);
+				//CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect();
+				_player->fireAction();
+			}
 		}
 		break;
 	case SpecialBullet:
@@ -601,12 +653,16 @@ void GameScene::dealEndTouch()
 			
 			Vec2 pos = _player->getPosition();
 			Vec2 velocity;
-			velocity.x= (endPosition.x - startPosition.x) / visibleSize.width * 2000 ;
-			velocity.y= (endPosition.y - startPosition.y) / visibleSize.height * 2000;
+			velocity.x= (endPosition.x - startPosition.x) / visibleSize.height * 2500 ;
+			velocity.y= (endPosition.y - startPosition.y) / visibleSize.height * 2500;
 
-			g_BulletManager->shoot(SpecialBullet, pos, velocity);
-			//CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect();
-			_player->fireAction();
+			if(_player->getActionState() != Frozen_Action)
+			{
+				g_BulletManager->shoot(SpecialBullet, pos, velocity);
+				stateController->playerShooting(pos, velocity);
+				//CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect();
+				_player->fireAction();
+			}
 		}
 		break;
 	case StunBullet:
@@ -620,12 +676,16 @@ void GameScene::dealEndTouch()
 
 			Vec2 pos = _player->getPosition();
 			Vec2 velocity;
-			velocity.x= (endPosition.x - startPosition.x) / visibleSize.width * 2000 ;
-			velocity.y= (endPosition.y - startPosition.y) / visibleSize.height * 2000;
+			velocity.x= (endPosition.x - startPosition.x) / visibleSize.height * 2500 ;
+			velocity.y= (endPosition.y - startPosition.y) / visibleSize.height * 2500;
 
-			g_BulletManager->shoot(StunBullet, pos, velocity);
-			//CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect();
-			_player->fireAction();
+			if(_player->getActionState() != Frozen_Action)
+			{
+				g_BulletManager->shoot(StunBullet, pos, velocity);
+				stateController->playerShooting(pos, velocity);
+				//CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect();
+				_player->fireAction();
+			}
 		}
 		break;
 	default:
@@ -633,13 +693,22 @@ void GameScene::dealEndTouch()
 	}	
 }
 
-void GameScene::collisionDetection()
+void GameScene::updateHPandSP()
 {
 	roleHPProgressTimer->setPercentage(_player->getHP()*100 / _player->getTotalHP());
 	roleSPProgressTimer->setPercentage(_player->getSP()*100 / _player->getTotalSP());
 
 	npcHPProgressTimer->setPercentage(_curNPC->getHP()*100 / _curNPC->getTotalHP());
 	npcSPProgressTimer->setPercentage(_curNPC->getSP()*100 / _curNPC->getTotalSP());
+
+	if(!gameover && 0==_player->getHP() && 0!=_curNPC->getHP())
+	{
+		failure();
+	}
+	else if(!gameover && 0!=_player->getHP() && 0==_curNPC->getHP())
+	{
+		 success();
+	}
 }
 
 void GameScene::doPause(Ref* pSender)
@@ -647,6 +716,26 @@ void GameScene::doPause(Ref* pSender)
 	CCDirector::sharedDirector()->pause();  
     CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();  
     CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseAllEffects();  
-    PauseLayer *pauseLayer = PauseLayer::create();  
+    PauseLayer *pauseLayer = PauseLayer::create(curScene);  
     addChild(pauseLayer,9999); 
+}
+
+void GameScene::success()
+{
+	gameover = true;
+	CCDirector::sharedDirector()->pause();  
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();  
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseAllEffects();  
+	FailureLayer *failureLayer = FailureLayer::create(curScene);  
+	addChild(failureLayer,9999); 
+}
+
+void GameScene::failure()
+{
+	gameover = true;
+	CCDirector::sharedDirector()->pause();  
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();  
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseAllEffects();  
+	SuccessLayer *successLayer = SuccessLayer::create(curScene);  
+	addChild(successLayer,9999);
 }
