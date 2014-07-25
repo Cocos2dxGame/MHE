@@ -94,14 +94,16 @@ Bullet* Bullet::createBullet(bulletType type, Point pos, Vec2 velocity, BulletMa
 	bullet->setPosition(pos);
 
 		//根据速度的x分量设置子弹的缩放
+	//float screenAera = Director::getInstance()->getVisibleSize().width * Director::getInstance()->getVisibleSize().height;
+	float scale = Director::getInstance()->getVisibleSize().width*0.00034;
+
 	if(velocity.x < 0)
 	{
-		bullet->setScale(-(Director::getInstance()->getVisibleSize().height/bullet->getContentSize().height*0.05), 
-			Director::getInstance()->getVisibleSize().height/bullet->getContentSize().height*0.05);
+		bullet->setScale(-scale,scale);
 	}
 	else
 	{
-		bullet->setScale(Director::getInstance()->getVisibleSize().height/bullet->getContentSize().height*0.05);
+		bullet->setScale(scale);
 	}
 
 	return bullet;
