@@ -42,6 +42,7 @@ void BulletManager::update(float deltaTime)
 		}
 	}
 	m_BulletDeleteVector.clear();
+
 }
 
 void BulletManager::shoot(bulletType type, Point pos, Vec2 velocity)
