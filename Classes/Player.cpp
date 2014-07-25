@@ -51,7 +51,7 @@ bool Player::init()
 		//被冻住状态下
 		const char* frozenPng = String::createWithFormat("%s%s", roleName, "Frozen")->getCString();
 		Animation* frozenAnimation = createAnimation(frozenPng,2,10);
-		setFrozenAction(Sequence::create(Animate::create(frozenAnimation),  DelayTime::create(5), callbackNormal, NULL));
+		setFrozenAction(Sequence::create(Animate::create(frozenAnimation), DelayTime::create(5), callbackNormal, NULL));
 
 		//跳跃状态下动画
 		auto actionBy = JumpBy::create(1, Vec2(0,0), visibleSize.height/4, 1);

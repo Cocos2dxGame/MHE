@@ -7,7 +7,6 @@
 #include "Player.h"
 #include "NPC.h"
 #include "BulletManager.h"
-#include "PauseLayer.h"
 #include "StateController.h"
 
 #define FIX_POS(_pos, _min, _max) \
@@ -50,6 +49,8 @@ public:
 	void selectedSkill2(cocos2d::Ref* pSender);
 	void selectedSkill3(cocos2d::Ref* pSender);
 
+	void setPowerBar();
+
 	////重力加速器
 	//void onAcceleration(cocos2d::Acceleration* acc, cocos2d::Event* unused_event);
 
@@ -63,8 +64,11 @@ public:
 	//触摸结束后处理事件
 	void dealEndTouch();
 
-	//碰撞检测
-	void collisionDetection();
+	//更新血条和怒气条
+	void updateHPandSP();
+
+	void success();
+	void failure();
 
 	//更新
 	virtual void update(float deltaTime);
@@ -74,6 +78,7 @@ protected:
 	cocos2d::Vector<cocos2d::Sprite*> spritesVector;
 	cocos2d::Sprite* background;
 	cocos2d::Sprite* powerBarBg;
+	cocos2d::ProgressTimer* powerBar;
 	Player* _player;
 	NPC1* _npc1;
 	NPC2* _npc2;
@@ -82,6 +87,7 @@ protected:
 	cocos2d::Sprite* obstacle;
 	cocos2d::Vec2 g;
 	StateController* stateController;
+	bool gameover;
 
 	//人物的血条、怒气条
 	cocos2d::ProgressTimer* roleHPProgressTimer;

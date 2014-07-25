@@ -7,9 +7,11 @@ Person::Person()
 	_normalAction = NULL;
     _fireAction = NULL;
     _attackedAction = NULL;
+	_frozenAction = NULL;
     _moveAction = NULL;
     _jumpAction = NULL;
 	_victoryAction = NULL;
+	_failAction = NULL;
 
 	isJumping =false;
 	strcpy(roleName, "Role2");
@@ -17,7 +19,6 @@ Person::Person()
 	char plistFileName[100];
 	sprintf(plistFileName,"character/%s.plist", roleName);  
 	cache = SpriteFrameCache::sharedSpriteFrameCache();
-	//cache->addSpriteFramesWithFile(plistFileName);
 }
 
 Person::~Person()
@@ -87,11 +88,6 @@ void Person::jumpActionEnd()
 
 void Person::attacked(bulletType type)
 {
-	if(changeState(Attacked_Action))
-	{
-		runAction(_attackedAction);
-	}
-
 	switch (type)
 	{
 	case NormalBullet:
@@ -99,29 +95,41 @@ void Person::attacked(bulletType type)
 			setHP(getHP()-10);
 		else
 			setHP(0);
+		if(changeState(Attacked_Action))
+			runAction(_attackedAction);
 		break;
+
 	case SpecialBullet:
 		if(getHP()-20 > 0)
 			setHP(getHP()-20);
 		else
 			setHP(0);
+		if(changeState(Attacked_Action))
+			runAction(_attackedAction);
 		break;
 	case StunBullet:
-		frozen();
 		if(getHP()-30 > 0)
 			setHP(getHP()-30);
 		else
 			setHP(0);
+		if(changeState(Frozen_Action))
+			runAction(_frozenAction);
 		break;
 	default:
 		break;
 	}
 }
 
-void Person::frozen()
+void Person::frozenAction()
 {
 	if(changeState(Frozen_Action))
 		runAction(_frozenAction);
+}
+
+void Person::failAction()
+{
+	if(changeState(Fail_Action))
+		runAction(_failAction);
 }
 
 bool Person::changeState(ActionState state)
@@ -134,10 +142,11 @@ bool Person::changeState(ActionState state)
 	if(_currentState == Fail_Action)
 		return false;
 
-	// 被冻住，就不能再出发其他动作了！
-	if (_currentState == Frozen_Action)
-		return false;
-
+	// 被冻住，就不能再出发其他动作了！时间到了正常状态可以触发
+	if(state != Normal_Action)
+		if (_currentState == Frozen_Action)
+			return false;
+		
 	//处于跳跃状态时，不执行动作
 	if(_currentState == Jump_Action)
 		return false;

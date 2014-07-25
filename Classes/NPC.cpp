@@ -66,13 +66,13 @@ bool NPC1::init()
 		//±»¶³×¡×´Ì¬ÏÂ
 		const char* frozenPng = String::createWithFormat("%s%s", roleName, "Frozen")->getCString();
 		Animation* frozenAnimation = createAnimation(frozenPng,2,10);
-		setFrozenAction(Sequence::create(Animate::create(frozenAnimation), callbackNormal, NULL));
+		setFrozenAction(Sequence::create(Animate::create(frozenAnimation), DelayTime::create(5), callbackNormal, NULL));
 
 		//ÌøÔ¾×´Ì¬ÏÂ¶¯»­
-		auto actionBy = JumpBy::create(2, Vec2(0,0), visibleSize.height/4, 1);
+		auto actionBy = JumpBy::create(1, Vec2(0,0), visibleSize.height/4, 1);
 		//auto actionByBack = actionBy->reverse();
-		setJumpAction(Sequence::create(actionBy, callbackNormal, NULL));
-		
+		setJumpAction(Sequence::create(actionBy, callbackJumpEnd, NULL));
+
 		//Ê¤Àû×´Ì¬ÏÂ
 		const char* victoryPng = String::createWithFormat("%s%s", roleName, "Victory")->getCString();
 		Animation* victoryAnimation = createAnimation(victoryPng,2,10);
@@ -145,13 +145,13 @@ bool NPC2::init()
 		//±»¶³×¡×´Ì¬ÏÂ
 		const char* frozenPng = String::createWithFormat("%s%s", roleName, "Frozen")->getCString();
 		Animation* frozenAnimation = createAnimation(frozenPng,2,10);
-		setFrozenAction(Sequence::create(Animate::create(frozenAnimation), callbackNormal, NULL));
+		setFrozenAction(Sequence::create(Animate::create(frozenAnimation), DelayTime::create(5), callbackNormal, NULL));
 
 		//ÌøÔ¾×´Ì¬ÏÂ¶¯»­
-		auto actionBy = JumpBy::create(2, Vec2(0,0), visibleSize.height/4, 1);
+		auto actionBy = JumpBy::create(1, Vec2(0,0), visibleSize.height/4, 1);
 		//auto actionByBack = actionBy->reverse();
-		setJumpAction(Sequence::create(actionBy, callbackNormal, NULL));
-		
+		setJumpAction(Sequence::create(actionBy, callbackJumpEnd, NULL));
+
 		//Ê¤Àû×´Ì¬ÏÂ
 		const char* victoryPng = String::createWithFormat("%s%s", roleName, "Victory")->getCString();
 		Animation* victoryAnimation = createAnimation(victoryPng,2,10);
@@ -224,13 +224,13 @@ bool NPC3::init()
 		//±»¶³×¡×´Ì¬ÏÂ
 		const char* frozenPng = String::createWithFormat("%s%s", roleName, "Frozen")->getCString();
 		Animation* frozenAnimation = createAnimation(frozenPng,2,10);
-		setFrozenAction(Sequence::create(Animate::create(frozenAnimation), callbackNormal, NULL));
+		setFrozenAction(Sequence::create(Animate::create(frozenAnimation), DelayTime::create(5), callbackNormal, NULL));
 
 		//ÌøÔ¾×´Ì¬ÏÂ¶¯»­
-		auto actionBy = JumpBy::create(2, Vec2(0,0), visibleSize.height/4, 1);
+		auto actionBy = JumpBy::create(1, Vec2(0,0), visibleSize.height/4, 1);
 		//auto actionByBack = actionBy->reverse();
-		setJumpAction(Sequence::create(actionBy, callbackNormal, NULL));
-		
+		setJumpAction(Sequence::create(actionBy, callbackJumpEnd, NULL));
+
 		//Ê¤Àû×´Ì¬ÏÂ
 		const char* victoryPng = String::createWithFormat("%s%s", roleName, "Victory")->getCString();
 		Animation* victoryAnimation = createAnimation(victoryPng,2,10);

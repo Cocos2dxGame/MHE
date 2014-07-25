@@ -17,7 +17,9 @@ public:
 	void reBegin(Ref* pSender);
 	void goChapter(Ref* pSender);
 
-	CREATE_FUNC(PauseLayer);
+	static PauseLayer* create(GameSceneType type);
+private:
+	GameSceneType curType;
 };
 
 #endif

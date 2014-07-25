@@ -1,4 +1,8 @@
 ﻿#include "PauseLayer.h"
+#include "FirstScene.h"
+#include "SecondScene.h"
+#include "ThirdScene.h"
+
 USING_NS_CC;
 
 PauseLayer::PauseLayer()
@@ -7,6 +11,18 @@ PauseLayer::PauseLayer()
 
 PauseLayer::~PauseLayer()
 {
+}
+
+PauseLayer* PauseLayer::create(GameSceneType type)
+{
+	PauseLayer* pauseLayer = new PauseLayer;
+	pauseLayer->curType = type;
+	if(pauseLayer->init())
+	{
+		pauseLayer->autorelease();
+		return pauseLayer;
+	}
+	return NULL;
 }
 
 bool PauseLayer::init()
@@ -48,8 +64,22 @@ void PauseLayer::reBegin(Ref* pSender)
 	CCDirector::sharedDirector()->resume();  
 	CocosDenshion::SimpleAudioEngine::sharedEngine()->resumeBackgroundMusic();  
 	CocosDenshion::SimpleAudioEngine::sharedEngine()->resumeAllEffects();
+	Scene* pScene;
 
-	Scene* pScene = GameScene::createScene();
+	switch (curType)
+	{
+	case GameScene1:
+		pScene = FirstScene::createScene();
+		break;
+	case GameScene2:
+		pScene = SecondScene::createScene();
+		break;
+	case GameScene3:
+		pScene = ThirdScene::createScene();
+		break;
+	default:
+		break;
+	}
 	SceneManager::go(pScene);
 }
 
