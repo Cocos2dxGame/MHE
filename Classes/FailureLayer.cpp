@@ -23,6 +23,9 @@ FailureLayer* FailureLayer::create(GameSceneType type)
 
 bool FailureLayer::init()
 {
+	auto listener1 = EventListenerTouchOneByOne::create();//创建一个触摸监听    
+	listener1->setSwallowTouches(true);//设置是否想下传递触摸    
+
 	auto failure_background = Sprite::create("background/pause_background.png");
 	failure_background->setPosition(Director::sharedDirector()->getVisibleSize()/2);
 	addChild(failure_background,10);

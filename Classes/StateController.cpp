@@ -87,7 +87,10 @@ void StateController::avoid()
 {
 	if(curNPC->getActionState() != Frozen_Action)
 	{
-		Vec2 temp = curNPC->getPosition();
+		//Ëæ»úÊý
+		int temp = 300 * rand()/(RAND_MAX+1.0);
+		hitPosition += Vec2(temp-150, 0);
+
 		if(hitPosition.x < visibleSize.width* 5/8)
 		{
 			curNPC->moveAction();

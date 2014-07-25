@@ -617,7 +617,7 @@ void GameScene::dealEndTouch()
 		{
 			CCLOG("cd time");
 		}
-		else
+		else if(_player->getActionState() != Frozen_Action)
 		{
 			skill1NeedTime = skill1CoolDownTime;
 
@@ -633,13 +633,10 @@ void GameScene::dealEndTouch()
 				if(velocity.x < 0)
 					_player->setFlippedX(-1);
 
-			if(_player->getActionState() != Frozen_Action)
-			{
-				g_BulletManager->shoot(NormalBullet, pos, velocity);
-				stateController->playerShooting(pos, velocity);
-				CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/Attack.wav");
-				_player->fireAction();
-			}
+			g_BulletManager->shoot(NormalBullet, pos, velocity);
+			stateController->playerShooting(pos, velocity);
+			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/Attack.wav");
+			_player->fireAction();
 		}
 		break;
 	case SpecialBullet:
@@ -647,7 +644,7 @@ void GameScene::dealEndTouch()
 		{
 			CCLOG("cd time");
 		}
-		else
+		else if(_player->getActionState() != Frozen_Action)
 		{
 			skill2NeedTime = skill2CoolDownTime;
 			
@@ -656,13 +653,10 @@ void GameScene::dealEndTouch()
 			velocity.x= (endPosition.x - startPosition.x) / visibleSize.height * 2500 ;
 			velocity.y= (endPosition.y - startPosition.y) / visibleSize.height * 2500;
 
-			if(_player->getActionState() != Frozen_Action)
-			{
-				g_BulletManager->shoot(SpecialBullet, pos, velocity);
-				stateController->playerShooting(pos, velocity);
-				CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/Attack.wav");
-				_player->fireAction();
-			}
+			g_BulletManager->shoot(SpecialBullet, pos, velocity);
+			stateController->playerShooting(pos, velocity);
+			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/Attack.wav");
+			_player->fireAction();
 		}
 		break;
 	case StunBullet:
@@ -670,7 +664,7 @@ void GameScene::dealEndTouch()
 		{
 			CCLOG("cd time");
 		}
-		else
+		else if(_player->getActionState() != Frozen_Action)
 		{
 			skill3NeedTime = skill3CoolDownTime;
 
@@ -679,13 +673,12 @@ void GameScene::dealEndTouch()
 			velocity.x= (endPosition.x - startPosition.x) / visibleSize.height * 2500 ;
 			velocity.y= (endPosition.y - startPosition.y) / visibleSize.height * 2500;
 
-			if(_player->getActionState() != Frozen_Action)
-			{
-				g_BulletManager->shoot(StunBullet, pos, velocity);
-				stateController->playerShooting(pos, velocity);
-				CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/Attack.wav");
-				_player->fireAction();
-			}
+			
+			g_BulletManager->shoot(StunBullet, pos, velocity);
+			stateController->playerShooting(pos, velocity);
+			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/Attack.wav");
+			_player->fireAction();
+
 		}
 		break;
 	default:
