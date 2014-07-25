@@ -42,7 +42,7 @@ void StateController::update(float dt)
 	if(playerShoot && curNPC->getBoundingBox().intersectsRect(Rect(hitPosition.x-150, hitPosition.y-150, 300, 300)))
 	{
 		playerShoot = false;
-		avoid();
+		//avoid();
 	}
 	else if(time > 10)
 	{

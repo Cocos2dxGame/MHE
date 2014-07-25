@@ -27,6 +27,10 @@ bool FailureLayer::init()
 	failure_background->setPosition(Director::sharedDirector()->getVisibleSize()/2);
 	addChild(failure_background,10);
 
+	auto failure_sprite = Sprite::create("background/failure.png");
+	failure_sprite->setPosition(Director::sharedDirector()->getVisibleSize()/2 + Size(0,80));
+	addChild(failure_sprite, 999);
+
 	auto reBeginItem = MenuItemImage::create(
 		"button/rebegin.png",
 		"button/rebegin_selected.png",

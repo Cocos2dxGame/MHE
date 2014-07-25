@@ -637,7 +637,7 @@ void GameScene::dealEndTouch()
 			{
 				g_BulletManager->shoot(NormalBullet, pos, velocity);
 				stateController->playerShooting(pos, velocity);
-				//CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect();
+				CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/Attack.wav");
 				_player->fireAction();
 			}
 		}
@@ -660,7 +660,7 @@ void GameScene::dealEndTouch()
 			{
 				g_BulletManager->shoot(SpecialBullet, pos, velocity);
 				stateController->playerShooting(pos, velocity);
-				//CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect();
+				CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/Attack.wav");
 				_player->fireAction();
 			}
 		}
@@ -683,7 +683,7 @@ void GameScene::dealEndTouch()
 			{
 				g_BulletManager->shoot(StunBullet, pos, velocity);
 				stateController->playerShooting(pos, velocity);
-				//CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect();
+				CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/Attack.wav");
 				_player->fireAction();
 			}
 		}

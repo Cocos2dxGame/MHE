@@ -28,6 +28,10 @@ bool SuccessLayer::init()
 	success_background->setPosition(Director::sharedDirector()->getVisibleSize()/2);
 	addChild(success_background,10);
 
+	auto success_sprite = Sprite::create("background/success.png");
+	success_sprite->setPosition(Director::sharedDirector()->getVisibleSize()/2 + Size(0,80));
+	addChild(success_sprite, 999);
+
 	auto reBeginItem = MenuItemImage::create(
 		"button/rebegin.png",
 		"button/rebegin_selected.png",
