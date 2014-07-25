@@ -72,7 +72,7 @@ bool ChapterScene::init()
     this->addChild(background, 0);
 
 	// add the menu icon
-	std::string images[] = {"background/bg_002.png", "background/bg_003.png", "background/bg_004.png"};
+	std::string images[] = {"background/bgs_002.png", "background/bgs_003.png", "background/bgs_004.png"};
 	int imagesNum = 3;
 	m_imageWidth = visibleSize.width * 0.6;
 	m_imageHeight = visibleSize.height * 0.6;
