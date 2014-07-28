@@ -5,7 +5,7 @@
 
 enum GameSceneType
 {
-	GameScene1, GameScene2, GameScene3
+	GameScene1, GameScene2, GameScene3, GameScene4, GameScene5
 };
 
 class BulletManager
@@ -26,10 +26,12 @@ public:
 	GameSceneType SceneType;
 
 private:
-
+	
 	cocos2d::Layer*					m_layer;
 	cocos2d::Vector<Bullet*>		m_BulletVector;
 	cocos2d::Vector<Bullet*>		m_BulletDeleteVector;
 	cocos2d::Vec2					m_g;
 	cocos2d::Vector<cocos2d::Sprite*>*		m_pSpriteVector;
+
+	cocos2d::Action*				m_normalAction;
 };
