@@ -35,9 +35,27 @@ void BulletManager::update(float deltaTime)
 		iter = m_BulletVector.find(pBullet);
 		if(iter != m_BulletVector.end())
 		{
+			// run animate
+			SpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("bullet/blef_003.plist");
+
+			auto animation = Animation::create();
+			for(int i = 0; i < 7; i++)
+			{
+				const char* png = String::createWithFormat("%d.png", i)->getCString();
+				animation->addSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(png));
+			}
+			animation->setDelayPerUnit(0.07);
+			auto action = Sequence::create(
+				Animate::create(animation),
+				CallFuncN::create([&](Node* sender){
+						m_layer->removeChild(sender);
+					}),
+				NULL);
+			(*iter)->runAction(action);
+
 			(*iter)->getEmitter()->setAutoRemoveOnFinish(true);
 			(*iter)->getEmitter()->stopSystem();
-			m_layer->removeChild(*iter);
+			//m_layer->removeChild(*iter);
 			m_BulletVector.erase(iter);
 		}
 	}
