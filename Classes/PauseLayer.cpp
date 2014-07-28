@@ -13,20 +13,25 @@ PauseLayer::~PauseLayer()
 {
 }
 
-PauseLayer* PauseLayer::create(GameSceneType type)
+Scene* PauseLayer::createScene(GameSceneType type)
 {
-	PauseLayer* pauseLayer = new PauseLayer;
-	pauseLayer->curType = type;
-	if(pauseLayer->init())
-	{
-		pauseLayer->autorelease();
-		return pauseLayer;
-	}
-	return NULL;
+	Scene* scene = Scene::create();
+	Size size = Director::sharedDirector()->getVisibleSize();
+
+	PauseLayer* layer = PauseLayer::create();
+	layer->curType = type;
+	scene->addChild(layer, 111);
+	return scene;
 }
 
 bool PauseLayer::init()
 {
+	auto listener1 = EventListenerTouchOneByOne::create();//创建一个触摸监听    
+	listener1->setSwallowTouches(true);//设置是否想下传递触摸 
+
+	listener1->onTouchBegan = CC_CALLBACK_2(PauseLayer::onTouchBegan, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener1, this);
+
 	auto pause_background = Sprite::create("background/pause_background.png");
 	pause_background->setPosition(Director::sharedDirector()->getVisibleSize()/2);
 	addChild(pause_background,10);
@@ -99,4 +104,9 @@ void PauseLayer::goChapter(Ref* pSender)
 
 	Scene* pScene = ChapterScene::createScene();
 	SceneManager::go(pScene);
+}
+
+bool PauseLayer::onTouchBegan(Touch* touch, Event* event)
+{
+	return true;
 }

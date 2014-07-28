@@ -13,11 +13,15 @@ public:
 	~PauseLayer();
 	bool init();
 	
+	bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event  *event);
+
 	void goBack(Ref* pSender);
 	void reBegin(Ref* pSender);
 	void goChapter(Ref* pSender);
 
-	static PauseLayer* create(GameSceneType type);
+	static cocos2d::Scene* createScene(GameSceneType type);
+
+	CREATE_FUNC(PauseLayer);
 private:
 	GameSceneType curType;
 };

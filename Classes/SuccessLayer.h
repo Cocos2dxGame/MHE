@@ -16,6 +16,8 @@ public:
 
 	bool init();
 
+	bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event  *event);
+
 	static SuccessLayer* create(GameSceneType type);
 
 	void reBegin(cocos2d::Ref* pSender);

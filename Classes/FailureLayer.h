@@ -16,6 +16,8 @@ public:
 	~FailureLayer();
 	bool init();
 	
+	bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event  *event);
+
 	void reBegin(Ref* pSender);
 	void goChapter(Ref* pSender);
 

@@ -24,6 +24,12 @@ SuccessLayer* SuccessLayer::create(GameSceneType type)
 
 bool SuccessLayer::init()
 {
+	auto listener1 = EventListenerTouchOneByOne::create();//创建一个触摸监听    
+	listener1->setSwallowTouches(true);//设置是否想下传递触摸 
+
+	listener1->onTouchBegan = CC_CALLBACK_2(SuccessLayer::onTouchBegan, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener1, this);
+
 	auto success_background = Sprite::create("background/pause_background.png");
 	success_background->setPosition(Director::sharedDirector()->getVisibleSize()/2);
 	addChild(success_background,10);
@@ -83,4 +89,9 @@ void SuccessLayer::goChapter(Ref* pSender)
 
 	Scene* pScene = ChapterScene::createScene();
 	SceneManager::go(pScene);
+}
+
+bool SuccessLayer::onTouchBegan(Touch* touch, Event  *event)
+{
+	return true;
 }

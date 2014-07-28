@@ -709,8 +709,8 @@ void GameScene::doPause(Ref* pSender)
 	CCDirector::sharedDirector()->pause();  
     CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();  
     CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseAllEffects();  
-    PauseLayer *pauseLayer = PauseLayer::create(curScene);  
-    addChild(pauseLayer,9999); 
+    Scene *pauseLayer = PauseLayer::createScene(curScene);  
+    addChild(pauseLayer,999); 
 }
 
 void GameScene::failure()
@@ -720,7 +720,7 @@ void GameScene::failure()
 	CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();  
 	CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseAllEffects();  
 	FailureLayer *failureLayer = FailureLayer::create(curScene);  
-	addChild(failureLayer,9999); 
+	addChild(failureLayer,999); 
 }
 
 void GameScene::success()
@@ -730,5 +730,5 @@ void GameScene::success()
 	CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();  
 	CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseAllEffects();  
 	SuccessLayer *successLayer = SuccessLayer::create(curScene);  
-	addChild(successLayer,9999);
+	addChild(successLayer,999);
 }

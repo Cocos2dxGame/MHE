@@ -24,7 +24,11 @@ FailureLayer* FailureLayer::create(GameSceneType type)
 bool FailureLayer::init()
 {
 	auto listener1 = EventListenerTouchOneByOne::create();//创建一个触摸监听    
-	listener1->setSwallowTouches(true);//设置是否想下传递触摸    
+	listener1->setSwallowTouches(true);//设置是否想下传递触摸 
+
+	listener1->onTouchBegan = CC_CALLBACK_2(FailureLayer::onTouchBegan, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener1, this);
+
 
 	auto failure_background = Sprite::create("background/pause_background.png");
 	failure_background->setPosition(Director::sharedDirector()->getVisibleSize()/2);
@@ -32,7 +36,7 @@ bool FailureLayer::init()
 
 	auto failure_sprite = Sprite::create("background/failure.png");
 	failure_sprite->setPosition(Director::sharedDirector()->getVisibleSize()/2 + Size(0,100));
-	addChild(failure_sprite, 999);
+	addChild(failure_sprite, 11);
 
 	auto reBeginItem = MenuItemImage::create(
 		"button/rebegin.png",
@@ -48,7 +52,7 @@ bool FailureLayer::init()
 
 	auto menu = Menu::create(reBeginItem, goChapterItem,NULL);
 	menu->setPosition(Vec2::ZERO);
-	this->addChild(menu, 999);
+	this->addChild(menu, 11);
 
 	return true;
 }
@@ -85,4 +89,9 @@ void FailureLayer::goChapter(Ref* pSender)
 
 	Scene* pScene = ChapterScene::createScene();
 	SceneManager::go(pScene);
+}
+
+bool FailureLayer::onTouchBegan(Touch* touch, Event  *event)
+{
+	return true;
 }
