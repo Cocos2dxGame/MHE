@@ -42,7 +42,7 @@ bool StartScene::init()
 	MenuItemImage *newgame = MenuItemImage::create("button/bt_000.png", "button/bt_000.png", CC_CALLBACK_1(StartScene::onNewGame, this));
 	MenuItemImage *config = MenuItemImage::create("button/bt_001.png", "button/bt_001.png", CC_CALLBACK_1(StartScene::onNewGame, this));
 	MenuItemImage *help = MenuItemImage::create("button/bt_002.png", "button/bt_002.png", CC_CALLBACK_1(StartScene::onNewGame, this));
-	float scale = visibleSize.width/1300;
+	float scale = visibleSize.height/860;
 	newgame->setScale(scale);
 	config->setScale(scale);
 	help->setScale(scale);
