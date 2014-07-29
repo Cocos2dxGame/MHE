@@ -47,6 +47,7 @@ bool SurvivalScene::init()
 
 	setSkillCoolDownBar();
 	setMenu();
+	setPowerBar();
 
 	//…Ë÷√player
 	_curPlayer = Player::create();
@@ -267,7 +268,7 @@ void SurvivalScene::dealEndTouch()
 		//	if(velocity.x < 0)
 		//		_curPlayer->setFlippedX(-1);
 
-		g_BulletManager->shoot(NormalBullet, pos, velocity);
+		g_BulletManager->shoot(NormalBullet, player, pos, velocity);
 		CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/Attack.wav");
 		_curPlayer->fireAction();
 		}

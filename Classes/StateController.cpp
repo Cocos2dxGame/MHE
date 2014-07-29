@@ -79,7 +79,7 @@ void StateController::fire()
 		shootVelocity.y = 2 * (-shootVelocity.x);
 	
 		curNPC->fireAction();
-		m_pBulletMangeer->shoot(NormalBullet,curNPC->getPosition(),shootVelocity);
+		m_pBulletMangeer->shoot(NormalBullet, npc,curNPC->getPosition(),shootVelocity);
 	}
 }
 

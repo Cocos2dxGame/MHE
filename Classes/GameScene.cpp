@@ -633,7 +633,7 @@ void GameScene::dealEndTouch()
 				if(velocity.x < 0)
 					_player->setFlippedX(-1);
 
-			g_BulletManager->shoot(NormalBullet, pos, velocity);
+			g_BulletManager->shoot(NormalBullet, player, pos, velocity);
 			stateController->playerShooting(pos, velocity);
 			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/Attack.wav");
 			_player->fireAction();
@@ -653,7 +653,7 @@ void GameScene::dealEndTouch()
 			velocity.x= (endPosition.x - startPosition.x) / visibleSize.height * 2500 ;
 			velocity.y= (endPosition.y - startPosition.y) / visibleSize.height * 2500;
 
-			g_BulletManager->shoot(SpecialBullet, pos, velocity);
+			g_BulletManager->shoot(SpecialBullet, player, pos, velocity);
 			stateController->playerShooting(pos, velocity);
 			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/Attack.wav");
 			_player->fireAction();
@@ -674,7 +674,7 @@ void GameScene::dealEndTouch()
 			velocity.y= (endPosition.y - startPosition.y) / visibleSize.height * 2500;
 
 			
-			g_BulletManager->shoot(StunBullet, pos, velocity);
+			g_BulletManager->shoot(StunBullet, player, pos, velocity);
 			stateController->playerShooting(pos, velocity);
 			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/Attack.wav");
 			_player->fireAction();
