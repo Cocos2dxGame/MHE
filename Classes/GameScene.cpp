@@ -16,6 +16,7 @@ GameScene::GameScene()
 	gameover(false)
 {
 	//curScene = GameScene3;
+	time = 180;
 }
 
 Scene* GameScene::createScene()
@@ -52,7 +53,10 @@ bool GameScene::init()
 
 	visibleSize = Director::getInstance()->getVisibleSize();
 	origin = Director::getInstance()->getVisibleOrigin();
-	
+	timeLabel = LabelTTF::create("180", "Arial", 24);
+	timeLabel->setPosition(visibleSize.width/2, visibleSize.height*7/8);
+	addChild(timeLabel, 2);
+
 	//music
 	CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("music/background.mp3", true);
 	
@@ -123,22 +127,24 @@ bool GameScene::init()
 	//设置player
 	_player = Player::create();
 	_player->retain();
+	_player->setScale((visibleSize.height/8)/_player->getContentSize().height);
 	_player->setPosition(visibleSize.width/8,visibleSize.height*3/16);
-	_player->setScale(0.5);
+	
 	_player->setTag(1);
 	addChild(_player,1);
 	_player->normalAction();
 
 	//设置npc
+	_curNPC->setScale((visibleSize.height/8)/_curNPC->getContentSize().height);
 	_curNPC->setPosition(visibleSize.width*7/8,visibleSize.height*3/16);
-	_curNPC->setScale(0.5);
+	
 	_curNPC->setTag(2);
 	addChild(_curNPC,1);
 	_curNPC->normalAction();
 
 	//设置障碍物坐标，以及添加到层
-	obstacle->setPosition(Vec2(visibleSize.width/2, visibleSize.height/4-20));
-	obstacle->setScale(0.8, 1);
+	obstacle->setScale((visibleSize.height/4)/obstacle->getContentSize().height);
+	obstacle->setPosition(Vec2(visibleSize.width/2, visibleSize.height/4));
 	obstacle->setTag(3);
 	addChild(obstacle,1);
 	
@@ -439,15 +445,15 @@ void GameScene::update(float deltaTime)
 
 	stateController->update(deltaTime);
 
+	//更新人物位置
 	if(_player->getActionState() == Move_Action)
 	{
-		if(playerDestination.x > _player->getPosition().x+1 && _player->getBoundingBox().getMaxX()+2 < visibleSize.width/2-30)
+		if(playerDestination.x > _player->getPosition().x+1 
+			&& _player->getBoundingBox().getMaxX()+2 < obstacle->getBoundingBox().getMinX())
 			_player->setPosition(_player->getPosition() + Vec2(2,0));
 		else if(playerDestination.x < _player->getPosition().x-1 && _player->getBoundingBox().getMinX()-2 > 10)
 			_player->setPosition(_player->getPosition() - Vec2(2,0));
 	}
-
-	//更新血量，怒气
 	
 	//更新bullet的选择状态
 	switch (currentBulletState)
@@ -505,7 +511,21 @@ void GameScene::update(float deltaTime)
 		skill3CoolBar->setPercentage(0);
 	}
 
+	//更新血量，怒气
 	updateHPandSP();
+
+	//更新时间
+	time -= deltaTime;
+	if(time < 0)
+	{
+		if(!gameover)
+			failure();
+	}
+	else
+	{
+		CCString *pString = CCString::createWithFormat("%d",(int)time);
+		timeLabel->setString(pString->getCString());
+	}
 }
 
 void GameScene::menuCloseCallback(Ref* pSender)

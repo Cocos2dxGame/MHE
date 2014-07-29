@@ -51,12 +51,18 @@ bool SurvivalScene::init()
 
 	//设置player
 	_curPlayer = Player::create();
-	_curPlayer->retain();
 	_curPlayer->setPosition(visibleSize.width/8,visibleSize.height*3/16);
 	_curPlayer->setScale(0.5);
 	_curPlayer->setTag(1);
 	addChild(_curPlayer,1);
 	_curPlayer->normalAction();
+
+	//将player添加到spriteVector中
+	spritesVector.pushBack(_curPlayer);
+
+	//设置重力以及初始化BulletManager
+	g = Vec2(0, -800);
+	g_BulletManager = BulletManager::create(curScene,(Layer*)this, &spritesVector, g);
 
 	this->scheduleUpdate();
 	
@@ -150,7 +156,7 @@ void SurvivalScene::update(float dt)
 
 	if(_curPlayer->getActionState() == Move_Action)
 	{
-		if(playerDestination.x > _curPlayer->getPosition().x+1 && _curPlayer->getBoundingBox().getMaxX()+2 < visibleSize.width/2-30)
+		if(playerDestination.x > _curPlayer->getPosition().x+1 && _curPlayer->getBoundingBox().getMaxX()+2 < visibleSize.width-30)
 			_curPlayer->setPosition(_curPlayer->getPosition() + Vec2(2,0));
 		else if(playerDestination.x < _curPlayer->getPosition().x-1 && _curPlayer->getBoundingBox().getMinX()-2 > 10)
 			_curPlayer->setPosition(_curPlayer->getPosition() - Vec2(2,0));

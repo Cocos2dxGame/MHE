@@ -18,6 +18,7 @@ public:
 	void goBack(Ref* pSender);
 	void reBegin(Ref* pSender);
 	void goChapter(Ref* pSender);
+	void goReturn(Ref* pSender);
 
 	static cocos2d::Scene* createScene(GameSceneType type);
 

@@ -54,7 +54,7 @@ void StateController::update(float dt)
 	{
 		if(npcDestination.x > curNPC->getPosition().x+1 && curNPC->getBoundingBox().getMaxX()+2 < visibleSize.width-10)
 			curNPC->setPosition(curNPC->getPosition() + Vec2(2,0));
-		else if(npcDestination.x < curNPC->getPosition().x-1 && curNPC->getBoundingBox().getMinX()+2 > visibleSize.width/2+30)
+		else if(npcDestination.x < curNPC->getPosition().x-1 && curNPC->getBoundingBox().getMinX()+2 > visibleSize.width*3/5)
 			curNPC->setPosition(curNPC->getPosition() - Vec2(2,0));
 	}
 

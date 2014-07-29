@@ -15,13 +15,13 @@ SecondScene::~SecondScene()
 Scene* SecondScene::createScene()
 {
 	 // 'scene' is an autorelease object
-    auto scene = Scene::create();
-    
-    // 'layer' is an autorelease object
-    auto layer = SecondScene::create();
+	auto scene = Scene::create();
+	
+	// 'layer' is an autorelease object
+	auto layer = SecondScene::create();
 
-    // add layer as a child to scene
-    scene->addChild(layer);
+	// add layer as a child to scene
+	scene->addChild(layer);
 
 	//particle system
 	layer->m_emitter = ParticleSnow::create();
@@ -56,6 +56,6 @@ Scene* SecondScene::createScene()
 
 	layer->addChild(layer->m_emitter);
 
-    // return the scene
-    return scene;
+	// return the scene
+	return scene;
 }

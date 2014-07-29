@@ -13,7 +13,8 @@ public:
 	static cocos2d::Scene* createScene();
 
 	CREATE_FUNC(ThirdScene);
-
+private:
+	cocos2d::ParticleSystemQuad* m_emitter;
 };
 
 #endif 

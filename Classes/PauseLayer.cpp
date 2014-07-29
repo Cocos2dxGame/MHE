@@ -2,6 +2,9 @@
 #include "FirstScene.h"
 #include "SecondScene.h"
 #include "ThirdScene.h"
+#include "SurvivalScene.h"
+#include "CompeteScene.h"
+#include "ModeSelecteScene.h"
 
 USING_NS_CC;
 
@@ -58,7 +61,7 @@ bool PauseLayer::init()
 	auto menu = Menu::create(reBeginItem, goBackItem, goChapterItem,NULL);
 
 	menu->setPosition(Vec2::ZERO);
-    
+	
 	this->addChild(menu, 999);
 
 	return true;
@@ -82,6 +85,12 @@ void PauseLayer::reBegin(Ref* pSender)
 	case GameScene3:
 		pScene = ThirdScene::createScene();
 		break;
+	case GameScene4:
+		pScene = SurvivalScene::createScene();
+		break;
+	case GameScene5:
+		pScene = CompeteScene::createScene();
+		break;
 	default:
 		break;
 	}
@@ -101,8 +110,22 @@ void PauseLayer::goChapter(Ref* pSender)
 	CCDirector::sharedDirector()->resume();  
 	CocosDenshion::SimpleAudioEngine::sharedEngine()->resumeBackgroundMusic();  
 	CocosDenshion::SimpleAudioEngine::sharedEngine()->resumeAllEffects();
-
-	Scene* pScene = ChapterScene::createScene();
+	
+	Scene* pScene;
+	switch (curType)
+	{
+	case GameScene1:
+	case GameScene2:
+	case GameScene3:
+		pScene = ChapterScene::createScene();
+		break;
+	case GameScene4:
+	case GameScene5:
+		pScene = ModeSelecteScene::createScene();
+		break;
+	default:
+		break;
+	}
 	SceneManager::go(pScene);
 }
 

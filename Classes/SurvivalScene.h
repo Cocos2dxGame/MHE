@@ -40,6 +40,7 @@ private:
 	cocos2d::Size visibleSize;
 	cocos2d::Vec2 origin;
 
+	cocos2d::Vector<cocos2d::Sprite*> spritesVector;
 	GameSceneType curScene;
 	Player* _curPlayer;
 	cocos2d::ProgressTimer* skillCoolDownBar;
