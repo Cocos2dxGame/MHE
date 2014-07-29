@@ -26,9 +26,9 @@ public:
 	void clean();
 	GameSceneType SceneType;
 
-	CC_SYNTHESIZE_RETAIN(cocos2d::Action*, m_normalAction, NormalAction);
-	CC_SYNTHESIZE_RETAIN(cocos2d::Action*, m_specialAction, SpecialAction);
-	CC_SYNTHESIZE_RETAIN(cocos2d::Action*, m_stunAction, StunlAction);
+	CC_SYNTHESIZE_RETAIN(cocos2d::Animation*, m_normalAnimation, NormalAnimation);
+	CC_SYNTHESIZE_RETAIN(cocos2d::Animation*, m_specialAnimation, SpecialAnimation);
+	CC_SYNTHESIZE_RETAIN(cocos2d::Animation*, m_stunAnimation, StunlAnimation);
 
 private:
 	
