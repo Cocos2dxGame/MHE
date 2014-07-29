@@ -4,9 +4,9 @@ USING_NS_CC;
 
 BulletManager::BulletManager()
 {
-	m_normalAction = NULL;
-	m_specialAction = NULL;
-	m_stunAction = NULL;
+	m_normalAnimation = NULL;
+	m_specialAnimation = NULL;
+	m_stunAnimation = NULL;
 }
 
 BulletManager::~BulletManager()
@@ -31,6 +31,15 @@ BulletManager* BulletManager::create(GameSceneType gamescenetype, Layer* curLaye
 	switch (gamescenetype)
 	{
 	case GameScene1:
+		cache->addSpriteFramesWithFile("bullet/blef_003.plist");
+		normalAnimation = Animation::create();
+		for(int i = 0; i < 7; i++)
+		{
+			const char* png = String::createWithFormat("%d.png", i)->getCString();
+			normalAnimation->addSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(png));
+		}
+		normalAnimation->setDelayPerUnit(0.07);
+		newManager->setNormalAnimation(normalAnimation);
 		break;
 	case GameScene2:
 		cache->addSpriteFramesWithFile("bullet/blef_003.plist");
@@ -41,47 +50,47 @@ BulletManager* BulletManager::create(GameSceneType gamescenetype, Layer* curLaye
 			normalAnimation->addSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(png));
 		}
 		normalAnimation->setDelayPerUnit(0.07);
+		newManager->setNormalAnimation(normalAnimation);
 		
 		break;
 	case GameScene3:
+		cache->addSpriteFramesWithFile("bullet/blef_003.plist");
+		normalAnimation = Animation::create();
+		for(int i = 0; i < 7; i++)
+		{
+			const char* png = String::createWithFormat("%d.png", i)->getCString();
+			normalAnimation->addSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(png));
+		}
+		normalAnimation->setDelayPerUnit(0.07);
+		newManager->setNormalAnimation(normalAnimation);
 		break;
 	case GameScene4:
+		cache->addSpriteFramesWithFile("bullet/blef_003.plist");
+		normalAnimation = Animation::create();
+		for(int i = 0; i < 7; i++)
+		{
+			const char* png = String::createWithFormat("%d.png", i)->getCString();
+			normalAnimation->addSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(png));
+		}
+		normalAnimation->setDelayPerUnit(0.07);
+		newManager->setNormalAnimation(normalAnimation);
 		break;
 	case GameScene5:
+		cache->addSpriteFramesWithFile("bullet/blef_003.plist");
+		normalAnimation = Animation::create();
+		for(int i = 0; i < 7; i++)
+		{
+			const char* png = String::createWithFormat("%d.png", i)->getCString();
+			normalAnimation->addSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(png));
+		}
+		normalAnimation->setDelayPerUnit(0.07);
+		newManager->setNormalAnimation(normalAnimation);
 		break;
 	default:
 		break;
 	}
 
-	if(normalAnimation)
-	{
-		newManager->setNormalAction(Sequence::create(
-			Animate::create(normalAnimation),
-			CallFuncN::create([&](Node* sender){
-				sender->getParent()->removeChild(sender);
-		}),
-			NULL));
-	}
-
-	if(specialAnimation)
-	{
-		newManager->setSpecialAction(Sequence::create(
-			Animate::create(specialAnimation),
-			CallFuncN::create([&](Node* sender){
-				sender->getParent()->removeChild(sender);
-		}),
-			NULL));
-	}
-
-	if(stunAnimation)
-	{
-		newManager->setStunlAction(Sequence::create(
-			Animate::create(stunAnimation),
-			CallFuncN::create([&](Node* sender){
-				sender->getParent()->removeChild(sender);
-		}),
-			NULL));
-	}
+	
 
 	return newManager;
 }
@@ -104,12 +113,10 @@ void BulletManager::update(float deltaTime)
 			bulletExplode(*iter);
 			(*iter)->getEmitter()->setAutoRemoveOnFinish(true);
 			(*iter)->getEmitter()->stopSystem();
-			//m_layer->removeChild(*iter);
 			m_BulletVector.erase(iter);
 		}
 	}
 	m_BulletDeleteVector.clear();
-
 }
 
 void BulletManager::shoot(bulletType type, Owner owner, Point pos, Vec2 velocity)
@@ -136,7 +143,10 @@ cocos2d::Layer* BulletManager::getLayer()
 
 void BulletManager::deleteBullet(Bullet* pBullet)
 {
-	m_BulletDeleteVector.pushBack(pBullet);
+	if(m_BulletDeleteVector.find(pBullet)==m_BulletDeleteVector.end())
+	{
+		m_BulletDeleteVector.pushBack(pBullet);
+	}
 }
 
 cocos2d::Vector<cocos2d::Sprite*>* BulletManager::getSpriteVector()
@@ -149,16 +159,40 @@ void BulletManager::bulletExplode(Bullet* pBullet)
 	switch (pBullet->getType())
 	{
 	case NormalBullet:
-		if(m_normalAction)
+		if(m_normalAnimation)
 		{
-			pBullet->runAction(m_normalAction);
+			Action *action = Sequence::create(
+				Animate::create(m_normalAnimation),
+				CallFuncN::create([&](Node* sender){
+					sender->getParent()->removeChild(sender);
+			}),
+			NULL);
+			pBullet->runAction(action);
 		}
 		break;
 	case SpecialBullet:
-
+		if(m_normalAnimation)
+		{
+			Action *action = Sequence::create(
+				Animate::create(m_normalAnimation),
+				CallFuncN::create([&](Node* sender){
+					sender->getParent()->removeChild(sender);
+			}),
+				NULL);
+			pBullet->runAction(action);
+		}
 		break;
 	case StunBullet:
-
+		if(m_normalAnimation)
+		{
+			Action *action = Sequence::create(
+				Animate::create(m_normalAnimation),
+				CallFuncN::create([&](Node* sender){
+					sender->getParent()->removeChild(sender);
+			}),
+				NULL);
+			pBullet->runAction(action);
+		}
 		break;
 	default:
 		break;
