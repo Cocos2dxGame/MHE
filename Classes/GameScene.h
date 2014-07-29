@@ -20,15 +20,15 @@ class GameScene : public cocos2d::Layer
 {
 public:
 	GameScene();
-    
+	
 	//创建场景
-    static cocos2d::Scene* createScene();
+	static cocos2d::Scene* createScene();
 
-    //初始化
-    virtual bool init();  
-    
-    //退出按钮
-    void menuCloseCallback(cocos2d::Ref* pSender);
+	//初始化
+	virtual bool init();  
+	
+	//退出按钮
+	void menuCloseCallback(cocos2d::Ref* pSender);
 	//跳跃按钮
 	void jump(Ref* pSender);
 	//暂停
@@ -56,9 +56,9 @@ public:
 
 	//单点触摸函数
 	bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event  *event);
-    void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event  *event);
-    void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event  *event);
-    void onTouchCancelled(cocos2d::Touch* touch, cocos2d::Event  *event);
+	void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event  *event);
+	void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event  *event);
+	void onTouchCancelled(cocos2d::Touch* touch, cocos2d::Event  *event);
 	bool contaiinsTouchLocation(cocos2d::Touch* touch);
 
 	//触摸结束后处理事件
@@ -131,14 +131,14 @@ protected:
 	unsigned int npcCurrrentSP;
 
 	cocos2d::Size visibleSize;
-    cocos2d::Vec2 origin;
+	cocos2d::Vec2 origin;
 
 	//触摸的开始点和结束点
 	cocos2d::Vec2 startPosition;
 	cocos2d::Vec2 endPosition;
 	cocos2d::Vec2 playerDestination;
 
-    CREATE_FUNC(GameScene);
+	CREATE_FUNC(GameScene);
 };
 
 #endif // __HELLOWORLD_SCENE_H__

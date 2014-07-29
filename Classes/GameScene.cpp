@@ -20,38 +20,38 @@ GameScene::GameScene()
 
 Scene* GameScene::createScene()
 {
-    // 'scene' is an autorelease object
-    auto scene = Scene::create();
-    
-    // 'layer' is an autorelease object
-    auto layer = GameScene::create();
+	// 'scene' is an autorelease object
+	auto scene = Scene::create();
+	
+	// 'layer' is an autorelease object
+	auto layer = GameScene::create();
 
-    // add layer as a child to scene
-    scene->addChild(layer);
+	// add layer as a child to scene
+	scene->addChild(layer);
 
-    // return the scene
-    return scene;
+	// return the scene
+	return scene;
 }
 
 // on "init" you need to initialize your instance
 bool GameScene::init()
 {
-    if ( !Layer::init() )
-    {
-        return false;
-    }
+	if ( !Layer::init() )
+	{
+		return false;
+	}
 
 	//´¥Ãþ¼àÌý
 	auto listener = EventListenerTouchOneByOne::create();
 	listener->setSwallowTouches(true);
 
-    listener->onTouchBegan = CC_CALLBACK_2(GameScene::onTouchBegan, this);
+	listener->onTouchBegan = CC_CALLBACK_2(GameScene::onTouchBegan, this);
 	listener->onTouchMoved = CC_CALLBACK_2(GameScene::onTouchMoved, this);
-    listener->onTouchEnded = CC_CALLBACK_2(GameScene::onTouchEnded, this);
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
+	listener->onTouchEnded = CC_CALLBACK_2(GameScene::onTouchEnded, this);
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
-    visibleSize = Director::getInstance()->getVisibleSize();
-    origin = Director::getInstance()->getVisibleOrigin();
+	visibleSize = Director::getInstance()->getVisibleSize();
+	origin = Director::getInstance()->getVisibleOrigin();
 	
 	//music
 	CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("music/background.mp3", true);
@@ -156,7 +156,7 @@ bool GameScene::init()
 
 	this->scheduleUpdate();
 
-    return true;
+	return true;
 }
 
 void GameScene::setRoleProgressBar()
@@ -267,12 +267,12 @@ void GameScene::setMenu(GameSceneType curScene)
 
 	//ÍË³ö°´Å¥
 	auto closeItem = MenuItemImage::create(
-                                           "CloseNormal.png",
-                                           "CloseSelected.png",
-                                           CC_CALLBACK_1(GameScene::menuCloseCallback, this));
-    
+										   "CloseNormal.png",
+										   "CloseSelected.png",
+										   CC_CALLBACK_1(GameScene::menuCloseCallback, this));
+	
 	closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
-                                origin.y + closeItem->getContentSize().height/2));
+								origin.y + closeItem->getContentSize().height/2));
 
 	////Jump°´Å¥
 	//auto jumpItem = MenuItemImage::create(
@@ -381,15 +381,15 @@ void GameScene::setMenu(GameSceneType curScene)
 		break;
 	}
    
-    
+	
 	skill1Item->setPosition(Vec2(skill1Item->getContentSize().width/2+200,
-                                skill1Item->getContentSize().height/2));
+								skill1Item->getContentSize().height/2));
 
 	skill2Item->setPosition(Vec2(skill1Item->getPosition().x + 60 ,
-                                skill1Item->getPosition().y));
+								skill1Item->getPosition().y));
 
 	skill3Item->setPosition(Vec2(skill2Item->getPosition().x + 60 ,
-                                skill2Item->getPosition().y));
+								skill2Item->getPosition().y));
 
 	skill1CoolBar->setType(kCCProgressTimerTypeBar);
 	skill1CoolBar->setMidpoint(ccp(0.5,0));
@@ -414,8 +414,8 @@ void GameScene::setMenu(GameSceneType curScene)
 
 	//Ìí¼Ó²Ëµ¥ 
 	auto menu = Menu::create(pauseItem, closeItem, skill1Item, skill2Item, skill3Item, NULL);
-    menu->setPosition(Vec2::ZERO);
-    this->addChild(menu, 1);
+	menu->setPosition(Vec2::ZERO);
+	this->addChild(menu, 1);
 }
 
 void GameScene::selectedSkill1(Ref* pSender)
@@ -512,13 +512,13 @@ void GameScene::menuCloseCallback(Ref* pSender)
 {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WP8) || (CC_TARGET_PLATFORM == CC_PLATFORM_WINRT)
 	MessageBox("You pressed the close button. Windows Store Apps do not implement a close button.","Alert");
-    return;
+	return;
 #endif
 
-    Director::getInstance()->end();
+	Director::getInstance()->end();
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    exit(0);
+	exit(0);
 #endif
 }
 
@@ -707,10 +707,10 @@ void GameScene::updateHPandSP()
 void GameScene::doPause(Ref* pSender)
 {
 	CCDirector::sharedDirector()->pause();  
-    CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();  
-    CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseAllEffects();  
-    Scene *pauseLayer = PauseLayer::createScene(curScene);  
-    addChild(pauseLayer,999); 
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();  
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseAllEffects();  
+	Scene *pauseLayer = PauseLayer::createScene(curScene);  
+	addChild(pauseLayer,999); 
 }
 
 void GameScene::failure()

@@ -1,6 +1,7 @@
 #include "SceneManager.h"
 #include "StartScene.h"
 #include "ChapterScene.h"
+#include "ModeSelecteScene.h"
 
 USING_NS_CC;
 
@@ -122,6 +123,6 @@ void StartScene::menuCloseCallback(Ref* pSender)
 
 void StartScene::onNewGame(Object* pSender)
 {
-	Scene* pChapterScene = ChapterScene::createScene();
+	Scene* pChapterScene = ModeSelecteScene::createScene();
 	SceneManager::go(pChapterScene);
 }

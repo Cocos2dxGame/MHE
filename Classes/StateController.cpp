@@ -9,7 +9,7 @@ StateController::StateController():
 	playerShoot(false),time(0.0)
 {
 	visibleSize = Director::getInstance()->getVisibleSize();
-    origin = Director::getInstance()->getVisibleOrigin();
+	origin = Director::getInstance()->getVisibleOrigin();
 
 	srand(0);
 }
