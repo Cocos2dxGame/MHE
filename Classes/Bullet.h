@@ -4,11 +4,18 @@
 
 class BulletManager;
 
-typedef enum {
+enum bulletType
+{
 	NormalBullet,
 	SpecialBullet,
 	StunBullet
-}bulletType;
+};
+
+enum Owner
+{
+	player,
+	npc
+};
 
 class Bullet: public cocos2d::Sprite
 {

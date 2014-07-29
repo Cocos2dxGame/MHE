@@ -106,7 +106,7 @@ Bullet* Bullet::createBullet(bulletType type, Point pos, Vec2 velocity, BulletMa
 	bullet->m_emitter->setPosition(pos);
 	bullet->setPosition(pos);
 
-		//¸ù¾ÝËÙ¶ÈµÄx·ÖÁ¿ÉèÖÃ×Óµ¯µÄËõ·Å
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶Èµï¿½xï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	//float screenAera = Director::getInstance()->getVisibleSize().width * Director::getInstance()->getVisibleSize().height;
 	float scale = Director::getInstance()->getVisibleSize().width*0.00034;
 

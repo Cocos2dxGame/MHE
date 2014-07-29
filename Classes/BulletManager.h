@@ -16,14 +16,19 @@ public:
 
 	static BulletManager* create(GameSceneType gamescenetype, cocos2d::Layer* curLayer, cocos2d::Vector<cocos2d::Sprite*>* pSpriteVector, cocos2d::Vec2 g);	/* init bullet manager */
 	void update(float deltaTime);												/* return true delete bullet */
-	void shoot(bulletType type, cocos2d::Point pos, cocos2d::Vec2 velocity);
+	void shoot(bulletType type, Owner owner, cocos2d::Point pos, cocos2d::Vec2 velocity);
 	void deleteBullet(Bullet* pBullet);
+	void bulletExplode(Bullet* pBullet);
 	cocos2d::Vector<Bullet*>* getBulletVector();
 	cocos2d::Vector<cocos2d::Sprite*>* getSpriteVector();
 	cocos2d::Layer* getLayer();
 
 	void clean();
 	GameSceneType SceneType;
+
+	CC_SYNTHESIZE_RETAIN(cocos2d::Action*, m_normalAction, NormalAction);
+	CC_SYNTHESIZE_RETAIN(cocos2d::Action*, m_specialAction, SpecialAction);
+	CC_SYNTHESIZE_RETAIN(cocos2d::Action*, m_stunAction, StunlAction);
 
 private:
 	
@@ -32,6 +37,4 @@ private:
 	cocos2d::Vector<Bullet*>		m_BulletDeleteVector;
 	cocos2d::Vec2					m_g;
 	cocos2d::Vector<cocos2d::Sprite*>*		m_pSpriteVector;
-
-	cocos2d::Action*				m_normalAction;
 };
