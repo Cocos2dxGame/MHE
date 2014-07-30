@@ -17,7 +17,7 @@ Prop* Prop::createProp(GameSceneType sceneType, PropType propType)
 	switch (type)
 	{
 	default:
-		//newProp->initWithFile("")
+		newProp->initWithFile("prop/pp_000.png");
 		break;
 	}
 	return newProp;
