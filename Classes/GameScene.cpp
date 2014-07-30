@@ -127,16 +127,16 @@ bool GameScene::init()
 	//ÉèÖÃplayer
 	_player = Player::create();
 	_player->retain();
-	_player->setScale((visibleSize.height/8)/_player->getContentSize().height);
-	_player->setPosition(visibleSize.width/8,visibleSize.height*3/16);
+	_player->setScale((visibleSize.height*3/16)/_player->getContentSize().height);
+	_player->setPosition(visibleSize.width/8,visibleSize.height*3/16+10);
 	
 	_player->setTag(1);
 	addChild(_player,1);
 	_player->normalAction();
 
 	//ÉèÖÃnpc
-	_curNPC->setScale((visibleSize.height/8)/_curNPC->getContentSize().height);
-	_curNPC->setPosition(visibleSize.width*7/8,visibleSize.height*3/16);
+	_curNPC->setScale((visibleSize.height*3/16)/_curNPC->getContentSize().height);
+	_curNPC->setPosition(visibleSize.width*7/8,visibleSize.height*3/16+10);
 	
 	_curNPC->setTag(2);
 	addChild(_curNPC,1);
@@ -276,7 +276,8 @@ void GameScene::setMenu(GameSceneType curScene)
 										   "CloseNormal.png",
 										   "CloseSelected.png",
 										   CC_CALLBACK_1(GameScene::menuCloseCallback, this));
-	
+	closeItem->setScale(visibleSize.width/20/closeItem->getContentSize().width);
+
 	closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
 								origin.y + closeItem->getContentSize().height/2));
 
@@ -387,13 +388,15 @@ void GameScene::setMenu(GameSceneType curScene)
 		break;
 	}
    
-	
+	skill1Item->setScale(visibleSize.width/20/skill1Item->getContentSize().width);
 	skill1Item->setPosition(Vec2(skill1Item->getContentSize().width/2+200,
 								skill1Item->getContentSize().height/2));
 
+	skill2Item->setScale(visibleSize.width/20/skill2Item->getContentSize().width);
 	skill2Item->setPosition(Vec2(skill1Item->getPosition().x + 60 ,
 								skill1Item->getPosition().y));
 
+	skill3Item->setScale(visibleSize.width/20/skill3Item->getContentSize().width);
 	skill3Item->setPosition(Vec2(skill2Item->getPosition().x + 60 ,
 								skill2Item->getPosition().y));
 
@@ -401,6 +404,7 @@ void GameScene::setMenu(GameSceneType curScene)
 	skill1CoolBar->setMidpoint(ccp(0.5,0));
 	skill1CoolBar->setBarChangeRate(ccp(0,1));
 	skill1CoolBar->setPercentage(0);
+	skill1CoolBar->setScale(visibleSize.width/20/skill1CoolBar->getContentSize().width);
 	skill1CoolBar->setPosition(skill1Item->getPosition().x, skill1Item->getPosition().y);
 	addChild(skill1CoolBar,2);
 
@@ -408,6 +412,7 @@ void GameScene::setMenu(GameSceneType curScene)
 	skill2CoolBar->setMidpoint(ccp(0.5,0));
 	skill2CoolBar->setBarChangeRate(ccp(0,1));
 	skill2CoolBar->setPercentage(0);
+	skill2CoolBar->setScale(visibleSize.width/20/skill2CoolBar->getContentSize().width);
 	skill2CoolBar->setPosition(skill2Item->getPosition().x, skill2Item->getPosition().y);
 	addChild(skill2CoolBar,2);
 
@@ -415,6 +420,7 @@ void GameScene::setMenu(GameSceneType curScene)
 	skill3CoolBar->setMidpoint(Vec2(0.5,0));
 	skill3CoolBar->setBarChangeRate(Vec2(0,1));
 	skill3CoolBar->setPercentage(0);
+	skill3CoolBar->setScale(visibleSize.width/20/skill3CoolBar->getContentSize().width);
 	skill3CoolBar->setPosition(skill3Item->getPosition().x, skill3Item->getPosition().y);
 	addChild(skill3CoolBar,2);
 

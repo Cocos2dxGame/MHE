@@ -32,7 +32,7 @@ bool ModeSelecteScene::init()
 {
 	Size visibleSize = Director::sharedDirector()->getVisibleSize();
 
-	auto bg = Sprite::create("background/bg_002.png");
+	auto bg = Sprite::create("background/bg_005.png");
 	bg->setScale(visibleSize.width/bg->getContentSize().width, 
 		visibleSize.height/bg->getContentSize().height);
 	bg->setPosition(visibleSize/2);
@@ -40,24 +40,24 @@ bool ModeSelecteScene::init()
 	
 
 	auto classical = MenuItemImage::create(
-		"button/bt_000.png",
-		"button/bts_000.png",
+		"button/classical.png",
+		"button/classical_selected.png",
 		CC_CALLBACK_1(ModeSelecteScene::goClassicalScene, this));
 
 	classical->setScale((visibleSize.height/8)/classical->getContentSize().height);
 	classical->setPosition(visibleSize.width/2,visibleSize.height*3/4);
 
 	auto survival = MenuItemImage::create(
-		"button/bt_000.png",
-		"button/bts_000.png",
+		"button/survival.png",
+		"button/survival_selected.png",
 		CC_CALLBACK_1(ModeSelecteScene::goSurvivalScene,this));
 
 	survival->setScale((visibleSize.height/8)/classical->getContentSize().height);
 	survival->setPosition(visibleSize.width/2,visibleSize.height*2/4);
 
 	auto compete = MenuItemImage::create(
-		"button/bt_000.png",
-		"button/bts_000.png",
+		"button/compete.png",
+		"button/compete_selected.png",
 		CC_CALLBACK_1(ModeSelecteScene::goCompeteScene, this));
 		
 	compete->setScale((visibleSize.height/8)/classical->getContentSize().height);

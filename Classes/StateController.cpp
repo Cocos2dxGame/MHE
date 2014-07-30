@@ -44,7 +44,7 @@ void StateController::update(float dt)
 		playerShoot = false;
 		avoid();
 	}
-	else if(time > 10)
+	else if(time > 4)
 	{
 		time = 0.0;
 		fire();

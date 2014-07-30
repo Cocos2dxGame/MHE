@@ -11,24 +11,27 @@ LOCAL_MODULE := cocos2dcpp_shared
 LOCAL_MODULE_FILENAME := libcocos2dcpp
 
 LOCAL_SRC_FILES := hellocpp/main.cpp \
-                   ../../Classes/AppDelegate.cpp \
-                   ../../Classes/StartScene.cpp \
-		   ../../Classes/ChapterScene.cpp \
-		   ../../Classes/Person.cpp \
-		   ../../Classes/Bullet.cpp \
-		   ../../Classes/BulletManager.cpp \
-		   ../../Classes/Role.cpp \
-		   ../../Classes/GameScene.cpp \
-		   ../../Classes/SceneManager.cpp\
-		   ../../Classes/Player.cpp \
-		   ../../Classes/NPC.cpp \
-		   ../../Classes/PauseLayer.cpp \
-		   ../../Classes/FirstScene.cpp \
-		   ../../Classes/SecondScene.cpp \
-		   ../../Classes/ThirdScene.cpp  \
-		   ../../Classes/StateController.cpp \
-		   ../../Classes/SuccessLayer.cpp \
-		   ../../Classes/FailureLayer.cpp
+				   ../../Classes/AppDelegate.cpp \
+				   ../../Classes/StartScene.cpp \
+				   ../../Classes/ChapterScene.cpp \
+				   ../../Classes/Person.cpp \
+				   ../../Classes/Bullet.cpp \
+				   ../../Classes/BulletManager.cpp \
+				   ../../Classes/Role.cpp \
+				   ../../Classes/GameScene.cpp \
+				   ../../Classes/SceneManager.cpp\
+				   ../../Classes/Player.cpp \
+				   ../../Classes/NPC.cpp \
+				   ../../Classes/PauseLayer.cpp \
+				   ../../Classes/FirstScene.cpp \
+				   ../../Classes/SecondScene.cpp \
+				   ../../Classes/ThirdScene.cpp  \
+				   ../../Classes/StateController.cpp \
+				   ../../Classes/SuccessLayer.cpp \
+				   ../../Classes/FailureLayer.cpp \
+				   ../../Classes/ModeSelecteScene.cpp \
+				   ../../Classes/SurvivalScene.cpp \
+				   ../../Classes/CompeteScene.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 

@@ -35,7 +35,7 @@ Scene* ThirdScene::createScene()
 	layer->m_emitter->setGravity(Vec2(0,-10));
 
 	// speed of particles
-	layer->m_emitter->setSpeed(50);
+	layer->m_emitter->setSpeed(30);
 	layer->m_emitter->setSpeedVar(30);
 
 
@@ -49,7 +49,7 @@ Scene* ThirdScene::createScene()
 	startColorVar.b = 0.1f;
 	layer->m_emitter->setStartColorVar(startColorVar);
 
-	layer->m_emitter->setEmissionRate(2);
+	layer->m_emitter->setEmissionRate(1);
 
 	layer->m_emitter->setTexture( Director::getInstance()->getTextureCache()->addImage("particle/1.png"));
 
