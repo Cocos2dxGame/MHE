@@ -21,6 +21,7 @@ BulletManager* BulletManager::create(GameSceneType gamescenetype, Layer* curLaye
 	newManager->m_layer = curLayer;
 	newManager->m_pSpriteVector = pSpriteVector;
 	newManager->SceneType = gamescenetype;
+	newManager->m_propManager = PropManager::create(newManager);
 
 	// create action
 	auto cache = SpriteFrameCache::sharedSpriteFrameCache();
@@ -97,6 +98,8 @@ BulletManager* BulletManager::create(GameSceneType gamescenetype, Layer* curLaye
 
 void BulletManager::update(float deltaTime)
 {
+	m_propManager->update(deltaTime);
+
 	Vector<Bullet*>::iterator iter;
 	for( Bullet* pBullet : m_BulletVector )
 	{
@@ -117,6 +120,7 @@ void BulletManager::update(float deltaTime)
 		}
 	}
 	m_BulletDeleteVector.clear();
+
 }
 
 void BulletManager::shoot(bulletType type, Owner owner, Point pos, Vec2 velocity)
@@ -197,4 +201,9 @@ void BulletManager::bulletExplode(Bullet* pBullet)
 	default:
 		break;
 	}
+}
+
+PropManager* BulletManager::getPropManager()
+{
+	return m_propManager;
 }

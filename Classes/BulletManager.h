@@ -2,6 +2,7 @@
 
 #include "cocos2d.h"
 #include "Bullet.h"
+#include "PropManager.h"
 
 enum GameSceneType
 {
@@ -22,6 +23,7 @@ public:
 	cocos2d::Vector<Bullet*>* getBulletVector();
 	cocos2d::Vector<cocos2d::Sprite*>* getSpriteVector();
 	cocos2d::Layer* getLayer();
+	PropManager* getPropManager();
 
 	void clean();
 	GameSceneType SceneType;
@@ -37,4 +39,6 @@ private:
 	cocos2d::Vector<Bullet*>		m_BulletDeleteVector;
 	cocos2d::Vec2					m_g;
 	cocos2d::Vector<cocos2d::Sprite*>*		m_pSpriteVector;
+
+	PropManager* m_propManager;
 };

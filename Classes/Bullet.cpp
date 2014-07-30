@@ -143,7 +143,6 @@ void Bullet::update(Vec2 acceleration, float deltaTime)
 		}
 		else
 		{
-			//std::list<Bullet*>::iterator iter;
 			// detect person collision
 			for(Sprite* pSprite : *(m_pBulletManager->getSpriteVector()))
 			{
@@ -176,6 +175,16 @@ void Bullet::update(Vec2 acceleration, float deltaTime)
 						m_pBulletManager->deleteBullet(this);
 						return ;
 					}
+				}
+			}
+
+			// detect prop collision
+			for(Prop* pProp : *(m_pBulletManager->getPropManager()->getPropVector()))
+			{
+				if(pProp->getBoundingBox().intersectsRect(this->getBoundingBox()))
+				{
+					m_pBulletManager->deleteBullet(this);
+					m_pBulletManager->getPropManager()->deleteProp(pProp);
 				}
 			}
 		}
