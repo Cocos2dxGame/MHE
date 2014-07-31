@@ -9,13 +9,6 @@
 #include "BulletManager.h"
 #include "StateController.h"
 
-#define FIX_POS(_pos, _min, _max) \
- if (_pos < _min)        \
- _pos = _min;        \
-else if (_pos > _max)   \
- _pos = _max;        \
-
-
 class GameScene : public cocos2d::Layer
 {
 public:

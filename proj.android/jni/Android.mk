@@ -31,7 +31,9 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 				   ../../Classes/FailureLayer.cpp \
 				   ../../Classes/ModeSelecteScene.cpp \
 				   ../../Classes/SurvivalScene.cpp \
-				   ../../Classes/CompeteScene.cpp
+				   ../../Classes/CompeteScene.cpp \
+				   ../../Classes/Prop.cpp \
+				   ../../Classes/PropManager.cpp 
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 

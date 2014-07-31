@@ -5,11 +5,11 @@ USING_NS_CC;
 Person::Person()
 {
 	_normalAction = NULL;
-    _fireAction = NULL;
-    _attackedAction = NULL;
+	_fireAction = NULL;
+	_attackedAction = NULL;
 	_frozenAction = NULL;
-    _moveAction = NULL;
-    _jumpAction = NULL;
+	_moveAction = NULL;
+	_jumpAction = NULL;
 	_victoryAction = NULL;
 	_failAction = NULL;
 
@@ -159,11 +159,19 @@ void Person::failAction()
 		runAction(_failAction);
 }
 
+void Person::getProp()
+{
+	if(getHP()+10 < getTotalHP())
+			setHP(getHP()+10);
+		else
+			setHP(getTotalHP());
+}
+
 bool Person::changeState(ActionState state)
 {
 	// 已经胜利，就不能再出发其他动作了！
-    if (_currentState == Vectory_Action) 
-        return false;
+	if (_currentState == Vectory_Action) 
+		return false;
 
 	// 已经失败，就不能再出发其他动作了！
 	if(_currentState == Fail_Action)
@@ -178,15 +186,15 @@ bool Person::changeState(ActionState state)
 	if(_currentState == Jump_Action)
 		return false;
 
-    // 已经处于要改变的状态，就没必要在改变了！
-    if (_currentState == state) 
+	// 已经处于要改变的状态，就没必要在改变了！
+	if (_currentState == state) 
 	{
-        return false;
-    }
+		return false;
+	}
 
-    // 改变动作之前，先停止所有动作
-    this->stopAllActions();
+	// 改变动作之前，先停止所有动作
+	this->stopAllActions();
 
-    _currentState = state;
-    return true;
+	_currentState = state;
+	return true;
 }

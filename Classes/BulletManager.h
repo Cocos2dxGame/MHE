@@ -4,10 +4,7 @@
 #include "Bullet.h"
 #include "PropManager.h"
 
-enum GameSceneType
-{
-	GameScene1, GameScene2, GameScene3, GameScene4, GameScene5
-};
+
 
 class BulletManager
 {

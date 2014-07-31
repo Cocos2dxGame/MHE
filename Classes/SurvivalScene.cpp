@@ -3,7 +3,8 @@
 
 USING_NS_CC;
 
-SurvivalScene::SurvivalScene()
+SurvivalScene::SurvivalScene():
+	skillCoolDownNeedTime(0),skillCoolDownTime(4)
 {
 	curScene = GameScene4;
 }
@@ -40,10 +41,11 @@ bool SurvivalScene::init()
 	listener->onTouchEnded = CC_CALLBACK_2(SurvivalScene::onTouchEnded, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
-	auto bg = Sprite::create("background/bg_003.png");
-	bg->setScale(Director::sharedDirector()->getVisibleSize().width/bg->getContentSize().width);
+	auto bg = Sprite::create("background/bg_survival.png");
+	bg->setScale(visibleSize.width/bg->getContentSize().width,
+		visibleSize.height/bg->getContentSize().height);
 	bg->setPosition(Director::sharedDirector()->getVisibleSize()/2);
-	addChild(bg,1);
+	addChild(bg);
 
 	setSkillCoolDownBar();
 	setMenu();
@@ -67,8 +69,6 @@ bool SurvivalScene::init()
 	this->scheduleUpdate();
 	
 	return true;
-
-
 }
 
 void SurvivalScene::setSkillCoolDownBar()
@@ -160,6 +160,22 @@ void SurvivalScene::update(float dt)
 			_curPlayer->setPosition(_curPlayer->getPosition() + Vec2(2,0));
 		else if(playerDestination.x < _curPlayer->getPosition().x-1 && _curPlayer->getBoundingBox().getMinX()-2 > 10)
 			_curPlayer->setPosition(_curPlayer->getPosition() - Vec2(2,0));
+
+		startPosition = _curPlayer->getPosition();
+		powerBarBg->setPosition(startPosition);
+		powerBar->setPosition(startPosition);
+	}
+
+	//更新技能冷却时间
+	if(skillCoolDownNeedTime - dt> 0)
+	{
+		skillCoolDownNeedTime -= dt;
+		skillCoolDownBar->setPercentage(skillCoolDownNeedTime/skillCoolDownTime * 100);
+	}
+	else
+	{
+		skillCoolDownNeedTime = 0.0f;
+		skillCoolDownBar->setPercentage(0);
 	}
 }
 
@@ -258,7 +274,7 @@ void SurvivalScene::dealEndTouch()
 	{
 		CCLOG("cd time");
 	}
-	else if(_curPlayer->getActionState() != Frozen_Action)
+	else
 	{
 		skillCoolDownNeedTime = skillCoolDownTime;
 
@@ -266,16 +282,11 @@ void SurvivalScene::dealEndTouch()
 		Vec2 velocity;
 		velocity.x= (endPosition.x - startPosition.x) / visibleSize.height * 2500 ;
 		velocity.y= (endPosition.y - startPosition.y) /visibleSize.height * 2500;
-
-		//if(_curPlayer->isFlippedX())
-		//	if(velocity.x > 0)
-		//		_curPlayer->setFlippedX(-1);
-		//else
-		//	if(velocity.x < 0)
-		//		_curPlayer->setFlippedX(-1);
+	
 
 		g_BulletManager->shoot(NormalBullet, player, pos, velocity);
 		CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/Attack.wav");
 		_curPlayer->fireAction();
-		}
+	}
+
 }

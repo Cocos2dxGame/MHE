@@ -3,7 +3,10 @@
 #include "cocos2d.h"
 
 class PropManager;
-enum GameSceneType;
+enum GameSceneType
+{
+	GameScene1, GameScene2, GameScene3, GameScene4, GameScene5
+};
 
 enum PropType
 {
