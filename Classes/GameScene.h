@@ -82,8 +82,9 @@ protected:
 	cocos2d::Vec2 g;
 	StateController* stateController;
 	bool gameover;
-	cocos2d::LabelTTF* timeLabel;
+	cocos2d::Label* timeLabel;
 	float time;
+
 	//人物的血条、怒气条
 	cocos2d::ProgressTimer* roleHPProgressTimer;
 	cocos2d::ProgressTimer* roleSPProgressTimer;

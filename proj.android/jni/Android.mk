@@ -29,12 +29,13 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 				   ../../Classes/StateController.cpp \
 				   ../../Classes/SuccessLayer.cpp \
 				   ../../Classes/FailureLayer.cpp \
-				   ../../Classes/ModeSelecteScene.cpp \
+				   ../../Classes/ModeSelectScene.cpp \
 				   ../../Classes/SurvivalScene.cpp \
 				   ../../Classes/CompeteScene.cpp \
 				   ../../Classes/Prop.cpp \
 				   ../../Classes/PropManager.cpp \
-				   ../../Classes/ConfigureScene.cpp
+				   ../../Classes/ConfigureScene.cpp \
+				   ../../Classes/HelpScene.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 

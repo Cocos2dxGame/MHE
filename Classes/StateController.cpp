@@ -68,12 +68,10 @@ void StateController::fire()
 		Vec2 shootVelocity;
 
 		//随机数
-		int temp = 200 * rand()/(RAND_MAX+1.0);
-		CCLOG("rand is %d", temp);
+		int temp = visibleSize.width/4 * rand()/(RAND_MAX+1.0);
 
 		Vec2 tempPosition = curNPC->getPosition();
-		tempPosition += Vec2(temp-100,0);
-		CCLOG("tempPosition x=%f, y=%f", tempPosition.x, tempPosition.y);
+		tempPosition += Vec2(temp-visibleSize.width/4/2, 0);
 	
 		shootVelocity.x =- sqrt((-gravity.y) * (tempPosition.x - playerPositon.x) / 4);
 		shootVelocity.y = 2 * (-shootVelocity.x);
@@ -88,8 +86,8 @@ void StateController::avoid()
 	if(curNPC->getActionState() != Frozen_Action)
 	{
 		//随机数
-		int temp = 300 * rand()/(RAND_MAX+1.0);
-		hitPosition += Vec2(temp-150, 0);
+		int temp = visibleSize.width/3 * rand()/(RAND_MAX+1.0);
+		hitPosition += Vec2(temp-visibleSize.width/3/2, 0);
 
 		if(hitPosition.x < visibleSize.width* 5/8)
 		{

@@ -54,10 +54,12 @@ bool GameScene::init()
 
 	visibleSize = Director::getInstance()->getVisibleSize();
 	origin = Director::getInstance()->getVisibleOrigin();
-	timeLabel = LabelTTF::create("180", "Arial", 24);
+
+	timeLabel = Label::createWithBMFont("fonts/bitmapFontTest.fnt","180");
 	timeLabel->setPosition(visibleSize.width/2, visibleSize.height*7/8);
-	addChild(timeLabel, 2);
-	
+	addChild(timeLabel,10);
+
+
 	//设置力度条
 	setPowerBar();
 	
@@ -527,8 +529,9 @@ void GameScene::update(float deltaTime)
 	}
 	else
 	{
-		CCString *pString = CCString::createWithFormat("%d",(int)time);
-		timeLabel->setString(pString->getCString());
+		char string[15] = {0};
+		sprintf(string, "%d", (int)time);
+		timeLabel->setString(string);
 	}
 }
 

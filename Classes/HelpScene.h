@@ -12,6 +12,8 @@ public:
 	static cocos2d::Scene* createScene();
 	bool init();
 
+	void doReturn(Ref* pSender);
+
 	CREATE_FUNC(HelpScene);
 private:
 	cocos2d::Size visibleSize;
