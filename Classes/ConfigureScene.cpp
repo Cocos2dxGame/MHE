@@ -100,7 +100,7 @@ void ConfigureScene::selectedMusicEvent(Ref* pSender, CheckBox::EventType type)
 		break;
 	case cocos2d::ui::CheckBox::EventType::UNSELECTED:
 		OpenMusic = false;
-		CocosDenshion::SimpleAudioEngine::sharedEngine()->stopBackgroundMusic();
+		CocosDenshion::SimpleAudioEngine::sharedEngine()->stopBackgroundMusic(true);
 		break;
 	default:
 		break;
@@ -117,7 +117,7 @@ void ConfigureScene::selectedMusicEffectEvent(Ref* pSender, CheckBox::EventType 
 		break;
 	case cocos2d::ui::CheckBox::EventType::UNSELECTED:
 		OpenMusicEffect = false;
-		CocosDenshion::SimpleAudioEngine::sharedEngine()->stopBackgroundMusic();
+		CocosDenshion::SimpleAudioEngine::sharedEngine()->stopBackgroundMusic(true);
 		break;
 	default:
 		break;

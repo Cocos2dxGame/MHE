@@ -4,6 +4,7 @@
 #include "ModeSelectScene.h"
 #include "ConfigureScene.h"
 #include "Configure.h"
+#include "HelpScene.h"
 
 USING_NS_CC;
 
@@ -57,7 +58,7 @@ bool StartScene::init()
 	// create new scene
 	MenuItemImage *newgame = MenuItemImage::create("button/bt_000.png", "button/bts_000.png", CC_CALLBACK_1(StartScene::onNewGame, this));
 	MenuItemImage *config = MenuItemImage::create("button/bt_001.png", "button/bts_001.png", CC_CALLBACK_1(StartScene::onConfigure, this));
-	MenuItemImage *help = MenuItemImage::create("button/bt_002.png", "button/bts_002.png", CC_CALLBACK_1(StartScene::onNewGame, this));
+	MenuItemImage *help = MenuItemImage::create("button/bt_002.png", "button/bts_002.png", CC_CALLBACK_1(StartScene::onHelp, this));
 	float scale = visibleSize.height/860;
 	newgame->setScale(scale);
 	config->setScale(scale);
@@ -145,5 +146,11 @@ void StartScene::onNewGame(Object* pSender)
 void StartScene::onConfigure(cocos2d::Object* pSender)
 {
 	Scene* pScene = ConfigureScene::createScene();
+	SceneManager::go(pScene);
+}
+
+void StartScene::onHelp(cocos2d::Object* pSender)
+{
+	Scene* pScene = HelpScene::createScene();
 	SceneManager::go(pScene);
 }

@@ -6,6 +6,7 @@
 
 USING_NS_CC;
 
+extern bool OpenMusicEffect;
 BulletManager* g_BulletManager;
 
 GameScene::GameScene()
@@ -658,7 +659,8 @@ void GameScene::dealEndTouch()
 
 			g_BulletManager->shoot(NormalBullet, player, pos, velocity);
 			stateController->playerShooting(pos, velocity);
-			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/Attack.wav");
+			if(OpenMusicEffect)
+				CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/Attack.wav");
 			_player->fireAction();
 		}
 		break;
@@ -678,7 +680,8 @@ void GameScene::dealEndTouch()
 
 			g_BulletManager->shoot(SpecialBullet, player, pos, velocity);
 			stateController->playerShooting(pos, velocity);
-			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/Attack.wav");
+			if(OpenMusicEffect)
+				CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/Attack.wav");
 			_player->fireAction();
 		}
 		break;
@@ -699,7 +702,8 @@ void GameScene::dealEndTouch()
 			
 			g_BulletManager->shoot(StunBullet, player, pos, velocity);
 			stateController->playerShooting(pos, velocity);
-			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/Attack.wav");
+			if(OpenMusicEffect)
+				CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/Attack.wav");
 			_player->fireAction();
 
 		}

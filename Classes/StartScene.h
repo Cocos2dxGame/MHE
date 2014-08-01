@@ -19,6 +19,8 @@ public:
 
 	void onConfigure(cocos2d::Object* pSender);
 
+	void onHelp(cocos2d::Object* pSender);
+
 	//void onNewGame(cocos2d::Object* pSender);
 	
 	// implement the "static create()" method manually
