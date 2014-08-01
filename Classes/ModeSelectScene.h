@@ -17,6 +17,7 @@ public:
 	void goClassicalScene(Ref* pSender);
 	void goSurvivalScene(Ref* pSender);
 	void goCompeteScene(Ref* pSender);
+	void doReturn(Ref* pSender);
 
 	CREATE_FUNC(ModeSelectScene);
 

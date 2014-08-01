@@ -5,13 +5,11 @@
 USING_NS_CC;
 using namespace ui;
 
-bool OpenMusic;
-bool OpenMusicEffect;
+extern bool OpenMusic;
+extern bool OpenMusicEffect;
 
 ConfigureScene::ConfigureScene()
 {
-	OpenMusic = true;
-	OpenMusicEffect = true;
 }
 
 ConfigureScene::~ConfigureScene()
@@ -53,7 +51,8 @@ bool ConfigureScene::init()
 											  "button/check_box_active.png",
 											  "button/check_box_normal_disable.png",
 											  "button/check_box_active_disable.png");
-	musicCheckBox->setSelectedState(true);
+	if(OpenMusic)
+		musicCheckBox->setSelectedState(true);
 	musicCheckBox->setPosition(Vec2(visibleSize.width*3/5, visibleSize.height*2/3));	
 	musicCheckBox->addEventListener(CC_CALLBACK_2(ConfigureScene::selectedMusicEvent, this));
 	addChild(musicCheckBox,1);
@@ -68,7 +67,8 @@ bool ConfigureScene::init()
 											  "button/check_box_active.png",
 											  "button/check_box_normal_disable.png",
 											  "button/check_box_active_disable.png");
-	musicEffectCheckBox->setSelectedState(true);
+	if(OpenMusicEffect)
+		musicEffectCheckBox->setSelectedState(true);
 	musicEffectCheckBox->setPosition(Vec2(visibleSize.width*3/5, visibleSize.height/3));	
 	musicEffectCheckBox->addEventListener(CC_CALLBACK_2(ConfigureScene::selectedMusicEffectEvent, this));
 	addChild(musicEffectCheckBox,1);
@@ -96,9 +96,11 @@ void ConfigureScene::selectedMusicEvent(Ref* pSender, CheckBox::EventType type)
 	{
 	case cocos2d::ui::CheckBox::EventType::SELECTED:
 		OpenMusic = true;
+		CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("music/background.mp3", true);
 		break;
 	case cocos2d::ui::CheckBox::EventType::UNSELECTED:
 		OpenMusic = false;
+		CocosDenshion::SimpleAudioEngine::sharedEngine()->stopBackgroundMusic();
 		break;
 	default:
 		break;
@@ -111,9 +113,11 @@ void ConfigureScene::selectedMusicEffectEvent(Ref* pSender, CheckBox::EventType 
 	{
 	case cocos2d::ui::CheckBox::EventType::SELECTED:
 		OpenMusicEffect = true;
+		CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("music/background.mp3", true);
 		break;
 	case cocos2d::ui::CheckBox::EventType::UNSELECTED:
 		OpenMusicEffect = false;
+		CocosDenshion::SimpleAudioEngine::sharedEngine()->stopBackgroundMusic();
 		break;
 	default:
 		break;

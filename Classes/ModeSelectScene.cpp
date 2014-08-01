@@ -2,8 +2,12 @@
 #include "ChapterScene.h"
 #include "SurvivalScene.h"
 #include "CompeteScene.h"
+#include "StartScene.h"
 
 USING_NS_CC;
+
+extern bool OpenMusic;
+extern bool OpenMusicEffect;
 
 ModeSelectScene::ModeSelectScene()
 {
@@ -37,7 +41,6 @@ bool ModeSelectScene::init()
 		visibleSize.height/bg->getContentSize().height);
 	bg->setPosition(visibleSize/2);
 	addChild(bg, 1);
-	
 
 	auto classical = MenuItemImage::create(
 		"button/classical.png",
@@ -63,7 +66,18 @@ bool ModeSelectScene::init()
 	compete->setScale((visibleSize.height/8)/classical->getContentSize().height);
 	compete->setPosition(visibleSize.width/2,visibleSize.height/4);
 
-	auto menu = Menu::create(classical, survival, compete, NULL);
+	//·µ»Ø°´Å¥
+	auto returnItem = MenuItemImage::create(
+										"button/return.png",
+										"button/return_selected.png",
+										CC_CALLBACK_1(ModeSelectScene::doReturn, this));
+	returnItem->setScale(visibleSize.width/20/returnItem->getContentSize().width);
+
+	returnItem->setPosition(Vec2(visibleSize.width - visibleSize.width/12/2,
+		visibleSize.height - visibleSize.height/12/2));
+
+
+	auto menu = Menu::create(classical, survival, compete, returnItem, NULL);
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu, 1);
 
@@ -85,5 +99,11 @@ void ModeSelectScene::goSurvivalScene(Ref* pSender)
 void ModeSelectScene::goCompeteScene(Ref* pSender)
 {
 	Scene* pScene = CompeteScene::createScene();
+	SceneManager::go(pScene);
+}
+
+void ModeSelectScene::doReturn(Ref* pSender)
+{
+	Scene* pScene = StartScene::createScene();
 	SceneManager::go(pScene);
 }

@@ -56,9 +56,6 @@ bool GameScene::init()
 	timeLabel = LabelTTF::create("180", "Arial", 24);
 	timeLabel->setPosition(visibleSize.width/2, visibleSize.height*7/8);
 	addChild(timeLabel, 2);
-
-	//music
-	CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("music/background.mp3", true);
 	
 	//设置力度条
 	setPowerBar();

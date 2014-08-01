@@ -3,8 +3,13 @@
 #include "ChapterScene.h"
 #include "ModeSelectScene.h"
 #include "ConfigureScene.h"
+#include "Configure.h"
 
 USING_NS_CC;
+
+extern bool OpenMusic;
+extern bool OpenMusicEffect;
+extern bool FirstPlay;
 
 Scene* StartScene::createScene()
 {
@@ -32,6 +37,15 @@ bool StartScene::init()
 	}
 
 	Size visibleSize = Director::getInstance()->getVisibleSize();
+
+	//ÒôÀÖ
+	if(OpenMusic && FirstPlay)
+	{
+		CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("music/background.mp3", true);
+		FirstPlay = false;
+	}
+	//else if(!OpenMusic && FirstPlay)
+	//	CocosDenshion::SimpleAudioEngine::sharedEngine()->stopBackgroundMusic();
 
 	// add background image
 	Sprite* bg = Sprite::create("background/bg_000.png");
