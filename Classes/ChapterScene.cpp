@@ -3,6 +3,7 @@
 #include "FirstScene.h"
 #include "SecondScene.h"
 #include "ThirdScene.h"
+#include "ModeSelectScene.h"
 
 USING_NS_CC;
 
@@ -40,14 +41,14 @@ bool ChapterScene::init()
 
     // add a "close" icon to exit the progress. it's an autorelease object
     auto closeItem = MenuItemImage::create(
-                                           "CloseNormal.png",
-                                           "CloseSelected.png",
+                                           "button/return.png",
+                                           "button/return_selected.png",
                                            CC_CALLBACK_1(ChapterScene::menuCloseCallback, this));
     
-
-
-	closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
-                                origin.y + closeItem->getContentSize().height/2));
+	
+	closeItem->setScale(visibleSize.width/800);
+	closeItem->setPosition(Vec2(origin.x + visibleSize.width - 0.5*(closeItem->getBoundingBox().getMaxX()-closeItem->getBoundingBox().getMinX()) ,
+                                origin.y + 0.5*(closeItem->getBoundingBox().getMaxY()-closeItem->getBoundingBox().getMinY())));
 
     // create menu, it's an autorelease object
     auto menu = Menu::create(closeItem, NULL);
@@ -112,8 +113,7 @@ void ChapterScene::menuCloseCallback(Ref* pSender)
 	MessageBox("You pressed the close button. Windows Store Apps do not implement a close button.","Alert");
     return;
 #endif
-
-    Director::getInstance()->end();
+    SceneManager::go(ModeSelectScene::createScene());
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     exit(0);
