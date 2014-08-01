@@ -59,6 +59,7 @@ protected:
 
 	char roleName[100];
 	cocos2d::SpriteFrameCache* cache;
+	bool faceRight;
 
 private:
 	bool changeState(ActionState state);

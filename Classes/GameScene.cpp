@@ -459,6 +459,10 @@ void GameScene::update(float deltaTime)
 			_player->setPosition(_player->getPosition() + Vec2(2,0));
 		else if(playerDestination.x < _player->getPosition().x-1 && _player->getBoundingBox().getMinX()-2 > 10)
 			_player->setPosition(_player->getPosition() - Vec2(2,0));
+
+		startPosition = _player->getPosition();
+		powerBarBg->setPosition(startPosition);
+		powerBar->setPosition(startPosition);
 	}
 	
 	//更新bullet的选择状态

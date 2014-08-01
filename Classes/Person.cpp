@@ -88,12 +88,14 @@ void Person::jumpActionEnd()
 
 void Person::attacked(bulletType type)
 {
+	int damage;
 	switch (type)
 	{
 	case NormalBullet:
 		//ÉèÖÃHP
-		if(getHP()-10 > 0)
-			setHP(getHP()-10);
+		damage = 10;
+		if(getHP()-damage > 0)
+			setHP(getHP()-damage);
 		else
 			setHP(0);
 
@@ -109,9 +111,10 @@ void Person::attacked(bulletType type)
 		break;
 
 	case SpecialBullet:
+		damage = 20;
 		//ÉèÖÃHP
-		if(getHP()-20 > 0)
-			setHP(getHP()-20);
+		if(getHP()-damage > 0)
+			setHP(getHP()-damage);
 		else
 			setHP(0);
 
@@ -127,8 +130,9 @@ void Person::attacked(bulletType type)
 		break;
 	case StunBullet:
 		//ÉèÖÃHP
-		if(getHP()-30 > 0)
-			setHP(getHP()-30);
+		damage=10;
+		if(getHP()-damage > 0)
+			setHP(getHP()-damage);
 		else
 			setHP(0);
 
@@ -145,6 +149,12 @@ void Person::attacked(bulletType type)
 	default:
 		break;
 	}
+
+	//char string[10]={0};
+	//sprintf(string, "%d", damage);
+	//auto label = Label::createWithBMFont("fonts/bitmapFontTest.fnt",string);
+	//label->setPosition(getPosition()+Vec2(0,50));
+	//addChild(label,4);
 }
 
 void Person::frozenAction()

@@ -10,6 +10,8 @@ Player::Player()
 	sprintf(plistFileName,"character/%s.plist", roleName);  
 	cache = SpriteFrameCache::sharedSpriteFrameCache();
 	cache->addSpriteFramesWithFile(plistFileName);
+
+	faceRight = true;
 }
 
 Player::~Player()
