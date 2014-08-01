@@ -1,25 +1,25 @@
-#include "ModeSelecteScene.h"
+#include "ModeSelectScene.h"
 #include "ChapterScene.h"
 #include "SurvivalScene.h"
 #include "CompeteScene.h"
 
 USING_NS_CC;
 
-ModeSelecteScene::ModeSelecteScene()
+ModeSelectScene::ModeSelectScene()
 {
 }
 
-ModeSelecteScene::~ModeSelecteScene()
+ModeSelectScene::~ModeSelectScene()
 {
 }
 
-Scene* ModeSelecteScene::createScene()
+Scene* ModeSelectScene::createScene()
 {
 	// 'scene' is an autorelease object
 	auto scene = Scene::create();
 	
 	// 'layer' is an autorelease object
-	auto layer = ModeSelecteScene::create();
+	auto layer = ModeSelectScene::create();
 
 	// add layer as a child to scene
 	scene->addChild(layer);
@@ -28,7 +28,7 @@ Scene* ModeSelecteScene::createScene()
 	return scene;
 }
 
-bool ModeSelecteScene::init()
+bool ModeSelectScene::init()
 {
 	Size visibleSize = Director::sharedDirector()->getVisibleSize();
 
@@ -42,7 +42,7 @@ bool ModeSelecteScene::init()
 	auto classical = MenuItemImage::create(
 		"button/classical.png",
 		"button/classical_selected.png",
-		CC_CALLBACK_1(ModeSelecteScene::goClassicalScene, this));
+		CC_CALLBACK_1(ModeSelectScene::goClassicalScene, this));
 
 	classical->setScale((visibleSize.height/8)/classical->getContentSize().height);
 	classical->setPosition(visibleSize.width/2,visibleSize.height*3/4);
@@ -50,7 +50,7 @@ bool ModeSelecteScene::init()
 	auto survival = MenuItemImage::create(
 		"button/survival.png",
 		"button/survival_selected.png",
-		CC_CALLBACK_1(ModeSelecteScene::goSurvivalScene,this));
+		CC_CALLBACK_1(ModeSelectScene::goSurvivalScene,this));
 
 	survival->setScale((visibleSize.height/8)/classical->getContentSize().height);
 	survival->setPosition(visibleSize.width/2,visibleSize.height*2/4);
@@ -58,7 +58,7 @@ bool ModeSelecteScene::init()
 	auto compete = MenuItemImage::create(
 		"button/compete.png",
 		"button/compete_selected.png",
-		CC_CALLBACK_1(ModeSelecteScene::goCompeteScene, this));
+		CC_CALLBACK_1(ModeSelectScene::goCompeteScene, this));
 		
 	compete->setScale((visibleSize.height/8)/classical->getContentSize().height);
 	compete->setPosition(visibleSize.width/2,visibleSize.height/4);
@@ -70,19 +70,19 @@ bool ModeSelecteScene::init()
 	return true;
 }
 
-void ModeSelecteScene::goClassicalScene(Ref* pSender)
+void ModeSelectScene::goClassicalScene(Ref* pSender)
 {
 	Scene* pScene = ChapterScene::createScene();
 	SceneManager::go(pScene);
 }
 
-void ModeSelecteScene::goSurvivalScene(Ref* pSender)
+void ModeSelectScene::goSurvivalScene(Ref* pSender)
 {
 	Scene* pScene = SurvivalScene::createScene();
 	SceneManager::go(pScene);
 }
 
-void ModeSelecteScene::goCompeteScene(Ref* pSender)
+void ModeSelectScene::goCompeteScene(Ref* pSender)
 {
 	Scene* pScene = CompeteScene::createScene();
 	SceneManager::go(pScene);

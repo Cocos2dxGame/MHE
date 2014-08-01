@@ -2,7 +2,7 @@
 #define __CONFIGURE_SCENE_H__
 
 #include "cocos2d.h"
-//#include "ui\CocosGUI.h"
+#include "ui/UICheckBox.h"
 
 
 class ConfigureScene :public cocos2d::Layer
@@ -15,8 +15,10 @@ public:
 
 	bool init();
 
-	//void selectedMusicEvent(Ref* pSender, cocos2d::ui::CheckBox::EventType type);
-	//void selectedMusicEffectEvent(Ref* pSender, cocos2d::ui::CheckBox::EventType type);
+	void selectedMusicEvent(Ref* pSender, cocos2d::ui::CheckBox::EventType type);
+	void selectedMusicEffectEvent(Ref* pSender, cocos2d::ui::CheckBox::EventType type);
+
+	void doReturn(Ref* pSender);
 
 	CREATE_FUNC(ConfigureScene);
 

@@ -1,14 +1,14 @@
-#ifndef __MODE_SELECTE_SCENE__
-#define __MODE_SELECTE_SCENE__
+#ifndef __MODE_SELECT_SCENE__
+#define __MODE_SELECT_SCENE__
 
 #include "cocos2d.h"
 #include "SceneManager.h"
 
-class ModeSelecteScene :public cocos2d::Layer
+class ModeSelectScene :public cocos2d::Layer
 {
 public:
-	ModeSelecteScene();
-	~ModeSelecteScene();
+	ModeSelectScene();
+	~ModeSelectScene();
 
 	static cocos2d::Scene* createScene();
 
@@ -18,7 +18,7 @@ public:
 	void goSurvivalScene(Ref* pSender);
 	void goCompeteScene(Ref* pSender);
 
-	CREATE_FUNC(ModeSelecteScene);
+	CREATE_FUNC(ModeSelectScene);
 
 private:
 

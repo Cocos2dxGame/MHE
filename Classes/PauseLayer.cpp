@@ -4,7 +4,7 @@
 #include "ThirdScene.h"
 #include "SurvivalScene.h"
 #include "CompeteScene.h"
-#include "ModeSelecteScene.h"
+#include "ModeSelectScene.h"
 
 USING_NS_CC;
 
@@ -121,7 +121,7 @@ void PauseLayer::goChapter(Ref* pSender)
 		break;
 	case GameScene4:
 	case GameScene5:
-		pScene = ModeSelecteScene::createScene();
+		pScene = ModeSelectScene::createScene();
 		break;
 	default:
 		break;
