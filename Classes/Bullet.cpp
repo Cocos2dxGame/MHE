@@ -12,7 +12,7 @@ Bullet::~Bullet()
 {
 }
 
-Bullet* Bullet::createBullet(bulletType type, Point pos, Vec2 velocity, BulletManager* pBulletManager)
+Bullet* Bullet::createBullet(bulletType type, Point pos, Vec2 velocity, Owner owner, BulletManager* pBulletManager)
 {
 	Bullet* bullet = Bullet::create();
 	switch (pBulletManager->SceneType*3+type)
@@ -104,9 +104,9 @@ Bullet* Bullet::createBullet(bulletType type, Point pos, Vec2 velocity, BulletMa
 	bullet->m_leave = false;
 	bullet->m_pBulletManager = pBulletManager;
 	bullet->m_emitter->setPosition(pos);
+	bullet->m_owner = owner;
 	bullet->setPosition(pos);
-
-		//�����ٶȵ�x���������ӵ�������
+	
 	//float screenAera = Director::getInstance()->getVisibleSize().width * Director::getInstance()->getVisibleSize().height;
 	float scale = Director::getInstance()->getVisibleSize().width*0.00034;
 
@@ -185,6 +185,29 @@ void Bullet::update(Vec2 acceleration, float deltaTime)
 				{
 					m_pBulletManager->deleteBullet(this);
 					m_pBulletManager->getPropManager()->deleteProp(pProp);
+					switch (this->m_owner)
+					{
+					case player:
+						for(Sprite* pSprite : *(m_pBulletManager->getSpriteVector()))
+						{
+							if(pSprite->getTag() == 1)
+							{
+								((Person*)pSprite)->getProp();
+							}
+						}
+						break;
+					case npc:
+						for(Sprite* pSprite : *(m_pBulletManager->getSpriteVector()))
+						{
+							if(pSprite->getTag() == 2)
+							{
+								((Person*)pSprite)->getProp();
+							}
+						}
+						break;
+					default:
+						break;
+					}
 				}
 			}
 		}

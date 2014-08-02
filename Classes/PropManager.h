@@ -20,5 +20,16 @@ private:
 	BulletManager* m_bulletManager;
 	cocos2d::Vector<Prop*> m_propVector;
 	cocos2d::Vector<Prop*> m_propDeleteVector;
+
+	float m_curTime;
+	float m_nextTime;
+	float m_time;
+	float m_timeVariance;
+	float m_duration;
+	float m_durationVariance;
+
+	void classicUpdate(float deltaTime);
+	void survivalUpdate(float deltaTime);
+	void competitionUpdate(float deltaTime);
 };
 
