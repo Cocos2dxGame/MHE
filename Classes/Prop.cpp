@@ -35,3 +35,8 @@ Prop* Prop::createProp(GameSceneType sceneType, PropType propType)
 	}
 	return newProp;
 }
+
+PropType Prop::getType()
+{
+	return m_type;
+}

@@ -1,6 +1,9 @@
 #include "Bullet.h"
 #include "BulletManager.h"
 #include "Person.h"
+#include "Player.h"
+#include "NPC.h"
+#include "SurvivalScene.h"
 
 USING_NS_CC;
 
@@ -105,6 +108,7 @@ Bullet* Bullet::createBullet(bulletType type, Point pos, Vec2 velocity, Owner ow
 	bullet->m_pBulletManager = pBulletManager;
 	bullet->m_emitter->setPosition(pos);
 	bullet->m_owner = owner;
+	bullet->m_hit = 0;
 	bullet->setPosition(pos);
 	
 	//float screenAera = Director::getInstance()->getVisibleSize().width * Director::getInstance()->getVisibleSize().height;
@@ -133,54 +137,26 @@ void Bullet::update(Vec2 acceleration, float deltaTime)
 	m_emitter->setPosition(pos);
 	m_velocity+=acceleration*deltaTime;
 
+	// if the bullet leave the screen
+	if((this->getBoundingBox().getMaxY()<Director::getInstance()->getVisibleSize().height*0.18))
+	{
+		m_pBulletManager->deleteBullet(this);
+		return ;
+	}
+
+	//detect prop collision
+	propCollision();
+
 	if(m_leave)
 	{
-		// if the bullet leave the screen
-		if((this->getBoundingBox().getMaxY()<Director::getInstance()->getVisibleSize().height*0.18))
+		// detect person collision
+		if(m_pBulletManager->SceneType != GameScene4)
 		{
-			m_pBulletManager->deleteBullet(this);
-			return ;
+			personCollision();
 		}
-		else
-		{
-			// detect person collision
-			for(Sprite* pSprite : *(m_pBulletManager->getSpriteVector()))
-			{
-				if(pSprite->getBoundingBox().intersectsRect(this->getBoundingBox()))
-				{
-					m_pBulletManager->deleteBullet(this);
 
-					switch (pSprite->getTag())
-					{
-					case 1:
-						((Person*)pSprite)->attacked(this->m_type);
-						break;
-					case 2:
-						((Person*)pSprite)->attacked(this->m_type);
-						break;
-					default:
-						break;
-					}
-				}
-			}
-
-			// detect bullet collision
-			for(Bullet* pBullet : *(m_pBulletManager->getBulletVector()))
-			{
-				if(pBullet != this)
-				{
-					if(pBullet->getBoundingBox().intersectsRect(this->getBoundingBox()))
-					{
-						m_pBulletManager->deleteBullet(pBullet);
-						m_pBulletManager->deleteBullet(this);
-						return ;
-					}
-				}
-			}
-
-			// detect prop collision
-			propCollision();
-		}
+		// detect bullet collision
+		bulletCollision();
 	}
 	else
 	{
@@ -230,6 +206,8 @@ ParticleSystemQuad* Bullet::getEmitter()
 
 void Bullet::propCollision()
 {
+	Person* pPerson; 
+
 	for(Prop* pProp : *(m_pBulletManager->getPropManager()->getPropVector()))
 	{
 		if(pProp->getBoundingBox().intersectsRect(this->getBoundingBox()))
@@ -238,6 +216,10 @@ void Bullet::propCollision()
 			{
 			//survival mode
 			case GameScene4:
+				pPerson= (Person*)m_pBulletManager->getSpriteVector()->getRandomObject();
+				pPerson->getProp(pProp->getType());
+				((SurvivalScene*)(m_pBulletManager->getLayer()))->addPlayerMark(pow(2,m_hit++));
+				//CCLOG("%d", pProp->getType());
 				m_pBulletManager->getPropManager()->deleteProp(pProp);
 				break;
 			case GameScene5:
@@ -254,7 +236,7 @@ void Bullet::propCollision()
 					{
 						if(pSprite->getTag() == 1)
 						{
-							((Person*)pSprite)->getProp();
+							((Person*)pSprite)->getProp(normal);
 						}
 					}
 					break;
@@ -263,7 +245,7 @@ void Bullet::propCollision()
 					{
 						if(pSprite->getTag() == 2)
 						{
-							((Person*)pSprite)->getProp();
+							((Person*)pSprite)->getProp(normal);
 						}
 					}
 					break;
@@ -273,6 +255,45 @@ void Bullet::propCollision()
 				break;
 			}
 			
+		}
+	}
+}
+
+void Bullet::personCollision()
+{
+	for(Sprite* pSprite : *(m_pBulletManager->getSpriteVector()))
+	{
+		if(pSprite->getBoundingBox().intersectsRect(this->getBoundingBox()))
+		{
+			m_pBulletManager->deleteBullet(this);
+
+			switch (pSprite->getTag())
+			{
+			case 1:
+				((Person*)pSprite)->attacked(this->m_type);
+				break;
+			case 2:
+				((Person*)pSprite)->attacked(this->m_type);
+				break;
+			default:
+				break;
+			}
+		}
+	}
+}
+
+void Bullet::bulletCollision()
+{
+	for(Bullet* pBullet : *(m_pBulletManager->getBulletVector()))
+	{
+		if(pBullet != this)
+		{
+			if(pBullet->getBoundingBox().intersectsRect(this->getBoundingBox()))
+			{
+				m_pBulletManager->deleteBullet(pBullet);
+				m_pBulletManager->deleteBullet(this);
+				return ;
+			}
 		}
 	}
 }

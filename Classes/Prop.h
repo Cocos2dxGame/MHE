@@ -12,6 +12,7 @@ public:
 	~Prop();
 
 	static Prop* createProp(GameSceneType sceneType, PropType propType);
+	PropType getType();
 
 	CREATE_FUNC(Prop);
 

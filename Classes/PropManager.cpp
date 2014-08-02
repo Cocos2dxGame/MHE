@@ -1,6 +1,7 @@
 #include "cocos2d.h"
 #include "PropManager.h"
 #include "BulletManager.h"
+#include "SurvivalScene.h"
 
 USING_NS_CC;
 
@@ -144,6 +145,17 @@ void PropManager::survivalUpdate(float deltaTime)
 			sender->getParent()->removeChild(sender);
 	}),
 		NULL));
+
+	// prop drop
+	for( Prop* pProp : m_propVector )
+	{
+		if(pProp->getPositionY() < Director::getInstance()->getVisibleSize().height * 0.15)
+		{
+			m_propDeleteVector.pushBack(pProp);
+			Person* pPerson = (Person*)m_bulletManager->getSpriteVector()->getRandomObject();
+			pPerson->notHit();
+		}
+	}
 }
 
 void PropManager::competitionUpdate(float deltaTime)

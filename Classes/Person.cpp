@@ -197,7 +197,7 @@ void Person::getProp()
 }
 
 void Person::notHit()
-{
+{                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
 	switch ((int)(getHP()))
 	{
 	case 1:
