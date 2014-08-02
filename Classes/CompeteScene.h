@@ -33,6 +33,12 @@ public:
 	 //ÍË³ö°´Å¥
 	void menuCloseCallback(cocos2d::Ref* pSender);
 
+	void addPlayerMark(int mark);
+	void addNPCMark(int mark);
+
+	void failure();
+	void success();
+
 	virtual void update(float dt);
 
 	CREATE_FUNC(CompeteScene);
@@ -60,6 +66,14 @@ private:
 	BulletManager* g_BulletManager;
 	cocos2d::Vec2 g;
 	bool gameover;
+
+	cocos2d::Label* playerScoresLabel;
+	cocos2d::Label* npcScoresLabel;
+	int playerScores;
+	int npcScores;
+
+	cocos2d::Label* timeLabel;
+	float time;
 };
 
 #endif

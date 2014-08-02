@@ -31,7 +31,9 @@ public:
 	void failAction();
 	void jumpActionEnd();
 	void attacked(bulletType type);
+	void getProp(PropType type);
 	void getProp();
+	void notHit();
 
 	 // 定义每个状态动作的get/set方法
 	CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _normalAction, NormalAction);

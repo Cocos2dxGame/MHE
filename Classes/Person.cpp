@@ -169,12 +169,49 @@ void Person::failAction()
 		runAction(_failAction);
 }
 
-void Person::getProp()
+void Person::getProp(PropType type)
 {
-	if(getHP()+10 < getTotalHP())
+	switch (type)
+	{
+	case normal:
+		if(getHP()+10 < getTotalHP())
 			setHP(getHP()+10);
 		else
 			setHP(getTotalHP());
+		break;
+
+	case bomb:
+		setHP(0);
+		break;
+	default:
+		break;
+	}
+}
+
+void Person::getProp()
+{
+	if(getHP()+10 < getTotalHP())
+		setHP(getHP()+10);
+	else
+		setHP(getTotalHP());
+}
+
+void Person::notHit()
+{
+	switch ((int)(getHP()))
+	{
+	case 1:
+		setHP(0);
+		break;
+	case 2:
+		setHP(1);
+		break;
+	case 3:
+		setHP(2);
+		break;
+	default:
+		break;
+	}
 }
 
 bool Person::changeState(ActionState state)

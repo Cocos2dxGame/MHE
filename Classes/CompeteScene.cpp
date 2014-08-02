@@ -1,12 +1,19 @@
 #include "CompeteScene.h"
 #include "PauseLayer.h"
+#include "FailureLayer.h"
+#include "SuccessLayer.h"
 USING_NS_CC;
+extern bool OpenMusicEffect;
 
 CompeteScene::CompeteScene():
 	skillCoolDownNeedTime(0),skillCoolDownTime(4),
 	_curPlayer(nullptr),_curNPC(nullptr)
 {
 	curScene = GameScene5;
+	playerScores = 0;
+	npcScores = 0;
+	time = 180;
+	gameover = false;
 }
 
 CompeteScene::~CompeteScene()
@@ -40,19 +47,38 @@ bool CompeteScene::init()
 	listener->onTouchEnded = CC_CALLBACK_2(CompeteScene::onTouchEnded, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 
+
+	//背景
 	auto bg = Sprite::create("background/bg_compete.png");
 	bg->setScale(visibleSize.width/bg->getContentSize().width,
 		visibleSize.height/bg->getContentSize().height);
 	bg->setPosition(visibleSize/2);
 	addChild(bg,0);
 
+	//倒计时
+	timeLabel = Label::createWithBMFont("fonts/bitmapFontTest.fnt","180");
+	timeLabel->setPosition(visibleSize.width/2, visibleSize.height*7/8);
+	addChild(timeLabel,10);
+
+	//设置技能、菜单、力度条
 	setSkillCoolDownBar();
 	setMenu();
 	setPowerBar();
 
+	//设置player和npc的分数
+	playerScoresLabel = Label::createWithBMFont("fonts/bitmapFontTest.fnt","0");
+	playerScoresLabel->setPosition(visibleSize.width/8,visibleSize.height*7/8);
+	addChild(playerScoresLabel,2);
+
+	npcScoresLabel = Label::createWithBMFont("fonts/bitmapFontTest.fnt","0");
+	npcScoresLabel->setPosition(visibleSize.width*7/8,visibleSize.height*7/8);
+	addChild(npcScoresLabel,2);
+
+	//创建人物
 	_curPlayer = Player::create();
 	_curPlayer->setScale((visibleSize.height/8)/_curPlayer->getContentSize().height);
 	_curPlayer->setPosition(visibleSize.width/8, visibleSize.height/6);
+	_curPlayer->setTag(1);
 	addChild(_curPlayer,1);
 
 	//将player添加到spriteVector中
@@ -176,6 +202,25 @@ void CompeteScene::update(float dt)
 		skillCoolDownNeedTime = 0.0f;
 		skillCoolDownBar->setPercentage(0);
 	}
+
+	//更新时间
+	time -= dt;
+	if(time < 0)
+	{
+		if(!gameover)
+		{
+			if(playerScores > npcScores)
+				success();
+			else
+				failure();
+		}
+	}
+	else
+	{
+		char string[15] = {0};
+		sprintf(string, "%d", (int)time);
+		timeLabel->setString(string);
+	}
 }
 
 bool CompeteScene::contaiinsTouchLocation(cocos2d::Touch* touch)
@@ -284,8 +329,47 @@ void CompeteScene::dealEndTouch()
 	
 
 		g_BulletManager->shoot(NormalBullet, player, pos, velocity);
-		CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/Attack.wav");
+		if(OpenMusicEffect)
+			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/Attack.wav");
 		_curPlayer->fireAction();
 	}
 
+}
+
+void CompeteScene::addPlayerMark(int mark)
+{
+	playerScores += mark;
+	
+	char playerScoresString[10]={0};
+	printf(playerScoresString,"%d",playerScores);
+	playerScoresLabel->setString(playerScoresString);
+}
+
+void CompeteScene::addNPCMark(int mark)
+{
+	npcScores += mark;
+
+	char npcScoresString[10] = {0};
+	printf(npcScoresString,"%d",npcScores);
+	npcScoresLabel->setString(npcScoresString);
+}
+
+void CompeteScene::success()
+{
+	gameover = true;
+	CCDirector::sharedDirector()->pause();  
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();  
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseAllEffects();  
+	SuccessLayer *successLayer = SuccessLayer::create(curScene);  
+	addChild(successLayer,999);
+}
+
+void CompeteScene::failure()
+{
+	gameover = true;
+	CCDirector::sharedDirector()->pause();  
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();  
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseAllEffects();  
+	FailureLayer *failureLayer = FailureLayer::create(curScene);  
+	addChild(failureLayer,999); 
 }

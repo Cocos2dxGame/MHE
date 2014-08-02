@@ -35,6 +35,8 @@ public:
 
 	virtual void update(float dt);
 
+	void addPlayerMark(int mark);
+
 	CREATE_FUNC(SurvivalScene);	
 private:
 	cocos2d::Size visibleSize;
@@ -57,6 +59,14 @@ private:
 	BulletManager* g_BulletManager;
 	cocos2d::Vec2 g;
 	bool gameover;
+
+	int curBlood;
+	cocos2d::Sprite* blood3;
+	cocos2d::Sprite* blood2;
+	cocos2d::Sprite* blood1;
+
+	cocos2d::Label* playerScoresLabel;
+	int playerScores;
 };
 
 #endif

@@ -2,11 +2,14 @@
 #include "PauseLayer.h"
 
 USING_NS_CC;
+extern bool OpenMusicEffect;
 
 SurvivalScene::SurvivalScene():
-	skillCoolDownNeedTime(0),skillCoolDownTime(4)
+	skillCoolDownNeedTime(0),skillCoolDownTime(1)
 {
 	curScene = GameScene4;
+	curBlood = 3;
+	playerScores = 0;
 }
 
 SurvivalScene::~SurvivalScene()
@@ -47,9 +50,38 @@ bool SurvivalScene::init()
 	bg->setPosition(Director::sharedDirector()->getVisibleSize()/2);
 	addChild(bg);
 
+	//设置分数
+	playerScoresLabel = Label::createWithBMFont("fonts/bitmapFontTest.fnt","0");
+	playerScoresLabel->setPosition(visibleSize.width/8,visibleSize.height*7/8);
+	addChild(playerScoresLabel,2);
+
 	setSkillCoolDownBar();
 	setMenu();
 	setPowerBar();
+
+	//设置血条
+	blood1 = Sprite::create("button/OneBlood.png");
+	blood1->setScale(visibleSize.height/8/blood1->getContentSize().height);
+	blood1->setPosition(blood1->getContentSize().width/2,
+		visibleSize.height - blood1->getContentSize().height/2);
+	addChild(blood1,2);
+	blood1->setVisible(false);
+
+	//设置血条
+	blood2 = Sprite::create("button/TwoBlood.png");
+	blood2->setScale(visibleSize.height/8/blood2->getContentSize().height);
+	blood2->setPosition(blood2->getContentSize().width/2,
+		visibleSize.height - blood2->getContentSize().height/2);
+	addChild(blood2,2);
+	blood2->setVisible(false);
+
+	//设置血条
+	blood3 = Sprite::create("button/ThreeBlood.png");
+	blood3->setScale(visibleSize.height/8/blood3->getContentSize().height);
+	blood3->setPosition(blood3->getContentSize().width/2,
+		visibleSize.height - blood3->getContentSize().height/2);
+	addChild(blood3,2);
+	blood3->setVisible(true);
 
 	//设置player
 	_curPlayer = Player::create();
@@ -58,6 +90,7 @@ bool SurvivalScene::init()
 	_curPlayer->setTag(1);
 	addChild(_curPlayer,1);
 	_curPlayer->normalAction();
+	_curPlayer->setHP(3);
 
 	//将player添加到spriteVector中
 	spritesVector.pushBack(_curPlayer);
@@ -177,6 +210,28 @@ void SurvivalScene::update(float dt)
 		skillCoolDownNeedTime = 0.0f;
 		skillCoolDownBar->setPercentage(0);
 	}
+
+	//update blood
+	switch (_curPlayer->getHP())
+	{
+	case 3:
+		blood1->setVisible(false);
+		blood2->setVisible(false);
+		blood3->setVisible(true);
+		break;
+	case 2:
+		blood1->setVisible(false);
+		blood3->setVisible(false);
+		blood2->setVisible(true);
+		break;
+	case 1:
+		blood2->setVisible(false);
+		blood3->setVisible(false);
+		blood1->setVisible(true);
+		break;
+	default:
+		break;
+	}
 }
 
 bool SurvivalScene::contaiinsTouchLocation(cocos2d::Touch* touch)
@@ -280,13 +335,23 @@ void SurvivalScene::dealEndTouch()
 
 		Vec2 pos = _curPlayer->getPosition();
 		Vec2 velocity;
-		velocity.x= (endPosition.x - startPosition.x) / visibleSize.height * 2500 ;
-		velocity.y= (endPosition.y - startPosition.y) /visibleSize.height * 2500;
+		velocity.x= (endPosition.x - startPosition.x) / visibleSize.height * 3000 ;
+		velocity.y= (endPosition.y - startPosition.y) /visibleSize.height * 3000;
 	
 
 		g_BulletManager->shoot(NormalBullet, player, pos, velocity);
-		CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/Attack.wav");
+		if(OpenMusicEffect)
+			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/Attack.wav");
 		_curPlayer->fireAction();
 	}
 
+}
+
+void SurvivalScene::addPlayerMark(int mark)
+{
+	playerScores += mark;
+	
+	char playerScoresString[10]={0};
+	printf(playerScoresString,"%d",playerScores);
+	playerScoresLabel->setString(playerScoresString);
 }
