@@ -179,37 +179,7 @@ void Bullet::update(Vec2 acceleration, float deltaTime)
 			}
 
 			// detect prop collision
-			for(Prop* pProp : *(m_pBulletManager->getPropManager()->getPropVector()))
-			{
-				if(pProp->getBoundingBox().intersectsRect(this->getBoundingBox()))
-				{
-					m_pBulletManager->deleteBullet(this);
-					m_pBulletManager->getPropManager()->deleteProp(pProp);
-					switch (this->m_owner)
-					{
-					case player:
-						for(Sprite* pSprite : *(m_pBulletManager->getSpriteVector()))
-						{
-							if(pSprite->getTag() == 1)
-							{
-								((Person*)pSprite)->getProp();
-							}
-						}
-						break;
-					case npc:
-						for(Sprite* pSprite : *(m_pBulletManager->getSpriteVector()))
-						{
-							if(pSprite->getTag() == 2)
-							{
-								((Person*)pSprite)->getProp();
-							}
-						}
-						break;
-					default:
-						break;
-					}
-				}
-			}
+			propCollision();
 		}
 	}
 	else
@@ -256,4 +226,53 @@ bulletType Bullet::getType()
 ParticleSystemQuad* Bullet::getEmitter()
 {
 	return m_emitter;
+}
+
+void Bullet::propCollision()
+{
+	for(Prop* pProp : *(m_pBulletManager->getPropManager()->getPropVector()))
+	{
+		if(pProp->getBoundingBox().intersectsRect(this->getBoundingBox()))
+		{
+			switch (this->m_pBulletManager->SceneType)
+			{
+			//survival mode
+			case GameScene4:
+				m_pBulletManager->getPropManager()->deleteProp(pProp);
+				break;
+			case GameScene5:
+				m_pBulletManager->deleteBullet(this);
+				m_pBulletManager->getPropManager()->deleteProp(pProp);
+				break;
+			default:
+				m_pBulletManager->deleteBullet(this);
+				m_pBulletManager->getPropManager()->deleteProp(pProp);
+				switch (this->m_owner)
+				{
+				case player:
+					for(Sprite* pSprite : *(m_pBulletManager->getSpriteVector()))
+					{
+						if(pSprite->getTag() == 1)
+						{
+							((Person*)pSprite)->getProp();
+						}
+					}
+					break;
+				case npc:
+					for(Sprite* pSprite : *(m_pBulletManager->getSpriteVector()))
+					{
+						if(pSprite->getTag() == 2)
+						{
+							((Person*)pSprite)->getProp();
+						}
+					}
+					break;
+				default:
+					break;
+				}
+				break;
+			}
+			
+		}
+	}
 }

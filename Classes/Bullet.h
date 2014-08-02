@@ -29,4 +29,6 @@ private:
 	BulletManager*				m_pBulletManager;
 	bool						m_leave;
 	Owner						m_owner;
+
+	void propCollision();
 };
