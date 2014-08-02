@@ -8,6 +8,9 @@
 #include "FirstScene.h"
 #include "SecondScene.h"
 #include "ThirdScene.h"
+#include "SurvivalScene.h"
+#include "CompeteScene.h"
+#include "ModeSelectScene.h"
 
 class FailureLayer :public cocos2d::Layer
 {

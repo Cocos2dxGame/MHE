@@ -37,6 +37,8 @@ public:
 
 	void addPlayerMark(int mark);
 
+	void failure();
+	
 	CREATE_FUNC(SurvivalScene);	
 private:
 	cocos2d::Size visibleSize;

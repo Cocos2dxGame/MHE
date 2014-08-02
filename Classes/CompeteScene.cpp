@@ -80,9 +80,19 @@ bool CompeteScene::init()
 	_curPlayer->setPosition(visibleSize.width/8, visibleSize.height/6);
 	_curPlayer->setTag(1);
 	addChild(_curPlayer,1);
+	_curPlayer->normalAction();
+
+	//创建npc
+	_curNPC = NPC1::create();
+	_curNPC->setScale((visibleSize.height/8)/_curNPC->getContentSize().height);
+	_curNPC->setPosition(visibleSize.width*7/8,visibleSize.height/6);
+	_curNPC->setTag(2);
+	addChild(_curNPC,1);
+	_curNPC->normalAction();
 
 	//将player添加到spriteVector中
 	spritesVector.pushBack(_curPlayer);
+	spritesVector.pushBack(_curNPC);
 
 	//设置重力以及初始化BulletManager
 	g = Vec2(0, -800);

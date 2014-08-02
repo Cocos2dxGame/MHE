@@ -7,6 +7,7 @@
 #include "FirstScene.h"
 #include "SecondScene.h"
 #include "ThirdScene.h"
+#include "ModeSelectScene.h"
 
 class SuccessLayer :public cocos2d::Layer
 {

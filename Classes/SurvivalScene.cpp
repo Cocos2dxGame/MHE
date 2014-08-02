@@ -1,5 +1,6 @@
 #include "SurvivalScene.h"
 #include "PauseLayer.h"
+#include "FailureLayer.h"
 
 USING_NS_CC;
 extern bool OpenMusicEffect;
@@ -10,6 +11,7 @@ SurvivalScene::SurvivalScene():
 	curScene = GameScene4;
 	curBlood = 3;
 	playerScores = 0;
+	gameover = false;
 }
 
 SurvivalScene::~SurvivalScene()
@@ -229,6 +231,10 @@ void SurvivalScene::update(float dt)
 		blood3->setVisible(false);
 		blood1->setVisible(true);
 		break;
+	case 0:
+		if(!gameover)
+			failure();
+		break;
 	default:
 		break;
 	}
@@ -354,4 +360,14 @@ void SurvivalScene::addPlayerMark(int mark)
 	char playerScoresString[10]={0};
 	printf(playerScoresString,"%d",playerScores);
 	playerScoresLabel->setString(playerScoresString);
+}
+
+void SurvivalScene::failure()
+{
+	gameover = true;
+	CCDirector::sharedDirector()->pause();  
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();  
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseAllEffects();  
+	FailureLayer *failureLayer = FailureLayer::create(curScene);  
+	addChild(failureLayer,999); 
 }

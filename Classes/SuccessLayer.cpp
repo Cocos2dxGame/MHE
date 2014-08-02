@@ -87,7 +87,22 @@ void SuccessLayer::goChapter(Ref* pSender)
 	CocosDenshion::SimpleAudioEngine::sharedEngine()->resumeBackgroundMusic();  
 	CocosDenshion::SimpleAudioEngine::sharedEngine()->resumeAllEffects();
 
-	Scene* pScene = ChapterScene::createScene();
+	Scene* pScene;
+	switch (curType)
+	{
+	case GameScene1:
+	case GameScene2:
+	case GameScene3:
+		pScene = ChapterScene::createScene();
+		break;
+	case GameScene4:
+	case GameScene5:
+		pScene = ModeSelectScene::createScene();
+		break;
+	default:
+		break;
+	}
+
 	SceneManager::go(pScene);
 }
 
