@@ -75,6 +75,12 @@ void SuccessLayer::reBegin(Ref* pSender)
 	case GameScene3:
 		pScene = ThirdScene::createScene();
 		break;
+	case GameScene4:
+		pScene = SurvivalScene::createScene();
+		break;
+	case GameScene5:
+		pScene = CompeteScene::createScene();
+		break;
 	default:
 		break;
 	}

@@ -8,6 +8,8 @@
 #include "SecondScene.h"
 #include "ThirdScene.h"
 #include "ModeSelectScene.h"
+#include "SurvivalScene.h"
+#include "CompeteScene.h"
 
 class SuccessLayer :public cocos2d::Layer
 {

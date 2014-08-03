@@ -363,7 +363,7 @@ void CompeteScene::addNPCMark(int mark)
 	npcScores += mark;
 
 	char string[15] = {0};
-	sprintf(string, "%d", (int)playerScores);
+	sprintf(string, "%d", (int)npcScores);
 	npcScoresLabel->setString(string);
 }
 
