@@ -22,7 +22,7 @@ Prop* Prop::createProp(GameSceneType sceneType, PropType propType)
 	{
 	case 15:
 		random = CCRANDOM_0_1()*8+1;
-		sprintf_s(str, "prop/ppd_0%d.png", random);
+		sprintf(str, "prop/ppd_0%d.png", random);
 		newProp->initWithFile(str);
 		newProp->m_type = normal;
 		break;
