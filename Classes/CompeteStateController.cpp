@@ -28,7 +28,7 @@ CompeteStateController* CompeteStateController::create(NPC* npc, Vec2 gravity, B
 void CompeteStateController::update(float dt)
 {
 	time += dt;
-	if(time > 3)
+	if(time > 4)
 	{
 		time = 0;
 		PropManager* propManager = bulletManager->getPropManager();
@@ -53,12 +53,24 @@ void CompeteStateController::fire()
 
 	//Ëæ»úÊý
 	int temp = visibleSize.width/4 * rand()/(RAND_MAX+1.0);
+	hitPosition += Vec2(temp-visibleSize.width/4/2, 0);
 
 	Vec2 tempPosition = curNPC->getPosition();
-	tempPosition += Vec2(temp-visibleSize.width/4/2, 0);
-	
-	shootVelocity.x =- sqrt((-gravity.y) * (tempPosition.x - hitPosition.x) / 4);
-	shootVelocity.y = 2 * (-shootVelocity.x);
+	Vec2 delta = hitPosition - tempPosition;
+
+	//if(fabs(delta.x) < visibleSize.width*3/4)
+	//{
+		shootVelocity.x = delta.x;
+		shootVelocity.y = delta.y + (-gravity.y)/2;
+	//}
+	//else
+	//{
+	//	shootVelocity.y = delta.y + (-gravity.y)/2;
+	//	shootVelocity.x = 
+	//	shootVelocity = Vec2(0,0);
+	//}
+	//shootVelocity.x =- sqrt((-gravity.y) * (tempPosition.x - hitPosition.x) / 4);
+	//shootVelocity.y = 2 * (-shootVelocity.x);
 	
 	curNPC->fireAction();
 	bulletManager->shoot(NormalBullet, npc,curNPC->getPosition(),shootVelocity);

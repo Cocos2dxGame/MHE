@@ -234,6 +234,7 @@ void SurvivalScene::update(float dt)
 		blood1->setVisible(true);
 		break;
 	case 0:
+		blood1->setVisible(false);
 		if(!gameover)
 			failure();
 		break;

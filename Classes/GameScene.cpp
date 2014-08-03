@@ -397,8 +397,10 @@ void GameScene::setMenu(GameSceneType curScene)
 								skill1Item->getPosition().y));
 
 	skill3Item->setScale(visibleSize.width/20/skill3Item->getContentSize().width);
+	skill3Item->setTag(300);
 	skill3Item->setPosition(Vec2(skill2Item->getPosition().x + 60 ,
 								skill2Item->getPosition().y));
+	skill3Item->setEnabled(false);
 
 	skill1CoolBar->setType(kCCProgressTimerTypeBar);
 	skill1CoolBar->setMidpoint(ccp(0.5,0));
