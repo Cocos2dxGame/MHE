@@ -432,6 +432,11 @@ void GameScene::setMenu(GameSceneType curScene)
 	this->addChild(menu, 1);
 }
 
+void GameScene::selected1()
+{
+	currentBulletState = NormalBullet;
+}
+
 void GameScene::selectedSkill1(Ref* pSender)
 {
 	currentBulletState = NormalBullet;
@@ -539,6 +544,8 @@ void GameScene::update(float deltaTime)
 		sprintf(string, "%d", (int)time);
 		timeLabel->setString(string);
 	}
+
+	updateSkill3State();
 }
 
 void GameScene::menuCloseCallback(Ref* pSender)
@@ -708,7 +715,7 @@ void GameScene::dealEndTouch()
 			velocity.x= (endPosition.x - startPosition.x) / visibleSize.height * 2500 ;
 			velocity.y= (endPosition.y - startPosition.y) / visibleSize.height * 2500;
 
-			
+			_player->setSP(_player->getSP()-50);
 			g_BulletManager->shoot(StunBullet, player, pos, velocity);
 			stateController->playerShooting(pos, velocity);
 			if(OpenMusicEffect)
@@ -737,6 +744,22 @@ void GameScene::updateHPandSP()
 	else if(!gameover && 0!=_player->getHP() && 0==_curNPC->getHP())
 	{
 		 success();
+	}
+}
+
+void GameScene::updateSkill3State()
+{
+	if(_player->getSP() >= 50)
+	{
+		skill3Item->setEnabled(true);
+	}
+	else
+	{
+		skill3Item->setEnabled(false);
+		if(currentBulletState == StunBullet)
+		{
+			selected1();
+		}
 	}
 }
 

@@ -38,6 +38,7 @@ public:
 	
 	//技能栏设置
 	void setMenu(GameSceneType curScene);
+	void selected1();
 	void selectedSkill1(cocos2d::Ref* pSender);
 	void selectedSkill2(cocos2d::Ref* pSender);
 	void selectedSkill3(cocos2d::Ref* pSender);
@@ -59,6 +60,7 @@ public:
 
 	//更新血条和怒气条
 	void updateHPandSP();
+	void updateSkill3State();
 
 	void success();
 	void failure();
