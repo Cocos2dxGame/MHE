@@ -6,7 +6,7 @@ USING_NS_CC;
 extern bool OpenMusicEffect;
 
 CompeteScene::CompeteScene():
-	skillCoolDownNeedTime(0),skillCoolDownTime(4),
+	skillCoolDownNeedTime(0),skillCoolDownTime(1),
 	_curPlayer(nullptr),_curNPC(nullptr)
 {
 	curScene = GameScene5;
@@ -97,6 +97,8 @@ bool CompeteScene::init()
 	//设置重力以及初始化BulletManager
 	g = Vec2(0, -800);
 	g_BulletManager = BulletManager::create(curScene,(Layer*)this, &spritesVector, g);
+	
+	competeStateController = CompeteStateController::create(_curNPC,g,g_BulletManager);
 
 	this->scheduleUpdate();
 
@@ -188,6 +190,7 @@ void CompeteScene::menuCloseCallback(cocos2d::Ref* pSender)
 void CompeteScene::update(float dt)
 {
 	g_BulletManager->update(dt);
+	competeStateController->update(dt);
 
 	if(_curPlayer->getActionState() == Move_Action)
 	{
@@ -350,18 +353,18 @@ void CompeteScene::addPlayerMark(int mark)
 {
 	playerScores += mark;
 	
-	char playerScoresString[10]={0};
-	printf(playerScoresString,"%d",playerScores);
-	playerScoresLabel->setString(playerScoresString);
+	char string[15] = {0};
+	sprintf(string, "%d", (int)playerScores);
+	playerScoresLabel->setString(string);
 }
 
 void CompeteScene::addNPCMark(int mark)
 {
 	npcScores += mark;
 
-	char npcScoresString[10] = {0};
-	printf(npcScoresString,"%d",npcScores);
-	npcScoresLabel->setString(npcScoresString);
+	char string[15] = {0};
+	sprintf(string, "%d", (int)playerScores);
+	npcScoresLabel->setString(string);
 }
 
 void CompeteScene::success()

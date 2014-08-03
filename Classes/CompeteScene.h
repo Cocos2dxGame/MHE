@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "NPC.h"
 #include "GameScene.h"
+#include "CompeteStateController.h"
 
 class CompeteScene :public cocos2d::Layer
 {
@@ -71,6 +72,8 @@ private:
 	cocos2d::Label* npcScoresLabel;
 	int playerScores;
 	int npcScores;
+
+	CompeteStateController* competeStateController;
 
 	cocos2d::Label* timeLabel;
 	float time;

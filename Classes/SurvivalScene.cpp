@@ -53,7 +53,9 @@ bool SurvivalScene::init()
 	addChild(bg);
 
 	//ÉèÖÃ·ÖÊý
-	playerScoresLabel = Label::createWithBMFont("fonts/bitmapFontTest.fnt","0");
+	char string[15] = {0};
+	sprintf(string, "%d", (int)playerScores);
+	playerScoresLabel = Label::createWithBMFont("fonts/bitmapFontTest.fnt",string);
 	playerScoresLabel->setPosition(visibleSize.width/8,visibleSize.height*7/8);
 	addChild(playerScoresLabel,2);
 
@@ -357,9 +359,9 @@ void SurvivalScene::addPlayerMark(int mark)
 {
 	playerScores += mark;
 	
-	char playerScoresString[10]={0};
-	printf(playerScoresString,"%d",playerScores);
-	playerScoresLabel->setString(playerScoresString);
+	char string[15] = {0};
+	sprintf(string, "%d", (int)playerScores);
+	playerScoresLabel->setString(string);
 }
 
 void SurvivalScene::failure()
