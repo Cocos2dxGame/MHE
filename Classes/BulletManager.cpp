@@ -42,6 +42,7 @@ BulletManager* BulletManager::create(GameSceneType gamescenetype, Layer* curLaye
 		normalAnimation->setDelayPerUnit(0.07);
 		newManager->setNormalAnimation(normalAnimation);
 		break;
+
 	case GameScene2:
 		cache->addSpriteFramesWithFile("bullet/blef_003.plist");
 		normalAnimation = Animation::create();
@@ -91,8 +92,6 @@ BulletManager* BulletManager::create(GameSceneType gamescenetype, Layer* curLaye
 		break;
 	}
 
-	
-
 	return newManager;
 }
 
@@ -120,7 +119,6 @@ void BulletManager::update(float deltaTime)
 		}
 	}
 	m_BulletDeleteVector.clear();
-
 }
 
 void BulletManager::shoot(bulletType type, Owner owner, Point pos, Vec2 velocity)

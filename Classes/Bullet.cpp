@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "NPC.h"
 #include "SurvivalScene.h"
+#include "CompeteScene.h"
 
 USING_NS_CC;
 
@@ -223,7 +224,16 @@ void Bullet::propCollision()
 				m_pBulletManager->getPropManager()->deleteProp(pProp);
 				break;
 			case GameScene5:
-				m_pBulletManager->deleteBullet(this);
+				pPerson= (Person*)m_pBulletManager->getSpriteVector()->getRandomObject();
+				pPerson->getProp(pProp->getType());
+				if(m_owner == player)
+				{
+					((CompeteScene*)(m_pBulletManager->getLayer()))->addPlayerMark(pow(2,m_hit++));
+				}
+				else
+				{
+					((CompeteScene*)(m_pBulletManager->getLayer()))->addNPCMark(pow(2,m_hit++));
+				}
 				m_pBulletManager->getPropManager()->deleteProp(pProp);
 				break;
 			default:

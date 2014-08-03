@@ -284,7 +284,6 @@ void PropManager::competitionUpdate(float deltaTime)
 		float y = height*0.8 - CCRANDOM_0_1()*height*0.3;
 		newProp->setPosition(width, y);
 		
-
 		newProp->runAction(Sequence::create(
 			MoveBy::create(curDuration, Vec2(-width, 0.2*height*(0.5-CCRANDOM_0_1()))),
 			CallFuncN::create([&](Node* sender){

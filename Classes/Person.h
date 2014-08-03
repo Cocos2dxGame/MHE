@@ -45,11 +45,10 @@ public:
 	CC_SYNTHESIZE(cocos2d::Action*, _victoryAction, VictoryAction);
 	CC_SYNTHESIZE(cocos2d::Action*, _failAction, FailAction);
 
-
 	// 精灵的当前状态
 	CC_SYNTHESIZE(ActionState, _currentState, ActionState);
 
-	//设置血条、怒气条
+	// 设置血条、怒气条
 	CC_SYNTHESIZE(int, _hp, HP); // 生命值
 	CC_SYNTHESIZE(int, _sp, SP); // 怒气值
 
