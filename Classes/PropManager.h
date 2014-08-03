@@ -16,6 +16,13 @@ public:
 	cocos2d::Vector<Prop*>* getPropVector();
 	void deleteProp(Prop* pProp);
 
+	CC_SYNTHESIZE_RETAIN(cocos2d::Animation*, m_animation1, Animation1);
+	CC_SYNTHESIZE_RETAIN(cocos2d::Animation*, m_animation2, Animation2);
+	CC_SYNTHESIZE_RETAIN(cocos2d::Animation*, m_animation3, Animation3);
+	CC_SYNTHESIZE_RETAIN(cocos2d::Animation*, m_animation4, Animation4);
+	CC_SYNTHESIZE_RETAIN(cocos2d::Animation*, m_animation5, Animation5);
+	CC_SYNTHESIZE_RETAIN(cocos2d::Animation*, m_animation6, Animation6);
+
 private:
 	BulletManager* m_bulletManager;
 	cocos2d::Vector<Prop*> m_propVector;

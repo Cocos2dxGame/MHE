@@ -1,5 +1,7 @@
+#include "cocos2d.h"
 #include "Prop.h"
 
+USING_NS_CC;
 
 Prop::Prop(void)
 {
@@ -28,6 +30,8 @@ Prop* Prop::createProp(GameSceneType sceneType, PropType propType)
 		newProp->initWithFile("prop/ppd_00.png");
 		newProp->m_type = bomb;
 		break;
+	case 18:
+		newProp->m_type = normal;
 	default:
 		newProp->initWithFile("prop/pp_000.png");
 		newProp->m_type = normal;
