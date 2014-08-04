@@ -125,15 +125,12 @@ Bullet* Bullet::createBullet(bulletType type, Point pos, Vec2 velocity, Owner ow
 	bullet->m_owner = owner;
 	bullet->m_hit = 0;
 	bullet->setPosition(pos);
-	
-	
 
 	return bullet;
 }
 
 void Bullet::update(Vec2 acceleration, float deltaTime)
 {
-	
 	// update position
 	Point pos = this->getPosition();
 	pos+=m_velocity*deltaTime+acceleration*deltaTime*deltaTime/2;
@@ -176,7 +173,6 @@ void Bullet::update(Vec2 acceleration, float deltaTime)
 			}
 		}
 	}
-	
 
 	// update rotation
 	if(m_velocity.x == 0)
@@ -223,7 +219,6 @@ void Bullet::propCollision()
 				pPerson= (Person*)m_pBulletManager->getSpriteVector()->getRandomObject();
 				pPerson->getProp(pProp->getType());
 				((SurvivalScene*)(m_pBulletManager->getLayer()))->addPlayerMark(pow(2,m_hit++));
-				//CCLOG("%d", pProp->getType());
 				m_pBulletManager->getPropManager()->deleteProp(pProp);
 				break;
 			case GameScene5:

@@ -32,6 +32,7 @@ PropManager* PropManager::create(BulletManager* pBulletManger)
 	newManager->m_bulletManager = pBulletManger;
 
 	auto cache = SpriteFrameCache::sharedSpriteFrameCache();
+	cache->removeSpriteFrames();
 	Animation* animation;
 
 	switch (pBulletManger->SceneType)

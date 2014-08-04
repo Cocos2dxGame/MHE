@@ -94,8 +94,6 @@ BulletManager* BulletManager::create(GameSceneType gamescenetype, Layer* curLaye
 		newManager->setSpecialAnimation(specialAnimation);
 		break;
 
-		break;
-
 	case GameScene4:
 		cache->addSpriteFramesWithFile("bullet/blef_001.plist");
 		normalAnimation = Animation::create();
@@ -107,6 +105,7 @@ BulletManager* BulletManager::create(GameSceneType gamescenetype, Layer* curLaye
 		normalAnimation->setDelayPerUnit(0.07);
 		newManager->setNormalAnimation(normalAnimation);
 		break;
+
 	case GameScene5:
 		cache->addSpriteFramesWithFile("bullet/blef_001.plist");
 		normalAnimation = Animation::create();
@@ -118,6 +117,7 @@ BulletManager* BulletManager::create(GameSceneType gamescenetype, Layer* curLaye
 		normalAnimation->setDelayPerUnit(0.07);
 		newManager->setNormalAnimation(normalAnimation);
 		break;
+
 	default:
 		break;
 	}
@@ -142,9 +142,9 @@ void BulletManager::update(float deltaTime)
 		if(iter != m_BulletVector.end())
 		{
 			// run animate
-			bulletExplode(*iter);
 			(*iter)->getEmitter()->setAutoRemoveOnFinish(true);
 			(*iter)->getEmitter()->stopSystem();
+			bulletExplode(*iter);
 			m_BulletVector.erase(iter);
 		}
 	}
@@ -225,7 +225,7 @@ void BulletManager::bulletExplode(Bullet* pBullet)
 		}
 		break;
 	case StunBullet:
-		if(m_stunAnimation == NULL)
+		if(m_stunAnimation)
 		{
 			Action *action = Sequence::create(
 				Animate::create(m_stunAnimation),
@@ -237,10 +237,11 @@ void BulletManager::bulletExplode(Bullet* pBullet)
 		}
 		else
 		{
-			m_layer->removeChild(pBullet);
 			deleteBullet(pBullet);
+			m_layer->removeChild(pBullet);
 		}
 		break;
+
 	default:
 		break;
 	}
