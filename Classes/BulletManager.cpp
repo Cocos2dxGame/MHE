@@ -203,6 +203,7 @@ void BulletManager::bulletExplode(Bullet* pBullet)
 		}
 		else
 		{
+			m_layer->removeChild(pBullet);
 			deleteBullet(pBullet);
 		}
 		break;
@@ -219,11 +220,12 @@ void BulletManager::bulletExplode(Bullet* pBullet)
 		}
 		else
 		{
+			m_layer->removeChild(pBullet);
 			deleteBullet(pBullet);
 		}
 		break;
 	case StunBullet:
-		if(m_stunAnimation)
+		if(m_stunAnimation == NULL)
 		{
 			Action *action = Sequence::create(
 				Animate::create(m_stunAnimation),
@@ -235,6 +237,7 @@ void BulletManager::bulletExplode(Bullet* pBullet)
 		}
 		else
 		{
+			m_layer->removeChild(pBullet);
 			deleteBullet(pBullet);
 		}
 		break;
