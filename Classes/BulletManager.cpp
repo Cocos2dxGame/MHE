@@ -32,15 +32,33 @@ BulletManager* BulletManager::create(GameSceneType gamescenetype, Layer* curLaye
 	switch (gamescenetype)
 	{
 	case GameScene1:
-		cache->addSpriteFramesWithFile("bullet/blef_003.plist");
+		cache->addSpriteFramesWithFile("bullet/blef_000.plist");
 		normalAnimation = Animation::create();
-		for(int i = 0; i < 7; i++)
+		for(int i = 0; i < 6; i++)
 		{
-			const char* png = String::createWithFormat("%d.png", i)->getCString();
+			const char* png = String::createWithFormat("00_0%d.png", i)->getCString();
 			normalAnimation->addSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(png));
 		}
 		normalAnimation->setDelayPerUnit(0.07);
 		newManager->setNormalAnimation(normalAnimation);
+
+		specialAnimation = Animation::create();
+		for(int i = 0; i < 5; i++)
+		{
+			const char* png = String::createWithFormat("01_0%d.png", i)->getCString();
+			specialAnimation->addSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(png));
+		}
+		specialAnimation->setDelayPerUnit(0.07);
+		newManager->setSpecialAnimation(specialAnimation);
+
+		stunAnimation = Animation::create();
+		for(int i = 0; i < 4; i++)
+		{
+			const char* png = String::createWithFormat("02_0%d.png", i)->getCString();
+			stunAnimation->addSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(png));
+		}
+		stunAnimation->setDelayPerUnit(0.07);
+		newManager->setStunlAnimation(stunAnimation);
 		break;
 
 	case GameScene2:
@@ -171,29 +189,41 @@ void BulletManager::bulletExplode(Bullet* pBullet)
 			NULL);
 			pBullet->runAction(action);
 		}
+		else
+		{
+			deleteBullet(pBullet);
+		}
 		break;
 	case SpecialBullet:
-		if(m_normalAnimation)
+		if(m_specialAnimation)
 		{
 			Action *action = Sequence::create(
-				Animate::create(m_normalAnimation),
+				Animate::create(m_specialAnimation),
 				CallFuncN::create([&](Node* sender){
 					sender->getParent()->removeChild(sender);
 			}),
 				NULL);
 			pBullet->runAction(action);
 		}
+		else
+		{
+			deleteBullet(pBullet);
+		}
 		break;
 	case StunBullet:
-		if(m_normalAnimation)
+		if(m_stunAnimation)
 		{
 			Action *action = Sequence::create(
-				Animate::create(m_normalAnimation),
+				Animate::create(m_stunAnimation),
 				CallFuncN::create([&](Node* sender){
 					sender->getParent()->removeChild(sender);
 			}),
 				NULL);
 			pBullet->runAction(action);
+		}
+		else
+		{
+			deleteBullet(pBullet);
 		}
 		break;
 	default:

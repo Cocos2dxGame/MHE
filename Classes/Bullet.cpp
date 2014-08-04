@@ -93,7 +93,7 @@ Bullet* Bullet::createBullet(bulletType type, Point pos, Vec2 velocity, Owner ow
 		bullet->m_emitter->setLifeVar(0.2);
 		break;
 	case 12:
-		bullet->initWithFile("bullet/bl_003.png");
+		bullet->initWithFile("bullet/bl_009.png");
 		bullet->m_emitter = ParticleMeteor::create();
 		bullet->m_emitter->setEmissionRate(30);
 		bullet->m_emitter->setLife(0.5);
@@ -126,7 +126,6 @@ Bullet* Bullet::createBullet(bulletType type, Point pos, Vec2 velocity, Owner ow
 
 	return bullet;
 }
-
 
 void Bullet::update(Vec2 acceleration, float deltaTime)
 {
@@ -280,10 +279,10 @@ void Bullet::personCollision()
 			switch (pSprite->getTag())
 			{
 			case 1:
-				((Person*)pSprite)->attacked(this->m_type);
+				((Person*)pSprite)->attacked(this->m_type, m_pBulletManager->SceneType);
 				break;
 			case 2:
-				((Person*)pSprite)->attacked(this->m_type);
+				((Person*)pSprite)->attacked(this->m_type, m_pBulletManager->SceneType);
 				break;
 			default:
 				break;
