@@ -5,6 +5,7 @@ USING_NS_CC;
 Player::Player()
 {
 	strcpy(roleName, "Role1");
+	strcpy(attackedSound, "playerAttacked.wav");
 
 	char plistFileName[100];
 	sprintf(plistFileName,"character/%s.plist", roleName);  

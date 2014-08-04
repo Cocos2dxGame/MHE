@@ -456,22 +456,27 @@ void GameScene::update(float deltaTime)
 {
 	g_BulletManager->update(deltaTime);
 
-	stateController->update(deltaTime);
-
-	//更新人物位置
-	if(_player->getActionState() == Move_Action)
+	if(!gameover)
 	{
-		if(playerDestination.x > _player->getPosition().x+1 
-			&& _player->getBoundingBox().getMaxX()+2 < obstacle->getBoundingBox().getMinX())
-			_player->setPosition(_player->getPosition() + Vec2(2,0));
-		else if(playerDestination.x < _player->getPosition().x-1 && _player->getBoundingBox().getMinX()-2 > 10)
-			_player->setPosition(_player->getPosition() - Vec2(2,0));
-
-		startPosition = _player->getPosition();
-		powerBarBg->setPosition(startPosition);
-		powerBar->setPosition(startPosition);
+		stateController->update(deltaTime);
 	}
-	
+	//更新人物位置
+	if(!gameover)
+	{
+		if(_player->getActionState() == Move_Action)
+		{
+			if(playerDestination.x > _player->getPosition().x+1 
+				&& _player->getBoundingBox().getMaxX()+2 < obstacle->getBoundingBox().getMinX())
+				_player->setPosition(_player->getPosition() + Vec2(2,0));
+			else if(playerDestination.x < _player->getPosition().x-1 && _player->getBoundingBox().getMinX()-2 > 10)
+				_player->setPosition(_player->getPosition() - Vec2(2,0));
+
+			startPosition = _player->getPosition();
+			powerBarBg->setPosition(startPosition);
+			powerBar->setPosition(startPosition);
+		}
+	}
+
 	//更新bullet的选择状态
 	switch (currentBulletState)
 	{
@@ -532,17 +537,20 @@ void GameScene::update(float deltaTime)
 	updateHPandSP();
 
 	//更新时间
-	time -= deltaTime;
-	if(time < 0)
+	if(!gameover)
 	{
-		if(!gameover)
-			failure();
-	}
-	else
-	{
-		char string[15] = {0};
-		sprintf(string, "%d", (int)time);
-		timeLabel->setString(string);
+		time -= deltaTime;
+		if(time < 0)
+		{
+			if(!gameover)
+				failure();
+		}
+		else
+		{
+			char string[15] = {0};
+			sprintf(string, "%d", (int)time);
+			timeLabel->setString(string);
+		}
 	}
 
 	updateSkill3State();
@@ -569,18 +577,22 @@ bool GameScene::contaiinsTouchLocation(Touch* touch)
 
 bool GameScene::onTouchBegan(Touch* touch, Event* event)
 {
-	if ( !contaiinsTouchLocation(touch) )
+	if(!gameover)
 	{
-		playerDestination = touch->getLocation();
-		if(playerDestination.y < visibleSize.height/2)
-			_player->moveAction();
-		else
-			_player->jumpAction();
-		return false;
-	}
+		if ( !contaiinsTouchLocation(touch) )
+		{
+			playerDestination = touch->getLocation();
+			if(playerDestination.y < visibleSize.height/2)
+				_player->moveAction();
+			else
+				_player->jumpAction();
+			return false;
+		}
 
-	startPosition = touch->getLocation();
-	return true;
+		startPosition = touch->getLocation();
+		return true;
+	}
+	return false;
 }
 
 void GameScene::onTouchMoved(Touch* touch, Event* event)
@@ -739,11 +751,18 @@ void GameScene::updateHPandSP()
 
 	if(!gameover && 0==_player->getHP() && 0!=_curNPC->getHP())
 	{
-		failure();
+		gameover = true;
+		CallFunc *callbackFailure = CallFunc::create(std::bind(&GameScene::failure, this));
+		_player->failAction();
+		runAction(Sequence::create(DelayTime::create(5),callbackFailure,NULL));
+		//failure();
 	}
 	else if(!gameover && 0!=_player->getHP() && 0==_curNPC->getHP())
 	{
-		 success();
+		gameover = true;
+		CallFunc *callbackSuccess = CallFunc::create(std::bind(&GameScene::success, this));
+		runAction(Sequence::create(DelayTime::create(5),callbackSuccess,NULL));
+		//success();
 	}
 }
 
@@ -776,7 +795,7 @@ void GameScene::failure()
 {
 	gameover = true;
 	CCDirector::sharedDirector()->pause();  
-	CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();  
+	//CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();  
 	CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseAllEffects();  
 	FailureLayer *failureLayer = FailureLayer::create(curScene);  
 	addChild(failureLayer,999); 
@@ -786,7 +805,7 @@ void GameScene::success()
 {
 	gameover = true;
 	CCDirector::sharedDirector()->pause();  
-	CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();  
+	//CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic(); 
 	CocosDenshion::SimpleAudioEngine::sharedEngine()->pauseAllEffects();  
 	SuccessLayer *successLayer = SuccessLayer::create(curScene);  
 	addChild(successLayer,999);

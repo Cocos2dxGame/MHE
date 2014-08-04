@@ -9,6 +9,7 @@ public:
 	Player();
 	~Player();
 	bool init();
+
 	CREATE_FUNC(Player);
 };
 

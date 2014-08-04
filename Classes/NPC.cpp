@@ -4,6 +4,7 @@ USING_NS_CC;
 NPC::NPC()
 {
 	strcpy(roleName, "Role1");
+	strcpy(attackedSound, "npcAttacked.wav");
 
 	char plistFileName[100];
 	sprintf(plistFileName,"character/%s.plist", roleName);  
@@ -20,6 +21,7 @@ NPC::~NPC()
 NPC1::NPC1()
 {
 	strcpy(roleName, "Role2");
+	strcpy(attackedSound, "npcAttacked.wav");
 
 	char plistFileName[100];
 	sprintf(plistFileName,"character/%s.plist", roleName);  
@@ -109,6 +111,7 @@ bool NPC1::init()
 NPC2::NPC2()
 {
 	strcpy(roleName, "Role3");
+	strcpy(attackedSound, "npcAttacked.wav");
 
 	char plistFileName[100];
 	sprintf(plistFileName,"character/%s.plist", roleName);  
@@ -198,6 +201,7 @@ bool NPC2::init()
 NPC3::NPC3()
 {
 	strcpy(roleName, "Role4");
+	strcpy(attackedSound, "npcAttacked.wav");
 
 	char plistFileName[100];
 	sprintf(plistFileName,"character/%s.plist", roleName);  

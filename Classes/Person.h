@@ -63,11 +63,13 @@ protected:
 	cocos2d::Animation* createAnimation(const char* fmt, int count, float fps);
 
 	char roleName[100];
+	char attackedSound[100];
 	cocos2d::SpriteFrameCache* cache;
 	bool faceRight;
+	bool changeState(ActionState state);
 
 private:
-	bool changeState(ActionState state);
+	
 	bool isJumping;
 };
 

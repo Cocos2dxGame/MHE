@@ -17,7 +17,8 @@ Person::Person()
 
 	isJumping =false;
 	strcpy(roleName, "Role2");
-	
+	strcpy(attackedSound, "playerAttacked.wav");
+
 	char plistFileName[100];
 	sprintf(plistFileName,"character/%s.plist", roleName);  
 	cache = SpriteFrameCache::sharedSpriteFrameCache();
@@ -90,6 +91,9 @@ void Person::jumpActionEnd()
 
 void Person::attacked(bulletType type, GameSceneType scenetype)
 {
+	const char* string = String::createWithFormat("%s%s", "music/", attackedSound)->getCString();
+	CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(string);
+
 	int damage;
 	switch (type)
 	{
