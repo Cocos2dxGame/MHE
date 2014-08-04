@@ -129,7 +129,7 @@ bool GameScene::init()
 	_player->retain();
 	_player->setScale((visibleSize.height*3/16)/_player->getContentSize().height);
 	_player->setPosition(visibleSize.width/8,visibleSize.height*3/16+10);
-	
+	_player->setFlipX(-1);
 	_player->setTag(1);
 	addChild(_player,1);
 	_player->normalAction();

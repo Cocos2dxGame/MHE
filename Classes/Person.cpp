@@ -146,7 +146,26 @@ void Person::attacked(bulletType type, GameSceneType scenetype)
 
 		//¶¯×÷
 		if(changeState(Frozen_Action))
-			runAction(_frozenAction);
+		{
+			switch (scenetype)
+			{
+			case GameScene1:
+				runAction(_holeAction);
+				break;
+			case GameScene2:
+				runAction(_frozenAction);
+				break;
+			case GameScene3:
+				runAction(_netAction);
+				break;
+			case GameScene4:
+				break;
+			case GameScene5:
+				break;
+			default:
+				break;
+			}	
+		}
 		break;
 	default:
 		break;

@@ -7,7 +7,7 @@
             <key>Role3Attacked1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{1498,2},{184,217}}</string>
+                <string>{{221,221},{184,217}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -20,24 +20,11 @@
             <key>Role3Attacked2.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{1279,2},{184,217}}</string>
+                <string>{{374,2},{184,217}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <true/>
-                <key>sourceColorRect</key>
-                <string>{{0,0},{184,217}}</string>
-                <key>sourceSize</key>
-                <string>{184,217}</string>
-            </dict>
-            <key>Role3Fail1.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{1279,2},{184,217}}</string>
-                <key>offset</key>
-                <string>{0,0}</string>
-                <key>rotated</key>
-                <true/>
+                <false/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{184,217}}</string>
                 <key>sourceSize</key>
@@ -46,7 +33,7 @@
             <key>Role3Fire1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{247,2},{185,195}}</string>
+                <string>{{560,2},{185,195}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -59,20 +46,46 @@
             <key>Role3Frozen1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,2},{204,243}}</string>
+                <string>{{2,221},{184,217}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <true/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{204,243}}</string>
+                <string>{{0,0},{184,217}}</string>
                 <key>sourceSize</key>
-                <string>{204,243}</string>
+                <string>{184,217}</string>
+            </dict>
+            <key>Role3Hole1.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{188,2},{184,217}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{184,217}}</string>
+                <key>sourceSize</key>
+                <string>{184,217}</string>
+            </dict>
+            <key>Role3Net1.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{2,2},{184,217}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{184,217}}</string>
+                <key>sourceSize</key>
+                <string>{184,217}</string>
             </dict>
             <key>Role3Normal1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{1137,2},{140,187}}</string>
+                <string>{{724,199},{140,187}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -85,7 +98,7 @@
             <key>Role3Normal2.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{995,2},{140,187}}</string>
+                <string>{{582,199},{140,187}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -98,7 +111,7 @@
             <key>Role3Normal3.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{853,2},{140,187}}</string>
+                <string>{{440,221},{140,187}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -111,7 +124,7 @@
             <key>Role3Normal4.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{711,2},{140,187}}</string>
+                <string>{{882,191},{140,187}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -124,7 +137,7 @@
             <key>Role3Normal5.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{569,2},{140,187}}</string>
+                <string>{{882,2},{140,187}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -134,10 +147,10 @@
                 <key>sourceSize</key>
                 <string>{140,187}</string>
             </dict>
-            <key>Role3Victory.png</key>
+            <key>Role3Victory1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{434,2},{133,195}}</string>
+                <string>{{747,2},{133,195}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -155,9 +168,9 @@
             <key>realTextureFileName</key>
             <string>Role3.png</string>
             <key>size</key>
-            <string>{1717,208}</string>
+            <string>{1024,411}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:2f4abfa6c606d49cb43d299468062c13$</string>
+            <string>$TexturePacker:SmartUpdate:697e642cc67553fc0d2748ebf93bd55e$</string>
             <key>textureFileName</key>
             <string>Role3.png</string>
         </dict>

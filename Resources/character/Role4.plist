@@ -4,10 +4,10 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>Role4Attacked1.png</key>
+            <key>Role4Attaked1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{189,2},{185,182}}</string>
+                <string>{{189,839},{185,182}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -17,10 +17,10 @@
                 <key>sourceSize</key>
                 <string>{185,182}</string>
             </dict>
-            <key>Role4Attacked2.png</key>
+            <key>Role4Attaked2.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,2},{185,182}}</string>
+                <string>{{2,839},{185,182}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -33,63 +33,63 @@
             <key>Role4Fire1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{1304,2},{165,177}}</string>
+                <string>{{2,461},{165,177}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{165,177}}</string>
                 <key>sourceSize</key>
                 <string>{165,177}</string>
             </dict>
-            <key>Role4Jump.png</key>
+            <key>Role4Frozen1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{686,2},{151,180}}</string>
+                <string>{{189,655},{185,182}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{3,0},{151,180}}</string>
+                <string>{{0,0},{185,182}}</string>
                 <key>sourceSize</key>
-                <string>{157,180}</string>
+                <string>{185,182}</string>
             </dict>
-            <key>Role4Move1.png</key>
+            <key>Role4Hole1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{1471,2},{160,176}}</string>
+                <string>{{2,655},{185,182}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{160,176}}</string>
+                <string>{{0,0},{185,182}}</string>
                 <key>sourceSize</key>
-                <string>{160,176}</string>
+                <string>{185,182}</string>
             </dict>
-            <key>Role4Move2.png</key>
+            <key>Role4Net1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{1633,2},{158,175}}</string>
+                <string>{{181,471},{185,182}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{158,175}}</string>
+                <string>{{0,0},{185,182}}</string>
                 <key>sourceSize</key>
-                <string>{158,175}</string>
+                <string>{185,182}</string>
             </dict>
             <key>Role4Normal1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{686,2},{151,180}}</string>
+                <string>{{2,149},{151,180}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{3,0},{151,180}}</string>
                 <key>sourceSize</key>
@@ -98,11 +98,11 @@
             <key>Role4Normal2.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{1145,2},{157,178}}</string>
+                <string>{{182,312},{157,178}}</string>
                 <key>offset</key>
                 <string>{0,1}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{157,178}}</string>
                 <key>sourceSize</key>
@@ -111,11 +111,11 @@
             <key>Role4Normal3.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{986,2},{157,178}}</string>
+                <string>{{2,302},{157,178}}</string>
                 <key>offset</key>
                 <string>{0,1}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{157,178}}</string>
                 <key>sourceSize</key>
@@ -124,11 +124,11 @@
             <key>Role4Normal4.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{533,2},{151,180}}</string>
+                <string>{{184,2},{151,180}}</string>
                 <key>offset</key>
                 <string>{-1,0}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{2,0},{151,180}}</string>
                 <key>sourceSize</key>
@@ -137,24 +137,24 @@
             <key>Role4Normal5.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{839,2},{145,180}}</string>
+                <string>{{2,2},{145,180}}</string>
                 <key>offset</key>
                 <string>{-1,0}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{5,0},{145,180}}</string>
                 <key>sourceSize</key>
                 <string>{157,180}</string>
             </dict>
-            <key>Role4Victory.png</key>
+            <key>Role4Victory1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{376,2},{155,181}}</string>
+                <string>{{184,155},{155,181}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
-                <false/>
+                <true/>
                 <key>sourceColorRect</key>
                 <string>{{0,0},{155,181}}</string>
                 <key>sourceSize</key>
@@ -168,9 +168,9 @@
             <key>realTextureFileName</key>
             <string>Role4.png</string>
             <key>size</key>
-            <string>{1793,186}</string>
+            <string>{376,1023}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:14a9f11e6ae8d4b01f8bb1b04230f33e:a418267237070668a08f80da4e92b9aa:0a794ae430d1613340214975251c4f6a$</string>
+            <string>$TexturePacker:SmartUpdate:e863d0bdb373765df59d2cb95dbb6cd0$</string>
             <key>textureFileName</key>
             <string>Role4.png</string>
         </dict>

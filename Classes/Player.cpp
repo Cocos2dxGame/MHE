@@ -55,6 +55,16 @@ bool Player::init()
 		Animation* frozenAnimation = createAnimation(frozenPng,2,10);
 		setFrozenAction(Sequence::create(Animate::create(frozenAnimation), DelayTime::create(5), callbackNormal, NULL));
 
+		//±»ºÚ¶´À§×¡×´Ì¬ÏÂ
+		const char* holePng = String::createWithFormat("%s%s", roleName, "Hole")->getCString();
+		Animation* holeAnimation = createAnimation(holePng,2,10);
+		setHoleAction(Sequence::create(Animate::create(holeAnimation), DelayTime::create(5), callbackNormal, NULL));
+
+		//±»Íø×¡×´Ì¬ÏÂ
+		const char* netPng = String::createWithFormat("%s%s", roleName, "Net")->getCString();
+		Animation* netAnimation = createAnimation(netPng,2,10);
+		setNetAction(Sequence::create(Animate::create(netAnimation), DelayTime::create(5), callbackNormal, NULL));
+
 		//ÌøÔ¾×´Ì¬ÏÂ¶¯»­
 		auto actionBy = JumpBy::create(1, Vec2(0,0), visibleSize.height/4, 1);
 		//auto actionByBack = actionBy->reverse();

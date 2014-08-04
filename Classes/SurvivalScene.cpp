@@ -90,7 +90,8 @@ bool SurvivalScene::init()
 	//ÉèÖÃplayer
 	_curPlayer = Player::create();
 	_curPlayer->setPosition(visibleSize.width/8,visibleSize.height*3/16);
-	_curPlayer->setScale(0.5);
+	_curPlayer->setScale((visibleSize.height*3/16)/_curPlayer->getContentSize().height);
+	_curPlayer->setFlipX(-1);
 	_curPlayer->setTag(1);
 	addChild(_curPlayer,1);
 	_curPlayer->normalAction();
