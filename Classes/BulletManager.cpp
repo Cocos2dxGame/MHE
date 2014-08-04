@@ -50,57 +50,69 @@ BulletManager* BulletManager::create(GameSceneType gamescenetype, Layer* curLaye
 		}
 		specialAnimation->setDelayPerUnit(0.07);
 		newManager->setSpecialAnimation(specialAnimation);
-
-		stunAnimation = Animation::create();
-		for(int i = 0; i < 4; i++)
-		{
-			const char* png = String::createWithFormat("02_0%d.png", i)->getCString();
-			stunAnimation->addSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(png));
-		}
-		stunAnimation->setDelayPerUnit(0.07);
-		newManager->setStunlAnimation(stunAnimation);
 		break;
 
 	case GameScene2:
-		cache->addSpriteFramesWithFile("bullet/blef_003.plist");
+		cache->addSpriteFramesWithFile("bullet/blef_001.plist");
 		normalAnimation = Animation::create();
 		for(int i = 0; i < 7; i++)
 		{
-			const char* png = String::createWithFormat("%d.png", i)->getCString();
+			const char* png = String::createWithFormat("00_0%d.png", i)->getCString();
 			normalAnimation->addSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(png));
 		}
 		normalAnimation->setDelayPerUnit(0.07);
 		newManager->setNormalAnimation(normalAnimation);
-		
+
+		specialAnimation = Animation::create();
+		for(int i = 0; i < 6; i++)
+		{
+			const char* png = String::createWithFormat("01_0%d.png", i)->getCString();
+			specialAnimation->addSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(png));
+		}
+		specialAnimation->setDelayPerUnit(0.07);
+		newManager->setSpecialAnimation(specialAnimation);
 		break;
+
 	case GameScene3:
-		cache->addSpriteFramesWithFile("bullet/blef_003.plist");
+		cache->addSpriteFramesWithFile("bullet/blef_002.plist");
 		normalAnimation = Animation::create();
-		for(int i = 0; i < 7; i++)
+		for(int i = 0; i < 5; i++)
 		{
-			const char* png = String::createWithFormat("%d.png", i)->getCString();
+			const char* png = String::createWithFormat("00_0%d.png", i)->getCString();
 			normalAnimation->addSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(png));
 		}
 		normalAnimation->setDelayPerUnit(0.07);
 		newManager->setNormalAnimation(normalAnimation);
+
+		specialAnimation = Animation::create();
+		for(int i = 0; i < 10; i++)
+		{
+			const char* png = String::createWithFormat("01_0%d.png", i)->getCString();
+			specialAnimation->addSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(png));
+		}
+		specialAnimation->setDelayPerUnit(0.07);
+		newManager->setSpecialAnimation(specialAnimation);
 		break;
+
+		break;
+
 	case GameScene4:
-		cache->addSpriteFramesWithFile("bullet/blef_003.plist");
+		cache->addSpriteFramesWithFile("bullet/blef_001.plist");
 		normalAnimation = Animation::create();
 		for(int i = 0; i < 7; i++)
 		{
-			const char* png = String::createWithFormat("%d.png", i)->getCString();
+			const char* png = String::createWithFormat("00_0%d.png", i)->getCString();
 			normalAnimation->addSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(png));
 		}
 		normalAnimation->setDelayPerUnit(0.07);
 		newManager->setNormalAnimation(normalAnimation);
 		break;
 	case GameScene5:
-		cache->addSpriteFramesWithFile("bullet/blef_003.plist");
+		cache->addSpriteFramesWithFile("bullet/blef_001.plist");
 		normalAnimation = Animation::create();
 		for(int i = 0; i < 7; i++)
 		{
-			const char* png = String::createWithFormat("%d.png", i)->getCString();
+			const char* png = String::createWithFormat("00_0%d.png", i)->getCString();
 			normalAnimation->addSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(png));
 		}
 		normalAnimation->setDelayPerUnit(0.07);

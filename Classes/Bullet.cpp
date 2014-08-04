@@ -19,6 +19,19 @@ Bullet::~Bullet()
 Bullet* Bullet::createBullet(bulletType type, Point pos, Vec2 velocity, Owner owner, BulletManager* pBulletManager)
 {
 	Bullet* bullet = Bullet::create();
+
+	//float screenAera = Director::getInstance()->getVisibleSize().width * Director::getInstance()->getVisibleSize().height;
+	float scale = Director::getInstance()->getVisibleSize().width*0.00034;
+
+	if(velocity.x < 0)
+	{
+		bullet->setScale(-scale,scale);
+	}
+	else
+	{
+		bullet->setScale(scale);
+	}
+
 	switch (pBulletManager->SceneType*3+type)
 	{
 	case 0:
@@ -56,6 +69,7 @@ Bullet* Bullet::createBullet(bulletType type, Point pos, Vec2 velocity, Owner ow
 		bullet->m_emitter->setEmissionRate(30);
 		bullet->m_emitter->setLife(0.5);
 		bullet->m_emitter->setLifeVar(0.2);
+		bullet->setScale(bullet->getScale()*2);
 		break;
 	case 5:
 		bullet->initWithFile("bullet/bl_005.png");
@@ -112,17 +126,7 @@ Bullet* Bullet::createBullet(bulletType type, Point pos, Vec2 velocity, Owner ow
 	bullet->m_hit = 0;
 	bullet->setPosition(pos);
 	
-	//float screenAera = Director::getInstance()->getVisibleSize().width * Director::getInstance()->getVisibleSize().height;
-	float scale = Director::getInstance()->getVisibleSize().width*0.00034;
-
-	if(velocity.x < 0)
-	{
-		bullet->setScale(-scale,scale);
-	}
-	else
-	{
-		bullet->setScale(scale);
-	}
+	
 
 	return bullet;
 }
