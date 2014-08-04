@@ -35,7 +35,8 @@ LOCAL_SRC_FILES := hellocpp/main.cpp \
 				   ../../Classes/Prop.cpp \
 				   ../../Classes/PropManager.cpp \
 				   ../../Classes/ConfigureScene.cpp \
-				   ../../Classes/HelpScene.cpp
+				   ../../Classes/HelpScene.cpp \
+				   ../../Classes/CompeteStateController.cpp
 
 LOCAL_C_INCLUDES := $(LOCAL_PATH)/../../Classes
 

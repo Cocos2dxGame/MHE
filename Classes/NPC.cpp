@@ -68,6 +68,16 @@ bool NPC1::init()
 		Animation* frozenAnimation = createAnimation(frozenPng,2,10);
 		setFrozenAction(Sequence::create(Animate::create(frozenAnimation), DelayTime::create(5), callbackNormal, NULL));
 
+		//被黑洞困住状态下
+		const char* holePng = String::createWithFormat("%s%s", roleName, "Frozen")->getCString();
+		Animation* holeAnimation = createAnimation(holePng,2,10);
+		setFrozenAction(Sequence::create(Animate::create(holeAnimation), DelayTime::create(5), callbackNormal, NULL));
+
+		//被网住状态下
+		const char* netPng = String::createWithFormat("%s%s", roleName, "Frozen")->getCString();
+		Animation* netAnimation = createAnimation(netPng,2,10);
+		setFrozenAction(Sequence::create(Animate::create(netAnimation), DelayTime::create(5), callbackNormal, NULL));
+
 		//跳跃状态下动画
 		auto actionBy = JumpBy::create(1, Vec2(0,0), visibleSize.height/4, 1);
 		//auto actionByBack = actionBy->reverse();
@@ -147,6 +157,16 @@ bool NPC2::init()
 		Animation* frozenAnimation = createAnimation(frozenPng,2,10);
 		setFrozenAction(Sequence::create(Animate::create(frozenAnimation), DelayTime::create(5), callbackNormal, NULL));
 
+		//被黑洞困住状态下
+		const char* holePng = String::createWithFormat("%s%s", roleName, "Frozen")->getCString();
+		Animation* holeAnimation = createAnimation(holePng,2,10);
+		setFrozenAction(Sequence::create(Animate::create(holeAnimation), DelayTime::create(5), callbackNormal, NULL));
+
+		//被网住状态下
+		const char* netPng = String::createWithFormat("%s%s", roleName, "Frozen")->getCString();
+		Animation* netAnimation = createAnimation(netPng,2,10);
+		setFrozenAction(Sequence::create(Animate::create(netAnimation), DelayTime::create(5), callbackNormal, NULL));
+
 		//跳跃状态下动画
 		auto actionBy = JumpBy::create(1, Vec2(0,0), visibleSize.height/4, 1);
 		//auto actionByBack = actionBy->reverse();
@@ -225,6 +245,16 @@ bool NPC3::init()
 		const char* frozenPng = String::createWithFormat("%s%s", roleName, "Frozen")->getCString();
 		Animation* frozenAnimation = createAnimation(frozenPng,2,10);
 		setFrozenAction(Sequence::create(Animate::create(frozenAnimation), DelayTime::create(5), callbackNormal, NULL));
+
+		//被黑洞困住状态下
+		const char* holePng = String::createWithFormat("%s%s", roleName, "Frozen")->getCString();
+		Animation* holeAnimation = createAnimation(holePng,2,10);
+		setFrozenAction(Sequence::create(Animate::create(holeAnimation), DelayTime::create(5), callbackNormal, NULL));
+
+		//被网住状态下
+		const char* netPng = String::createWithFormat("%s%s", roleName, "Frozen")->getCString();
+		Animation* netAnimation = createAnimation(netPng,2,10);
+		setFrozenAction(Sequence::create(Animate::create(netAnimation), DelayTime::create(5), callbackNormal, NULL));
 
 		//跳跃状态下动画
 		auto actionBy = JumpBy::create(1, Vec2(0,0), visibleSize.height/4, 1);

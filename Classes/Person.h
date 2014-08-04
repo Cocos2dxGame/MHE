@@ -30,7 +30,7 @@ public:
 	void victoryAction();
 	void failAction();
 	void jumpActionEnd();
-	void attacked(bulletType type);
+	void attacked(bulletType type, GameSceneType scenetype);
 	void getProp(PropType type);
 	void getProp();
 	void notHit();
@@ -38,7 +38,11 @@ public:
 	 // 定义每个状态动作的get/set方法
 	CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _normalAction, NormalAction);
 	CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _attackedAction, AttackedAction);
+
 	CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _frozenAction, FrozenAction);
+	CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _holeAction, HoleAction);
+	CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _netAction, NetAction);
+	
 	CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _fireAction, FireAction);
 	CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _moveAction, MoveAction);
 	CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _jumpAction, JumpAction);

@@ -8,6 +8,8 @@ Person::Person()
 	_fireAction = NULL;
 	_attackedAction = NULL;
 	_frozenAction = NULL;
+	_holeAction = NULL;
+	_netAction = NULL;
 	_moveAction = NULL;
 	_jumpAction = NULL;
 	_victoryAction = NULL;
@@ -86,7 +88,7 @@ void Person::jumpActionEnd()
 	runAction(_normalAction);
 }
 
-void Person::attacked(bulletType type)
+void Person::attacked(bulletType type, GameSceneType scenetype)
 {
 	int damage;
 	switch (type)
