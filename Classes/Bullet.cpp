@@ -147,16 +147,33 @@ void Bullet::update(Vec2 acceleration, float deltaTime)
 	// trace 
 	if(m_type == StunBullet)
 	{
-		for(Sprite* pSprite : *m_pBulletManager->getSpriteVector())
+		if(m_owner==player)
 		{
-			if(pSprite->getTag()==2)
+			for(Sprite* pSprite : *m_pBulletManager->getSpriteVector())
 			{
-				Vec2 acc = (pSprite->getPosition() - this->getPosition());
-				float module = sqrt(acc.x*acc.x + acc.y*acc.y);
-				acc = pow(Director::getInstance()->getVisibleSize().width / module, 4) * acc / 8;
-				m_velocity+=acc*deltaTime;
+				if(pSprite->getTag()==2)
+				{
+					Vec2 acc = (pSprite->getPosition() - this->getPosition());
+					float module = sqrt(acc.x*acc.x + acc.y*acc.y);
+					acc = pow(Director::getInstance()->getVisibleSize().width / module, 4) * acc / 8;
+					m_velocity+=acc*deltaTime;
+				}
 			}
 		}
+		else
+		{
+			for(Sprite* pSprite : *m_pBulletManager->getSpriteVector())
+			{
+				if(pSprite->getTag()==1)
+				{
+					Vec2 acc = (pSprite->getPosition() - this->getPosition());
+					float module = sqrt(acc.x*acc.x + acc.y*acc.y);
+					acc = pow(Director::getInstance()->getVisibleSize().width / module, 4) * acc / 8;
+					m_velocity+=acc*deltaTime;
+				}
+			}
+		}
+		
 	}
 
 	// if the bullet leave the screen
