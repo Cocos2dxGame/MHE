@@ -30,6 +30,19 @@
                 <key>sourceSize</key>
                 <string>{184,217}</string>
             </dict>
+            <key>Role3Failure1.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{374,2},{184,217}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{184,217}}</string>
+                <key>sourceSize</key>
+                <string>{184,217}</string>
+            </dict>
             <key>Role3Fire1.png</key>
             <dict>
                 <key>frame</key>
@@ -170,7 +183,7 @@
             <key>size</key>
             <string>{1024,411}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:697e642cc67553fc0d2748ebf93bd55e$</string>
+            <string>$TexturePacker:SmartUpdate:58c4e1bb3224079958fab9e8f4afe767$</string>
             <key>textureFileName</key>
             <string>Role3.png</string>
         </dict>

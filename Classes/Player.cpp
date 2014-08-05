@@ -77,7 +77,7 @@ bool Player::init()
 		setVictoryAction(Sequence::create(Animate::create(victoryAnimation), DelayTime::create(5), NULL));
 
 		//Ê§°Ü×´Ì¬ÏÂ
-		const char* failPng = String::createWithFormat("%s%s", roleName, "Fail")->getCString();
+		const char* failPng = String::createWithFormat("%s%s", roleName, "Failure")->getCString();
 		Animation* failAnimation = createAnimation(failPng,2,10);
 		setFailAction(Sequence::create(Animate::create(failAnimation), DelayTime::create(5), NULL));
 

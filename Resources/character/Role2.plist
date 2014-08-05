@@ -4,7 +4,7 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>Role2Attacked2.png</key>
+            <key>Role2Attacked1.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{546,2},{134,186}}</string>
@@ -17,7 +17,20 @@
                 <key>sourceSize</key>
                 <string>{134,186}</string>
             </dict>
-            <key>Role2Attacked1.png</key>
+            <key>Role2Attacked2.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{410,2},{134,186}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{134,186}}</string>
+                <key>sourceSize</key>
+                <string>{134,186}</string>
+            </dict>
+            <key>Role2Failure1.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{410,2},{134,186}}</string>
@@ -170,7 +183,7 @@
             <key>size</key>
             <string>{1681,190}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:26f839947f6c4fad05f9f418204776be$</string>
+            <string>$TexturePacker:SmartUpdate:f7c8cf574628c0b9d721ef4ac72dff97$</string>
             <key>textureFileName</key>
             <string>Role2.png</string>
         </dict>

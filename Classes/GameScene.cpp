@@ -754,6 +754,7 @@ void GameScene::updateHPandSP()
 		gameover = true;
 		CallFunc *callbackFailure = CallFunc::create(std::bind(&GameScene::failure, this));
 		_player->failAction();
+		_curNPC->victoryAction();
 		runAction(Sequence::create(DelayTime::create(5),callbackFailure,NULL));
 		//failure();
 	}
@@ -761,6 +762,8 @@ void GameScene::updateHPandSP()
 	{
 		gameover = true;
 		CallFunc *callbackSuccess = CallFunc::create(std::bind(&GameScene::success, this));
+		_player->victoryAction();
+		_curNPC->failAction();
 		runAction(Sequence::create(DelayTime::create(5),callbackSuccess,NULL));
 		//success();
 	}

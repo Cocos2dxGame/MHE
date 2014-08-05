@@ -46,8 +46,8 @@ public:
 	CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _fireAction, FireAction);
 	CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _moveAction, MoveAction);
 	CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _jumpAction, JumpAction);
-	CC_SYNTHESIZE(cocos2d::Action*, _victoryAction, VictoryAction);
-	CC_SYNTHESIZE(cocos2d::Action*, _failAction, FailAction);
+	CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _victoryAction, VictoryAction);
+	CC_SYNTHESIZE_RETAIN(cocos2d::Action*, _failAction, FailAction);
 
 	// 精灵的当前状态
 	CC_SYNTHESIZE(ActionState, _currentState, ActionState);

@@ -194,6 +194,12 @@ void Person::failAction()
 		runAction(_failAction);
 }
 
+void Person::victoryAction()
+{
+	if(changeState(Vectory_Action))
+		runAction(_victoryAction);
+}
+
 void Person::getProp(PropType type)
 {
 	switch (type)

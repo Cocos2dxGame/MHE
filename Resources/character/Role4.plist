@@ -30,7 +30,20 @@
                 <key>sourceSize</key>
                 <string>{185,182}</string>
             </dict>
-            <key>Role4Fire1.png</key>
+            <key>Role4Failure1.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{2,839},{185,182}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{185,182}}</string>
+                <key>sourceSize</key>
+                <string>{185,182}</string>
+            </dict>
+            <key>Role4Fire.png</key>
             <dict>
                 <key>frame</key>
                 <string>{{2,461},{165,177}}</string>
@@ -170,7 +183,7 @@
             <key>size</key>
             <string>{376,1023}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:e863d0bdb373765df59d2cb95dbb6cd0$</string>
+            <string>$TexturePacker:SmartUpdate:9516a843de67ef5b29c48e30643a949b$</string>
             <key>textureFileName</key>
             <string>Role4.png</string>
         </dict>
