@@ -69,7 +69,6 @@ Bullet* Bullet::createBullet(bulletType type, Point pos, Vec2 velocity, Owner ow
 		bullet->m_emitter->setEmissionRate(30);
 		bullet->m_emitter->setLife(0.5);
 		bullet->m_emitter->setLifeVar(0.2);
-		bullet->setScale(bullet->getScale()*2);
 		break;
 	case 5:
 		bullet->initWithFile("bullet/bl_005.png");
