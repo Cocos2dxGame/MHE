@@ -156,7 +156,45 @@ void BulletManager::shoot(bulletType type, Owner owner, Point pos, Vec2 velocity
 	if(type == SpecialBullet)
 	{
 		float module = sqrt(velocity.x*velocity.x+velocity.y*velocity.y);
+		float cita, cita1, cita2;
+		if(velocity.x == 0)
+		{
+			if(velocity.y>0)
+			{
+				cita = 3.14/2;
+			}
+			else
+			{
+				cita = -3.14/2;
+			}
+		}
+		else
+		{
+			cita = atan(velocity.y/velocity.x);
+			if(velocity.x < 0)
+			{
+				cita+=3.14;
+			}
+		}
+		cita1 = cita+0.08;
+		cita2 = cita-0.08;
+		
+		Bullet* pBullet;
 
+		pBullet = Bullet::createBullet(type, pos, Vec2(module*cos(cita2),module*sin(cita2)), owner, this);
+		m_layer->addChild(pBullet->getEmitter(), 1);
+		m_layer->addChild(pBullet, 1);
+		m_BulletVector.pushBack(pBullet);
+
+		pBullet = Bullet::createBullet(type, pos, velocity, owner, this);
+		m_layer->addChild(pBullet->getEmitter(), 1);
+		m_layer->addChild(pBullet, 1);
+		m_BulletVector.pushBack(pBullet);
+
+		pBullet = Bullet::createBullet(type, pos, Vec2(module*cos(cita1),module*sin(cita1)), owner, this);
+		m_layer->addChild(pBullet->getEmitter(), 1);
+		m_layer->addChild(pBullet, 1);
+		m_BulletVector.pushBack(pBullet);
 		
 	}
 	else

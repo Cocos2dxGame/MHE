@@ -143,9 +143,24 @@ void Bullet::update(Vec2 acceleration, float deltaTime)
 	setPosition(pos);
 	m_emitter->setPosition(pos);
 	m_velocity+=acceleration*deltaTime;
+	
+	// trace 
+	if(m_type == StunBullet)
+	{
+		for(Sprite* pSprite : *m_pBulletManager->getSpriteVector())
+		{
+			if(pSprite->getTag()==2)
+			{
+				Vec2 acc = (pSprite->getPosition() - this->getPosition());
+				float module = sqrt(acc.x*acc.x + acc.y*acc.y);
+				acc = pow(Director::getInstance()->getVisibleSize().width / module, 4) * acc / 8;
+				m_velocity+=acc*deltaTime;
+			}
+		}
+	}
 
 	// if the bullet leave the screen
-	if((this->getBoundingBox().getMaxY()<Director::getInstance()->getVisibleSize().height*0.18))
+	if((this->getBoundingBox().getMaxY()<Director::getInstance()->getVisibleSize().height*0.2))
 	{
 		m_pBulletManager->deleteBullet(this);
 		return ;
@@ -241,7 +256,10 @@ void Bullet::propCollision()
 				m_pBulletManager->getPropManager()->deleteProp(pProp);
 				break;
 			default:
-				m_pBulletManager->deleteBullet(this);
+				if(m_type!=StunBullet)
+				{
+					m_pBulletManager->deleteBullet(this);
+				}
 				m_pBulletManager->getPropManager()->deleteProp(pProp);
 				switch (this->m_owner)
 				{
@@ -302,11 +320,20 @@ void Bullet::bulletCollision()
 	{
 		if(pBullet != this)
 		{
-			if(pBullet->getBoundingBox().intersectsRect(this->getBoundingBox()))
+			if(pBullet->m_owner != this->m_owner)
 			{
-				m_pBulletManager->deleteBullet(pBullet);
-				m_pBulletManager->deleteBullet(this);
-				return ;
+				if(pBullet->getBoundingBox().intersectsRect(this->getBoundingBox()))
+				{
+					if(pBullet->getType()!=StunBullet)
+					{
+						m_pBulletManager->deleteBullet(pBullet);
+					}
+					if(m_type!=StunBullet)
+					{
+						m_pBulletManager->deleteBullet(this);
+					}
+					return ;
+				}
 			}
 		}
 	}
