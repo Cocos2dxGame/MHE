@@ -40,6 +40,7 @@ Bullet* Bullet::createBullet(bulletType type, Point pos, Vec2 velocity, Owner ow
 		bullet->m_emitter->setEmissionRate(30);
 		bullet->m_emitter->setLife(0.5);
 		bullet->m_emitter->setLifeVar(0.2);
+		bullet->m_emitter->setStartColor(Color4F(0.2, 0.2, 0.2, 1.0));
 		break;
 	case 1:
 		bullet->initWithFile("bullet/bl_001.png");
@@ -47,6 +48,7 @@ Bullet* Bullet::createBullet(bulletType type, Point pos, Vec2 velocity, Owner ow
 		bullet->m_emitter->setEmissionRate(30);
 		bullet->m_emitter->setLife(0.5);
 		bullet->m_emitter->setLifeVar(0.2);
+		bullet->m_emitter->setStartColor(Color4F(1.0, 1.0, 0.0, 1.0));
 		break;
 	case 2:
 		bullet->initWithFile("bullet/bl_002.png");
@@ -54,6 +56,7 @@ Bullet* Bullet::createBullet(bulletType type, Point pos, Vec2 velocity, Owner ow
 		bullet->m_emitter->setEmissionRate(30);
 		bullet->m_emitter->setLife(0.5);
 		bullet->m_emitter->setLifeVar(0.2);
+		bullet->m_emitter->setStartColor(Color4F(0.2, 0.2, 0.2, 1.0));
 		break;
 	case 3:
 		bullet->initWithFile("bullet/bl_003.png");
@@ -69,6 +72,7 @@ Bullet* Bullet::createBullet(bulletType type, Point pos, Vec2 velocity, Owner ow
 		bullet->m_emitter->setEmissionRate(30);
 		bullet->m_emitter->setLife(0.5);
 		bullet->m_emitter->setLifeVar(0.2);
+		bullet->m_emitter->setStartColor(Color4F(1.0, 1.0, 1.0, 1.0));
 		break;
 	case 5:
 		bullet->initWithFile("bullet/bl_005.png");
@@ -83,6 +87,7 @@ Bullet* Bullet::createBullet(bulletType type, Point pos, Vec2 velocity, Owner ow
 		bullet->m_emitter->setEmissionRate(30);
 		bullet->m_emitter->setLife(0.5);
 		bullet->m_emitter->setLifeVar(0.2);
+		bullet->m_emitter->setStartColor(Color4F(0.2, 0.2, 0.2, 1.0));
 		break;
 	case 7:
 		bullet->initWithFile("bullet/bl_007.png");
@@ -90,6 +95,7 @@ Bullet* Bullet::createBullet(bulletType type, Point pos, Vec2 velocity, Owner ow
 		bullet->m_emitter->setEmissionRate(30);
 		bullet->m_emitter->setLife(0.5);
 		bullet->m_emitter->setLifeVar(0.2);
+		bullet->m_emitter->setStartColor(Color4F(0.0, 0.95, 0.0, 1.0));
 		break;
 	case 8:
 		bullet->initWithFile("bullet/bl_008.png");
@@ -97,6 +103,7 @@ Bullet* Bullet::createBullet(bulletType type, Point pos, Vec2 velocity, Owner ow
 		bullet->m_emitter->setEmissionRate(30);
 		bullet->m_emitter->setLife(0.5);
 		bullet->m_emitter->setLifeVar(0.2);
+		bullet->m_emitter->setStartColor(Color4F(0.2, 0.2, 0.2, 1.0));
 		break;
 	case 9:
 		bullet->initWithFile("bullet/bl_003.png");
