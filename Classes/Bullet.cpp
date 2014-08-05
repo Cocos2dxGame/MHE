@@ -302,11 +302,14 @@ void Bullet::bulletCollision()
 	{
 		if(pBullet != this)
 		{
-			if(pBullet->getBoundingBox().intersectsRect(this->getBoundingBox()))
+			if(pBullet->m_owner != this->m_owner)
 			{
-				m_pBulletManager->deleteBullet(pBullet);
-				m_pBulletManager->deleteBullet(this);
-				return ;
+				if(pBullet->getBoundingBox().intersectsRect(this->getBoundingBox()))
+				{
+					m_pBulletManager->deleteBullet(pBullet);
+					m_pBulletManager->deleteBullet(this);
+					return ;
+				}
 			}
 		}
 	}
