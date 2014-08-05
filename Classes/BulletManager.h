@@ -36,6 +36,7 @@ private:
 	cocos2d::Vector<Bullet*>		m_BulletDeleteVector;
 	cocos2d::Vec2					m_g;
 	cocos2d::Vector<cocos2d::Sprite*>*		m_pSpriteVector;
+	void  shootByCita(float cita);
 
 	PropManager* m_propManager;
 };
