@@ -727,7 +727,7 @@ void GameScene::dealEndTouch()
 			velocity.x= (endPosition.x - startPosition.x) / visibleSize.height * 2500 ;
 			velocity.y= (endPosition.y - startPosition.y) / visibleSize.height * 2500;
 
-			_player->setSP(_player->getSP()-50);
+			//_player->setSP(_player->getSP()-50);
 			g_BulletManager->shoot(StunBullet, player, pos, velocity);
 			stateController->playerShooting(pos, velocity);
 			if(OpenMusicEffect)
@@ -755,6 +755,7 @@ void GameScene::updateHPandSP()
 		CallFunc *callbackFailure = CallFunc::create(std::bind(&GameScene::failure, this));
 		_player->failAction();
 		_curNPC->victoryAction();
+		CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/failure.mp3");
 		runAction(Sequence::create(DelayTime::create(5),callbackFailure,NULL));
 		//failure();
 	}
@@ -764,6 +765,7 @@ void GameScene::updateHPandSP()
 		CallFunc *callbackSuccess = CallFunc::create(std::bind(&GameScene::success, this));
 		_player->victoryAction();
 		_curNPC->failAction();
+		CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/success.mp3");
 		runAction(Sequence::create(DelayTime::create(5),callbackSuccess,NULL));
 		//success();
 	}
