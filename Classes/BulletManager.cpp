@@ -153,10 +153,19 @@ void BulletManager::update(float deltaTime)
 
 void BulletManager::shoot(bulletType type, Owner owner, Point pos, Vec2 velocity)
 {
-	Bullet* pBullet = Bullet::createBullet(type, pos, velocity, owner, this);
-	m_layer->addChild(pBullet->getEmitter(), 1);
-	m_layer->addChild(pBullet, 1);
-	m_BulletVector.pushBack(pBullet);
+	if(type == SpecialBullet)
+	{
+		float module = sqrt(velocity.x*velocity.x+velocity.y*velocity.y);
+
+		
+	}
+	else
+	{
+		Bullet* pBullet = Bullet::createBullet(type, pos, velocity, owner, this);
+		m_layer->addChild(pBullet->getEmitter(), 1);
+		m_layer->addChild(pBullet, 1);
+		m_BulletVector.pushBack(pBullet);
+	}
 }
 
 void BulletManager::clean()

@@ -157,7 +157,7 @@ void Bullet::update(Vec2 acceleration, float deltaTime)
 	if(m_leave)
 	{
 		// detect person collision
-		if(m_pBulletManager->SceneType != GameScene4)
+		if(m_pBulletManager->SceneType < GameScene4)
 		{
 			personCollision();
 		}

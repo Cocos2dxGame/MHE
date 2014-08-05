@@ -222,11 +222,14 @@ void PropManager::survivalUpdate(float deltaTime)
 	// prop drop
 	for( Prop* pProp : m_propVector )
 	{
-		if(pProp->getPositionY() < Director::getInstance()->getVisibleSize().height * 0.15)
+		if(pProp->getType() == normal)
 		{
-			m_propDeleteVector.pushBack(pProp);
-			Person* pPerson = (Person*)m_bulletManager->getSpriteVector()->getRandomObject();
-			pPerson->notHit();
+			if(pProp->getPositionY() < Director::getInstance()->getVisibleSize().height * 0.15)
+			{
+				m_propDeleteVector.pushBack(pProp);
+				Person* pPerson = (Person*)m_bulletManager->getSpriteVector()->getRandomObject();
+				pPerson->notHit();
+			}
 		}
 	}
 }
