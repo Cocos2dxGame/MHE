@@ -7,6 +7,7 @@
 USING_NS_CC;
 
 extern bool OpenMusicEffect;
+extern bool OpenMusic;
 BulletManager* g_BulletManager;
 
 GameScene::GameScene()
@@ -14,7 +15,7 @@ GameScene::GameScene()
 	skill1CoolDownTime(1.0),skill2CoolDownTime(1.0),skill3CoolDownTime(1.0),
 	skill1NeedTime(0.0),skill2NeedTime(0.0), skill3NeedTime(0.0),
 	currentBulletState(NormalBullet),_npc1(nullptr),_npc2(nullptr),_npc3(nullptr),background(nullptr),
-	gameover(false)
+	gameover(false),nearFinal(false)
 {
 	//curScene = GameScene3;
 	time = 180;
@@ -543,10 +544,25 @@ void GameScene::update(float deltaTime)
 		if(time < 0)
 		{
 			if(!gameover)
-				failure();
+			{
+				gameover = true;
+				CallFunc *callbackFailure = CallFunc::create(std::bind(&GameScene::failure, this));
+				_player->failAction();
+				_curNPC->victoryAction();
+		
+				if(OpenMusic)
+					CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/failure.mp3");
+				runAction(Sequence::create(DelayTime::create(5),callbackFailure,NULL));
+			}
 		}
 		else
 		{
+			if(time < 4 && OpenMusicEffect && !nearFinal)
+			{
+				nearFinal = true;
+				if(OpenMusic)
+					CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/clock.WAV");;			
+			}
 			char string[15] = {0};
 			sprintf(string, "%d", (int)time);
 			timeLabel->setString(string);
@@ -755,7 +771,9 @@ void GameScene::updateHPandSP()
 		CallFunc *callbackFailure = CallFunc::create(std::bind(&GameScene::failure, this));
 		_player->failAction();
 		_curNPC->victoryAction();
-		CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/failure.mp3");
+		
+		if(OpenMusic)
+			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/failure.mp3");
 		runAction(Sequence::create(DelayTime::create(5),callbackFailure,NULL));
 		//failure();
 	}
@@ -765,7 +783,8 @@ void GameScene::updateHPandSP()
 		CallFunc *callbackSuccess = CallFunc::create(std::bind(&GameScene::success, this));
 		_player->victoryAction();
 		_curNPC->failAction();
-		CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/success.mp3");
+		if(OpenMusic)
+			CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/success.mp3");
 		runAction(Sequence::create(DelayTime::create(5),callbackSuccess,NULL));
 		//success();
 	}

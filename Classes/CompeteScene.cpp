@@ -4,6 +4,7 @@
 #include "SuccessLayer.h"
 USING_NS_CC;
 extern bool OpenMusicEffect;
+extern bool OpenMusic;
 
 CompeteScene::CompeteScene():
 	skillCoolDownNeedTime(0),skillCoolDownTime(1),
@@ -191,18 +192,23 @@ void CompeteScene::menuCloseCallback(cocos2d::Ref* pSender)
 void CompeteScene::update(float dt)
 {
 	g_BulletManager->update(dt);
-	competeStateController->update(dt);
 
-	if(_curPlayer->getActionState() == Move_Action)
+	if(!gameover)
+		competeStateController->update(dt);
+
+	if(!gameover)
 	{
-		if(playerDestination.x > _curPlayer->getPosition().x+1 && _curPlayer->getBoundingBox().getMaxX()+2 < visibleSize.width-30)
-			_curPlayer->setPosition(_curPlayer->getPosition() + Vec2(2,0));
-		else if(playerDestination.x < _curPlayer->getPosition().x-1 && _curPlayer->getBoundingBox().getMinX()-2 > 10)
-			_curPlayer->setPosition(_curPlayer->getPosition() - Vec2(2,0));
+		if(_curPlayer->getActionState() == Move_Action)
+		{
+			if(playerDestination.x > _curPlayer->getPosition().x+1 && _curPlayer->getBoundingBox().getMaxX()+2 < visibleSize.width-30)
+				_curPlayer->setPosition(_curPlayer->getPosition() + Vec2(2,0));
+			else if(playerDestination.x < _curPlayer->getPosition().x-1 && _curPlayer->getBoundingBox().getMinX()-2 > 10)
+				_curPlayer->setPosition(_curPlayer->getPosition() - Vec2(2,0));
 		
-		startPosition = _curPlayer->getPosition();
-		powerBarBg->setPosition(startPosition);
-		powerBar->setPosition(startPosition);
+			startPosition = _curPlayer->getPosition();
+			powerBarBg->setPosition(startPosition);
+			powerBar->setPosition(startPosition);
+		}
 	}
 
 	//更新技能冷却时间
@@ -224,9 +230,27 @@ void CompeteScene::update(float dt)
 		if(!gameover)
 		{
 			if(playerScores > npcScores)
-				success();
+			{
+				gameover = true;
+				CallFunc *callbackSuccess = CallFunc::create(std::bind(&CompeteScene::success, this));
+				_curPlayer->victoryAction();
+				_curNPC->failAction();
+				if(OpenMusic)
+					CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/success.mp3");
+				runAction(Sequence::create(DelayTime::create(5),callbackSuccess,NULL));
+				//success();
+			}
 			else
-				failure();
+			{
+				gameover = true;
+				CallFunc *callbackFailure = CallFunc::create(std::bind(&CompeteScene::failure, this));
+				_curPlayer->failAction();
+				_curNPC->victoryAction();
+				if(OpenMusic)
+					CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/failure.mp3");
+				runAction(Sequence::create(DelayTime::create(5),callbackFailure,NULL));
+				//failure();
+			}
 		}
 	}
 	else

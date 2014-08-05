@@ -40,18 +40,26 @@ bool ChapterScene::init()
     //    you may modify it.
 
     // add a "close" icon to exit the progress. it's an autorelease object
-    auto closeItem = MenuItemImage::create(
+    auto returnItem = MenuItemImage::create(
                                            "button/return.png",
                                            "button/return_selected.png",
-                                           CC_CALLBACK_1(ChapterScene::menuCloseCallback, this));
+                                           CC_CALLBACK_1(ChapterScene::doReturn, this));
     
-	
+	returnItem->setScale(visibleSize.width/20/returnItem->getContentSize().width);
+	returnItem->setPosition(visibleSize.width-returnItem->getContentSize().width/2,
+		visibleSize.height-returnItem->getContentSize().height/2);
+
+	auto closeItem = MenuItemImage::create(
+		"CloseNormal.png",
+		"CloseSelected.png",
+		CC_CALLBACK_1(ChapterScene::menuCloseCallback,this));
+
 	closeItem->setScale(visibleSize.width/800);
 	closeItem->setPosition(Vec2(origin.x + visibleSize.width - 0.5*(closeItem->getBoundingBox().getMaxX()-closeItem->getBoundingBox().getMinX()) ,
-                                origin.y + 0.5*(closeItem->getBoundingBox().getMaxY()-closeItem->getBoundingBox().getMinY())));
+		origin.y + 0.5*(closeItem->getBoundingBox().getMaxY()-closeItem->getBoundingBox().getMinY())));
 
     // create menu, it's an autorelease object
-    auto menu = Menu::create(closeItem, NULL);
+    auto menu = Menu::create(returnItem, closeItem, NULL);
     menu->setPosition(Vec2::ZERO);
     this->addChild(menu, 1);
 
@@ -106,6 +114,11 @@ bool ChapterScene::init()
     return true;
 }
 
+void ChapterScene::doReturn(Ref* pSender)
+{
+	Scene* pScene = ModeSelectScene::createScene();
+	SceneManager::go(pScene);
+}
 
 void ChapterScene::menuCloseCallback(Ref* pSender)
 {
@@ -113,7 +126,7 @@ void ChapterScene::menuCloseCallback(Ref* pSender)
 	MessageBox("You pressed the close button. Windows Store Apps do not implement a close button.","Alert");
     return;
 #endif
-    SceneManager::go(ModeSelectScene::createScene());
+    Director::getInstance()->end();
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
     exit(0);

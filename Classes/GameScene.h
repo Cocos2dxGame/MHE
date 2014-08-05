@@ -84,6 +84,7 @@ protected:
 	cocos2d::Vec2 g;
 	StateController* stateController;
 	bool gameover;
+	bool nearFinal;
 	cocos2d::Label* timeLabel;
 	float time;
 
