@@ -3,6 +3,8 @@
 #include "BulletManager.h"
 #include "SurvivalScene.h"
 
+extern bool OpenMusicEffect;
+
 USING_NS_CC;
 
 float getRandom(float basic, float variance)
@@ -157,6 +159,10 @@ void PropManager::update(float deltaTime)
 		Vector<Prop*>::iterator iter = m_propVector.find(pProp);
 		if(iter != m_propVector.end())
 		{
+			if(OpenMusicEffect)
+			{
+				CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("Prop/sd_00.wav");
+			}
 			m_bulletManager->getLayer()->removeChild(*iter);
 			m_propVector.erase(iter);
 		}
