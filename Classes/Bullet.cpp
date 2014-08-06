@@ -255,13 +255,13 @@ void Bullet::propCollision()
 			//survival mode
 			case GameScene4:
 				pPerson= (Person*)m_pBulletManager->getSpriteVector()->getRandomObject();
-				pPerson->getProp(pProp->getType());
+				pPerson->getProp(GameScene4, pProp->getType());
 				((SurvivalScene*)(m_pBulletManager->getLayer()))->addPlayerMark(pow(2,m_hit++));
 				m_pBulletManager->getPropManager()->deleteProp(pProp);
 				break;
 			case GameScene5:
 				pPerson= (Person*)m_pBulletManager->getSpriteVector()->getRandomObject();
-				pPerson->getProp(pProp->getType());
+				pPerson->getProp(GameScene5, pProp->getType());
 				if(m_owner == player)
 				{
 					((CompeteScene*)(m_pBulletManager->getLayer()))->addPlayerMark(pow(2,m_hit++));
@@ -285,7 +285,7 @@ void Bullet::propCollision()
 					{
 						if(pSprite->getTag() == 1)
 						{
-							((Person*)pSprite)->getProp(normal);
+							((Person*)pSprite)->getProp(this->m_pBulletManager->SceneType, normal);
 						}
 					}
 					break;
@@ -294,7 +294,7 @@ void Bullet::propCollision()
 					{
 						if(pSprite->getTag() == 2)
 						{
-							((Person*)pSprite)->getProp(normal);
+							((Person*)pSprite)->getProp(this->m_pBulletManager->SceneType, normal);
 						}
 					}
 					break;

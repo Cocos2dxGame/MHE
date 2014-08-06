@@ -40,13 +40,13 @@ PropManager* PropManager::create(BulletManager* pBulletManger)
 	switch (pBulletManger->SceneType)
 	{
 	case GameScene4:
-		newManager->m_time = 6.0f;
-		newManager->m_timeVariance = 2.0f;
-		newManager->m_duration = 20.0f;
+		newManager->m_time = 3.0f;
+		newManager->m_timeVariance = 1.5f;
+		newManager->m_duration = 15.0f;
 		newManager->m_durationVariance = 5.0f;
 		break;
 	case GameScene5:
-		newManager->m_time = 3.0f;
+		newManager->m_time = 2.0f;
 		newManager->m_timeVariance = 1.0f;
 		newManager->m_duration = 20.0f;
 		newManager->m_durationVariance = 5.0f;
@@ -164,7 +164,7 @@ void PropManager::update(float deltaTime)
 				CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("Prop/sd_00.wav");
 			}
 			m_bulletManager->getLayer()->removeChild(*iter);
-			m_propVector.erase(iter);
+			iter = m_propVector.erase(iter);
 		}
 	}
 	m_propDeleteVector.clear();
