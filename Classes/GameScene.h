@@ -38,7 +38,7 @@ public:
 	
 	//技能栏设置
 	void setMenu(GameSceneType curScene);
-	void selected1();
+	void selectedDeafult();
 	void selectedSkill1(cocos2d::Ref* pSender);
 	void selectedSkill2(cocos2d::Ref* pSender);
 	void selectedSkill3(cocos2d::Ref* pSender);
@@ -84,6 +84,7 @@ protected:
 	cocos2d::Vec2 g;
 	StateController* stateController;
 	bool gameover;
+	bool nearFinal;
 	cocos2d::Label* timeLabel;
 	float time;
 
@@ -130,6 +131,7 @@ protected:
 
 	cocos2d::Size visibleSize;
 	cocos2d::Vec2 origin;
+	float boundingY;
 
 	//触摸的开始点和结束点
 	cocos2d::Vec2 startPosition;

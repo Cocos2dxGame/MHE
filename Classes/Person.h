@@ -27,6 +27,8 @@ public:
 	void frozenAction();
 	void moveAction();
 	void jumpAction();
+	void jumpTo(cocos2d::Vec2 v, cocos2d::Size visibleSize, float boundingX, float boundingY);
+	void jumpToEnd();
 	void victoryAction();
 	void failAction();
 	void jumpActionEnd();
@@ -52,6 +54,9 @@ public:
 	// 精灵的当前状态
 	CC_SYNTHESIZE(ActionState, _currentState, ActionState);
 
+	//人物的朝向
+	CC_SYNTHESIZE(bool, _faceRight, FaceDirection);
+
 	// 设置血条、怒气条
 	CC_SYNTHESIZE(int, _hp, HP); // 生命值
 	CC_SYNTHESIZE(int, _sp, SP); // 怒气值
@@ -59,15 +64,18 @@ public:
 	CC_SYNTHESIZE(int, _totalHp, TotalHP); // 生命值
 	CC_SYNTHESIZE(int, _totalSp, TotalSP); // 怒气值
 
+	void update(float dt, cocos2d::Vec2 g);
+
 protected:
 	cocos2d::Animation* createAnimation(const char* fmt, int count, float fps);
 
 	char roleName[100];
 	char attackedSound[100];
 	cocos2d::SpriteFrameCache* cache;
-	bool faceRight;
 	bool changeState(ActionState state);
-
+	cocos2d::Vec2 personVelocity;
+	float boundingX;
+	float boundingY;
 private:
 	
 	bool isJumping;

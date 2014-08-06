@@ -87,7 +87,11 @@ bool GameScene::init()
 		//中间障碍物
 		obstacle = Sprite::create("obstacle1.png");
 
+<<<<<<< HEAD
 		g = Vec2(0, -visibleSize.height);
+=======
+		g = Vec2(0, -Director::getInstance()->getVisibleSize().height*3);
+>>>>>>> 884c5db8426d87e585c733dd5480a6df7b94c264
 		break;
 	case GameScene2:
 		background = Sprite::create("background/bg_003.png");
@@ -100,7 +104,11 @@ bool GameScene::init()
 		//中间障碍物
 		obstacle = Sprite::create("obstacle2.png");
 
-		g = Vec2(0, -visibleSize.height*1.5);
+<<<<<<< HEAD
+		g = Vec2(0, -visibleSize.height*2);
+=======
+		g = Vec2(0, -Director::getInstance()->getVisibleSize().height*3);
+>>>>>>> 884c5db8426d87e585c733dd5480a6df7b94c264
 		break;
 	case GameScene3:
 		background = Sprite::create("background/bg_004.png");
@@ -113,7 +121,11 @@ bool GameScene::init()
 		//中间障碍物
 		obstacle = Sprite::create("obstacle3.png");
 
-		g = Vec2(0, -visibleSize.height*1.5);
+<<<<<<< HEAD
+		g = Vec2(0, -visibleSize.height*2);
+=======
+		g = Vec2(0, -Director::getInstance()->getVisibleSize().height*3);
+>>>>>>> 884c5db8426d87e585c733dd5480a6df7b94c264
 		break;
 	default:
 		break;
@@ -469,11 +481,11 @@ void GameScene::update(float deltaTime)
 	{
 		if(_player->getActionState() == Move_Action)
 		{
-			if(playerDestination.x > _player->getPosition().x+2 
+			if(playerDestination.x > _player->getPosition().x+1 
 				&& _player->getBoundingBox().getMaxX()+2 < obstacle->getBoundingBox().getMinX())
-				_player->setPosition(_player->getPosition() + Vec2(3,0));
-			else if(playerDestination.x < _player->getPosition().x-2 && _player->getBoundingBox().getMinX()-2 > 10)
-				_player->setPosition(_player->getPosition() - Vec2(3,0));
+				_player->setPosition(_player->getPosition() + Vec2(2,0));
+			else if(playerDestination.x < _player->getPosition().x-1 && _player->getBoundingBox().getMinX()-2 > 10)
+				_player->setPosition(_player->getPosition() - Vec2(2,0));
 
 			startPosition = _player->getPosition();
 			powerBarBg->setPosition(startPosition);
