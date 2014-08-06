@@ -86,7 +86,7 @@ bool GameScene::init()
 		//中间障碍物
 		obstacle = Sprite::create("obstacle1.png");
 
-		g = Vec2(0, -800);
+		g = Vec2(0, -Director::getInstance()->getVisibleSize().height*3);
 		break;
 	case GameScene2:
 		background = Sprite::create("background/bg_003.png");
@@ -99,7 +99,7 @@ bool GameScene::init()
 		//中间障碍物
 		obstacle = Sprite::create("obstacle2.png");
 
-		g = Vec2(0, -800);
+		g = Vec2(0, -Director::getInstance()->getVisibleSize().height*3);
 		break;
 	case GameScene3:
 		background = Sprite::create("background/bg_004.png");
@@ -112,7 +112,7 @@ bool GameScene::init()
 		//中间障碍物
 		obstacle = Sprite::create("obstacle3.png");
 
-		g = Vec2(0, -800);
+		g = Vec2(0, -Director::getInstance()->getVisibleSize().height*3);
 		break;
 	default:
 		break;

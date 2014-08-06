@@ -1,5 +1,7 @@
 #include "BulletManager.h"
 
+extern bool OpenMusicEffect;
+
 USING_NS_CC;
 
 BulletManager::BulletManager()
@@ -235,7 +237,13 @@ cocos2d::Vector<cocos2d::Sprite*>* BulletManager::getSpriteVector()
 
 void BulletManager::bulletExplode(Bullet* pBullet)
 {
-
+	char wav[100];
+	sprintf(wav, "bullet/sd_0%d_0%d.wav", SceneType, (pBullet->getType()));
+	if(OpenMusicEffect)
+	{
+		CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(wav);
+	}
+		
 	switch (pBullet->getType())
 	{
 	case NormalBullet:
