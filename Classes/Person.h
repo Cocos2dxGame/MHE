@@ -33,7 +33,7 @@ public:
 	void failAction();
 	void jumpActionEnd();
 	void attacked(bulletType type, GameSceneType scenetype);
-	void getProp(PropType type);
+	void getProp(GameSceneType scene,PropType type);
 	void getProp();
 	void notHit();
 

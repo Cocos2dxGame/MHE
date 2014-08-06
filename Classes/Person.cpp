@@ -215,17 +215,25 @@ void Person::victoryAction()
 		runAction(_victoryAction);
 }
 
-void Person::getProp(PropType type)
+void Person::getProp(GameSceneType scene, PropType type)
 {
 	switch (type)
 	{
 	case normal:
-		if(getHP()+10 < getTotalHP())
-			setHP(getHP()+10);
-		else
-			setHP(getTotalHP());
+		switch (scene)
+		{
+		case GameScene1:
+		case GameScene2:
+		case GameScene3:
+			if(getHP()+10 < getTotalHP())
+				setHP(getHP()+10);
+			else
+				setHP(getTotalHP());
+			break;
+		default:
+			break;
+		}
 		break;
-
 	case bomb:
 		setHP(0);
 		break;
