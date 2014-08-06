@@ -21,7 +21,7 @@ Bullet* Bullet::createBullet(bulletType type, Point pos, Vec2 velocity, Owner ow
 	Bullet* bullet = Bullet::create();
 
 	//float screenAera = Director::getInstance()->getVisibleSize().width * Director::getInstance()->getVisibleSize().height;
-	float scale = Director::getInstance()->getVisibleSize().width*0.00034;
+	float scale = Director::getInstance()->getVisibleSize().width*0.001;
 
 	if(velocity.x < 0)
 	{

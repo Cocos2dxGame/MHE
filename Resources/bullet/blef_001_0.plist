@@ -167,11 +167,11 @@
 <key>format</key>
 <integer>2</integer>
 <key>realTextureFileName</key>
-<string>blef_001.png</string>
+<string>blef_001_0.png</string>
 <key>size</key>
 <string>{512,1024}</string>
 <key>TextureFileName</key>
-<string>blef_001.png</string>
+<string>blef_001_0.png</string>
 </dict>
 </dict>
 </plist>

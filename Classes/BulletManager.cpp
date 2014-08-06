@@ -32,9 +32,9 @@ BulletManager* BulletManager::create(GameSceneType gamescenetype, Layer* curLaye
 	switch (gamescenetype)
 	{
 	case GameScene1:
-		cache->addSpriteFramesWithFile("bullet/blef_000.plist");
+		cache->addSpriteFramesWithFile("bullet/blef_000_0.plist");
 		normalAnimation = Animation::create();
-		for(int i = 0; i < 6; i++)
+		for(int i = 0; i < 5; i++)
 		{
 			const char* png = String::createWithFormat("00_0%d.png", i)->getCString();
 			normalAnimation->addSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(png));
@@ -53,7 +53,7 @@ BulletManager* BulletManager::create(GameSceneType gamescenetype, Layer* curLaye
 		break;
 
 	case GameScene2:
-		cache->addSpriteFramesWithFile("bullet/blef_001.plist");
+		cache->addSpriteFramesWithFile("bullet/blef_001_0.plist");
 		normalAnimation = Animation::create();
 		for(int i = 0; i < 7; i++)
 		{
@@ -74,7 +74,7 @@ BulletManager* BulletManager::create(GameSceneType gamescenetype, Layer* curLaye
 		break;
 
 	case GameScene3:
-		cache->addSpriteFramesWithFile("bullet/blef_002.plist");
+		cache->addSpriteFramesWithFile("bullet/blef_002_0.plist");
 		normalAnimation = Animation::create();
 		for(int i = 0; i < 5; i++)
 		{
@@ -235,6 +235,7 @@ cocos2d::Vector<cocos2d::Sprite*>* BulletManager::getSpriteVector()
 
 void BulletManager::bulletExplode(Bullet* pBullet)
 {
+
 	switch (pBullet->getType())
 	{
 	case NormalBullet:
