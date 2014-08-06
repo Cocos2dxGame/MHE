@@ -2,6 +2,8 @@
 
 USING_NS_CC;
 
+extern bool OpenMusicEffect;
+
 Person::Person()
 {
 	_normalAction = NULL;
@@ -85,14 +87,27 @@ void Person::jumpAction()
 
 void Person::jumpActionEnd()
 {
-	_currentState = Normal_Action;
-	runAction(_normalAction);
+	isJumping = false;
+	normalAction();
+}
+
+void Person::jumpToEnd()
+{
+	isJumping = false;
 }
 
 void Person::attacked(bulletType type, GameSceneType scenetype)
 {
-	const char* string = String::createWithFormat("%s%s", "music/", attackedSound)->getCString();
-	CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(string);
+	if(OpenMusicEffect)
+	{
+		const char* string = String::createWithFormat("%s%s", "music/", attackedSound)->getCString();
+		CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect(string);
+	}
+
+	if(isJumping)
+	{
+		personVelocity = Vec2(0,0);
+	}
 
 	int damage;
 	switch (type)
@@ -268,7 +283,7 @@ bool Person::changeState(ActionState state)
 
 	//处于跳跃状态时，不执行动作
 	if(_currentState == Jump_Action)
-		if(state != Attacked_Action && state!=Vectory_Action && state!=Fail_Action)
+		if(state != Attacked_Action && state!=Vectory_Action && state!=Fail_Action && state!=Normal_Action)
 			return false;
 
 	// 已经处于要改变的状态，就没必要在改变了！
@@ -286,7 +301,7 @@ bool Person::changeState(ActionState state)
 
 void Person::jumpTo(Vec2 velocity, Size visibleSize, float boundingX, float boundingY)
 {
-	if(_currentState != Jump_Action)
+	if(_currentState!=Jump_Action && !isJumping && _currentState!=Attacked_Action)
 	{
 		isJumping = true;
 		this->boundingX = boundingX;
@@ -310,28 +325,17 @@ void Person::update(float dt, Vec2 g)
 	if(isJumping)
 	{
 		Point pos = this->getPosition();
-
-		switch (_currentState)
+		if(boundingX-(this->getBoundingBox().getMaxX()-this->getBoundingBox().getMinX())/2 < pos.x+personVelocity.x*dt 
+			|| pos.x+personVelocity.x*dt < 0+(this->getBoundingBox().getMaxX()-this->getBoundingBox().getMinX())/2)
+			personVelocity = Vec2(0,personVelocity.y);
+		if(boundingY > pos.y+personVelocity.y*dt+g.y*dt*dt/2)
 		{
-		case Attacked_Action:
-		case Vectory_Action:
-		case Fail_Action:
 			personVelocity = Vec2(0,0);
-		case Jump_Action:
-			if(boundingX < pos.x+personVelocity.x*dt || pos.x+personVelocity.x*dt < 0+this->getContentSize().width/2)
-				personVelocity = Vec2(0,personVelocity.y);
-			if(boundingY > pos.y+personVelocity.y*dt+g.y*dt*dt/2)
-			{
-				personVelocity = Vec2(0,0);
-				jumpActionEnd();
-			}
-			pos += personVelocity*dt+g*dt*dt/2;
-			setPosition(pos);
-			personVelocity += g*dt;
-			break;
-		default:
-			break;
+			jumpToEnd();
+			normalAction();
 		}
-		
+		pos += personVelocity*dt+g*dt*dt/2;
+		setPosition(pos);
+		personVelocity += g*dt;
 	}
 }

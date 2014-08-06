@@ -97,7 +97,7 @@ BulletManager* BulletManager::create(GameSceneType gamescenetype, Layer* curLaye
 		break;
 
 	case GameScene4:
-		cache->addSpriteFramesWithFile("bullet/blef_001.plist");
+		cache->addSpriteFramesWithFile("bullet/blef_001_0.plist");
 		normalAnimation = Animation::create();
 		for(int i = 0; i < 7; i++)
 		{
@@ -109,7 +109,7 @@ BulletManager* BulletManager::create(GameSceneType gamescenetype, Layer* curLaye
 		break;
 
 	case GameScene5:
-		cache->addSpriteFramesWithFile("bullet/blef_001.plist");
+		cache->addSpriteFramesWithFile("bullet/blef_001_0.plist");
 		normalAnimation = Animation::create();
 		for(int i = 0; i < 7; i++)
 		{

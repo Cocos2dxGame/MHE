@@ -111,11 +111,11 @@ bool SurvivalScene::init()
 
 void SurvivalScene::setSkillCoolDownBar()
 {
-	auto skillCoolDownBg = Sprite::create("skill/skill21.png");
+	auto skillCoolDownBg = Sprite::create("skill/survivalSkill.png");
 	skillCoolDownBg->setPosition(40,40);
 	addChild(skillCoolDownBg, 2);
 
-	auto skill1CoolSprite = Sprite::create("skill/skill21_disabled.png");
+	auto skill1CoolSprite = Sprite::create("skill/survivalSkill_disabled.png");
 	skillCoolDownBar = ProgressTimer::create(skill1CoolSprite);
 
 	skillCoolDownBar->setType(kCCProgressTimerTypeBar);

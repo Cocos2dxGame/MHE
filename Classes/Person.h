@@ -28,6 +28,7 @@ public:
 	void moveAction();
 	void jumpAction();
 	void jumpTo(cocos2d::Vec2 v, cocos2d::Size visibleSize, float boundingX, float boundingY);
+	void jumpToEnd();
 	void victoryAction();
 	void failAction();
 	void jumpActionEnd();
