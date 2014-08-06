@@ -11,13 +11,13 @@ public:
 	StateController();
 	~StateController();
 
-	static StateController* create(NPC* curNPC, Player* curPlayer, cocos2d::Vec2 gravity, BulletManager* m_pBulletManger);
+	static StateController* create(NPC* curNPC, Player* curPlayer, cocos2d::Vec2 gravity, BulletManager* m_pBulletManger, GameSceneType type);
 
 	void playerShooting(cocos2d::Vec2 shootPositon, cocos2d::Vec2 velocity);
 
 	void avoid();
 
-	void fire();
+	void fire(bulletType type);
 
 	void update(float dt);
 
@@ -31,10 +31,13 @@ private:
 	cocos2d::Vec2 hitPosition;
 	bool playerShoot;
 	cocos2d::Vec2 npcDestination;
+	GameSceneType curScene;
 
 	cocos2d::Size visibleSize;
     cocos2d::Vec2 origin;
 
+	float skill3time;
+	float skill2time;
 	float time;
 };
 

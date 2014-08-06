@@ -6,7 +6,7 @@ StateController::StateController():
 	shootPositon(-1,-1),hitPosition(-1,-1),
 	curNPC(nullptr), curPlayer(nullptr), 
 	gravity(0,0),velocity(0,0), 
-	playerShoot(false),time(0.0)
+	playerShoot(false),time(0.0),skill2time(0.0),skill3time(0.0)
 {
 	visibleSize = Director::getInstance()->getVisibleSize();
 	origin = Director::getInstance()->getVisibleOrigin();
@@ -18,13 +18,14 @@ StateController::~StateController()
 {
 }
 
-StateController* StateController::create(NPC* curNPC, Player* curPlayer, Vec2 gravity, BulletManager* bulletManager)
+StateController* StateController::create(NPC* curNPC, Player* curPlayer, Vec2 gravity, BulletManager* bulletManager, GameSceneType type)
 {
 	StateController* newStateController = new StateController();
 	newStateController->curNPC = curNPC;
 	newStateController->curPlayer = curPlayer;
 	newStateController->gravity =gravity;
 	newStateController->m_pBulletMangeer = bulletManager;
+	newStateController->curScene = type;
 
 	return newStateController;
 }
@@ -39,15 +40,54 @@ void StateController::playerShooting(cocos2d::Vec2 shootPositon, cocos2d::Vec2 v
 void StateController::update(float dt)
 {
 	time += dt;
+	skill2time += dt;
+	skill3time += dt;
 	if(playerShoot && curNPC->getBoundingBox().intersectsRect(Rect(hitPosition.x-150, hitPosition.y-150, 300, 300)))
 	{
 		playerShoot = false;
 		avoid();
 	}
-	else if(time > 4)
+	/*else if(curNPC->getSP()>50 && time>1 && skill2time>1)
+	{
+		skill3time = 0.0;
+		curNPC->setSP(curNPC->getSP()-50);
+		fire(StunBullet);
+	}
+	else if(skill2time>18 && time>1 && skill3time>1)
+	{
+		skill2time = 0.0;
+		fire(SpecialBullet);
+	}
+	else if(time > 4 && skill2time>1 && skill3time>1)
 	{
 		time = 0.0;
-		fire();
+		fire(NormalBullet);
+	}*/
+
+	switch (curScene)
+	{
+	case GameScene3:
+		if(curNPC->getSP()>50 && time>1 && skill2time>1)
+		{
+			skill3time = 0.0;
+			curNPC->setSP(curNPC->getSP()-50);
+			fire(StunBullet);
+		}
+	case GameScene2:
+		if(skill2time>18 && time>1 && skill3time>1)
+		{
+			skill2time = 0.0;
+			fire(SpecialBullet);
+		}
+	case GameScene1:
+		if(time > 4 && skill2time>1 && skill3time>1)
+		{
+			time = 0.0;
+			fire(NormalBullet);
+		}
+		break;
+	default:
+		break;
 	}
 
 	if(curNPC->getActionState() == Move_Action)
@@ -60,7 +100,7 @@ void StateController::update(float dt)
 
 }
 
-void StateController::fire()
+void StateController::fire(bulletType type)
 {
 	if(curNPC->getActionState() != Frozen_Action)
 	{
@@ -77,7 +117,7 @@ void StateController::fire()
 		shootVelocity.y = 2 * (-shootVelocity.x);
 	
 		curNPC->fireAction();
-		m_pBulletMangeer->shoot(NormalBullet, npc,curNPC->getPosition(),shootVelocity);
+		m_pBulletMangeer->shoot(type, npc,curNPC->getPosition(),shootVelocity);
 	}
 }
 

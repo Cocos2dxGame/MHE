@@ -10,6 +10,8 @@ NPC::NPC()
 	sprintf(plistFileName,"character/%s.plist", roleName);  
 	cache = SpriteFrameCache::sharedSpriteFrameCache();
 	cache->addSpriteFramesWithFile(plistFileName);
+
+	_faceRight = false;
 }
 
 NPC::~NPC()

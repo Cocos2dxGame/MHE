@@ -38,7 +38,7 @@ public:
 	
 	//ººƒ‹¿∏…Ë÷√
 	void setMenu(GameSceneType curScene);
-	void selected1();
+	void selectedDeafult();
 	void selectedSkill1(cocos2d::Ref* pSender);
 	void selectedSkill2(cocos2d::Ref* pSender);
 	void selectedSkill3(cocos2d::Ref* pSender);

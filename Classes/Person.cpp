@@ -117,7 +117,7 @@ void Person::attacked(bulletType type, GameSceneType scenetype)
 		break;
 
 	case SpecialBullet:
-		damage = 20;
+		damage = 10;
 		//设置HP
 		if(getHP()-damage > 0)
 			setHP(getHP()-damage);
@@ -256,10 +256,16 @@ bool Person::changeState(ActionState state)
 		return false;
 
 	// 被冻住，就不能再出发其他动作了！时间到了正常状态可以触发
-	if(state != Normal_Action)
-		if (_currentState == Frozen_Action)
+	//if(state != Normal_Action)
+	//	if (_currentState == Frozen_Action)
+	//		return false;
+	
+	if (_currentState == Frozen_Action)
+	{
+		if(state != Normal_Action && state!=Vectory_Action && state!=Fail_Action)
 			return false;
-		
+	}
+
 	//处于跳跃状态时，不执行动作
 	if(_currentState == Jump_Action)
 		return false;
@@ -275,4 +281,9 @@ bool Person::changeState(ActionState state)
 
 	_currentState = state;
 	return true;
+}
+
+void Person::update(float dt)
+{
+
 }

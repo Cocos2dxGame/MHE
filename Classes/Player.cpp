@@ -12,7 +12,7 @@ Player::Player()
 	cache = SpriteFrameCache::sharedSpriteFrameCache();
 	cache->addSpriteFramesWithFile(plistFileName);
 
-	faceRight = true;
+	_faceRight = true;
 }
 
 Player::~Player()

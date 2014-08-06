@@ -159,7 +159,7 @@ bool GameScene::init()
 	g_BulletManager = BulletManager::create(curScene,(Layer*)this, &spritesVector, g);
 
 	//NPC* curNPC, Player* curPlayer, cocos2d::Vec2 gravity, BulletManager* m_pBulletManger
-	stateController = StateController::create(_curNPC, _player, g, g_BulletManager);
+	stateController = StateController::create(_curNPC, _player, g, g_BulletManager,curScene);
 
 	this->scheduleUpdate();
 
@@ -433,7 +433,7 @@ void GameScene::setMenu(GameSceneType curScene)
 	this->addChild(menu, 1);
 }
 
-void GameScene::selected1()
+void GameScene::selectedDeafult()
 {
 	currentBulletState = NormalBullet;
 }
@@ -694,17 +694,25 @@ void GameScene::dealEndTouch()
 			velocity.x= (endPosition.x - startPosition.x) / visibleSize.height * 2500 ;
 			velocity.y= (endPosition.y - startPosition.y) / visibleSize.height * 2500;
 
-			if(_player->isFlippedX())
-				if(velocity.x > 0)
-					_player->setFlippedX(-1);
-			else
-				if(velocity.x < 0)
-					_player->setFlippedX(-1);
-
 			g_BulletManager->shoot(NormalBullet, player, pos, velocity);
 			stateController->playerShooting(pos, velocity);
 			if(OpenMusicEffect)
-				CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/Attack.wav");
+			{
+				switch (curScene)
+				{
+				case GameScene1:
+					CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/shoot01_01.wav");
+					break;
+				case GameScene2:
+					CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/shoot02_01.wav");
+					break;
+				case GameScene3:
+					CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/shoot03_01.wav");
+					break;
+				default:
+					break;
+				}
+			}
 			_player->fireAction();
 		}
 		break;
@@ -725,8 +733,24 @@ void GameScene::dealEndTouch()
 			g_BulletManager->shoot(SpecialBullet, player, pos, velocity);
 			stateController->playerShooting(pos, velocity);
 			if(OpenMusicEffect)
-				CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/Attack.wav");
+			{
+				switch (curScene)
+				{
+				case GameScene1:
+					CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/shoot01_02.wav");
+					break;
+				case GameScene2:
+					CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/shoot02_02.wav");
+					break;
+				case GameScene3:
+					CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/shoot03_02.wav");
+					break;
+				default:
+					break;
+				}
+			}
 			_player->fireAction();
+			selectedDeafult();
 		}
 		break;
 	case StunBullet:
@@ -747,7 +771,22 @@ void GameScene::dealEndTouch()
 			g_BulletManager->shoot(StunBullet, player, pos, velocity);
 			stateController->playerShooting(pos, velocity);
 			if(OpenMusicEffect)
-				CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/Attack.wav");
+			{
+				switch (curScene)
+				{
+				case GameScene1:
+					CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/shoot01_03.wav");
+					break;
+				case GameScene2:
+					CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/shoot02_03.wav");
+					break;
+				case GameScene3:
+					CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("music/shoot03_03.wav");
+					break;
+				default:
+					break;
+				}
+			}
 			_player->fireAction();
 
 		}
@@ -801,7 +840,7 @@ void GameScene::updateSkill3State()
 		skill3Item->setEnabled(false);
 		if(currentBulletState == StunBullet)
 		{
-			selected1();
+			selectedDeafult();
 		}
 	}
 }

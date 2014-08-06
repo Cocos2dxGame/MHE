@@ -78,8 +78,8 @@ bool CompeteScene::init()
 	//创建人物
 	_curPlayer = Player::create();
 	_curPlayer->setScale((visibleSize.height*3/16)/_curPlayer->getContentSize().height);
-	_curPlayer->setPosition(visibleSize.width/8, visibleSize.height/6);
-	_curPlayer->setFlipX(-1);
+	_curPlayer->setPosition(visibleSize.width/8,visibleSize.height*3/16+10);
+	_curPlayer->setFlipX(true);
 	_curPlayer->setTag(1);
 	addChild(_curPlayer,1);
 	_curPlayer->normalAction();
@@ -87,7 +87,7 @@ bool CompeteScene::init()
 	//创建npc
 	_curNPC = NPC1::create();
 	_curNPC->setScale((visibleSize.height*3/16)/_curNPC->getContentSize().height);
-	_curNPC->setPosition(visibleSize.width*7/8,visibleSize.height/6);
+	_curNPC->setPosition(visibleSize.width*7/8,visibleSize.height*3/16+10);
 	_curNPC->setTag(2);
 	addChild(_curNPC,1);
 	_curNPC->normalAction();
@@ -200,14 +200,28 @@ void CompeteScene::update(float dt)
 	{
 		if(_curPlayer->getActionState() == Move_Action)
 		{
-			if(playerDestination.x > _curPlayer->getPosition().x+1 && _curPlayer->getBoundingBox().getMaxX()+2 < visibleSize.width-30)
+			if(playerDestination.x > _curPlayer->getPosition().x+1 
+				&& _curPlayer->getBoundingBox().getMaxX()+2 < visibleSize.width-30)
+			{
+				if(! _curPlayer->getFaceDirection())
+				{
+					_curPlayer->setFaceDirection(true);
+					_curPlayer->setFlippedX(true);
+				}
 				_curPlayer->setPosition(_curPlayer->getPosition() + Vec2(2,0));
+			}
 			else if(playerDestination.x < _curPlayer->getPosition().x-1 && _curPlayer->getBoundingBox().getMinX()-2 > 10)
+			{
+				if(_curPlayer->getFaceDirection())
+				{
+					_curPlayer->setFaceDirection(false);
+					_curPlayer->setFlippedX(false);
+				}
 				_curPlayer->setPosition(_curPlayer->getPosition() - Vec2(2,0));
-		
+			}
 			startPosition = _curPlayer->getPosition();
 			powerBarBg->setPosition(startPosition);
-			powerBar->setPosition(startPosition);
+			powerBar->setPosition(startPosition);	
 		}
 	}
 
@@ -268,18 +282,22 @@ bool CompeteScene::contaiinsTouchLocation(cocos2d::Touch* touch)
 
 bool CompeteScene::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event  *event)
 {
-	if ( !contaiinsTouchLocation(touch) )
+	if(!gameover)
 	{
-		playerDestination = touch->getLocation();
-		if(playerDestination.y < visibleSize.height/2)
-			_curPlayer->moveAction();
-		else
-			_curPlayer->jumpAction();
-		return false;
-	}
+		if ( !contaiinsTouchLocation(touch) )
+		{
+			playerDestination = touch->getLocation();
+			if(playerDestination.y < visibleSize.height/2)
+				_curPlayer->moveAction();
+			else
+				_curPlayer->jumpAction();
+			return false;
+		}
 
-	startPosition = touch->getLocation();
-	return true;
+		startPosition = touch->getLocation();
+		return true;
+	}
+	return false;
 }
 
 void CompeteScene::onTouchMoved(cocos2d::Touch* touch, cocos2d::Event  *event)
@@ -365,6 +383,11 @@ void CompeteScene::dealEndTouch()
 		velocity.x= (endPosition.x - startPosition.x) / visibleSize.height * 2500 ;
 		velocity.y= (endPosition.y - startPosition.y) /visibleSize.height * 2500;
 	
+		if((velocity.x>0 && !_curPlayer->getFaceDirection()) || (velocity.x < 0 && _curPlayer->getFaceDirection()))
+		{
+			_curPlayer->setFaceDirection(!_curPlayer->getFaceDirection());
+			_curPlayer->setFlippedX(_curPlayer->getFaceDirection());
+		}
 
 		g_BulletManager->shoot(NormalBullet, player, pos, velocity);
 		if(OpenMusicEffect)

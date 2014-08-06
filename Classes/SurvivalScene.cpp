@@ -69,20 +69,20 @@ bool SurvivalScene::init()
 	blood1->setPosition(blood1->getContentSize().width/2,
 		visibleSize.height - blood1->getContentSize().height/2);
 	addChild(blood1,2);
-	blood1->setVisible(false);
+	blood1->setVisible(true);
 
 	//设置血条
 	blood2 = Sprite::create("button/TwoBlood.png");
 	blood2->setScale(visibleSize.height/8/blood2->getContentSize().height);
-	blood2->setPosition(blood2->getContentSize().width/2,
+	blood2->setPosition(blood1->getPosition().x + blood2->getContentSize().width/2,
 		visibleSize.height - blood2->getContentSize().height/2);
 	addChild(blood2,2);
-	blood2->setVisible(false);
+	blood2->setVisible(true);
 
 	//设置血条
 	blood3 = Sprite::create("button/ThreeBlood.png");
 	blood3->setScale(visibleSize.height/8/blood3->getContentSize().height);
-	blood3->setPosition(blood3->getContentSize().width/2,
+	blood3->setPosition(blood2->getPosition().x + blood3->getContentSize().width/2,
 		visibleSize.height - blood3->getContentSize().height/2);
 	addChild(blood3,2);
 	blood3->setVisible(true);
@@ -195,9 +195,23 @@ void SurvivalScene::update(float dt)
 	if(_curPlayer->getActionState() == Move_Action)
 	{
 		if(playerDestination.x > _curPlayer->getPosition().x+1 && _curPlayer->getBoundingBox().getMaxX()+2 < visibleSize.width-30)
+		{
+			if(! _curPlayer->getFaceDirection())
+			{
+				_curPlayer->setFaceDirection(true);
+				_curPlayer->setFlippedX(true);
+			}
 			_curPlayer->setPosition(_curPlayer->getPosition() + Vec2(2,0));
+		}
 		else if(playerDestination.x < _curPlayer->getPosition().x-1 && _curPlayer->getBoundingBox().getMinX()-2 > 10)
+		{
+			if(_curPlayer->getFaceDirection())
+			{
+				_curPlayer->setFaceDirection(false);
+				_curPlayer->setFlippedX(false);
+			}
 			_curPlayer->setPosition(_curPlayer->getPosition() - Vec2(2,0));
+		}
 
 		startPosition = _curPlayer->getPosition();
 		powerBarBg->setPosition(startPosition);
@@ -220,21 +234,17 @@ void SurvivalScene::update(float dt)
 	switch (_curPlayer->getHP())
 	{
 	case 3:
-		blood1->setVisible(false);
-		blood2->setVisible(false);
-		blood3->setVisible(true);
 		break;
 	case 2:
-		blood1->setVisible(false);
 		blood3->setVisible(false);
-		blood2->setVisible(true);
 		break;
 	case 1:
-		blood2->setVisible(false);
 		blood3->setVisible(false);
-		blood1->setVisible(true);
+		blood2->setVisible(false);
 		break;
 	case 0:
+		blood3->setVisible(false);
+		blood2->setVisible(false);
 		blood1->setVisible(false);
 		if(!gameover)
 			failure();
@@ -347,7 +357,12 @@ void SurvivalScene::dealEndTouch()
 		Vec2 velocity;
 		velocity.x= (endPosition.x - startPosition.x) / visibleSize.height * 3000 ;
 		velocity.y= (endPosition.y - startPosition.y) /visibleSize.height * 3000;
-	
+		
+		if((velocity.x>0 && !_curPlayer->getFaceDirection()) || (velocity.x < 0 && _curPlayer->getFaceDirection()))
+		{
+			_curPlayer->setFaceDirection(!_curPlayer->getFaceDirection());
+			_curPlayer->setFlippedX(_curPlayer->getFaceDirection());
+		}
 
 		g_BulletManager->shoot(NormalBullet, player, pos, velocity);
 		if(OpenMusicEffect)
