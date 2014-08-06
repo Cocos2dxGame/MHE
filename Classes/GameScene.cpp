@@ -87,7 +87,7 @@ bool GameScene::init()
 		//中间障碍物
 		obstacle = Sprite::create("obstacle1.png");
 
-		g = Vec2(0, -800);
+		g = Vec2(0, -visibleSize.height);
 		break;
 	case GameScene2:
 		background = Sprite::create("background/bg_003.png");
@@ -100,7 +100,7 @@ bool GameScene::init()
 		//中间障碍物
 		obstacle = Sprite::create("obstacle2.png");
 
-		g = Vec2(0, -800);
+		g = Vec2(0, -visibleSize.height*2);
 		break;
 	case GameScene3:
 		background = Sprite::create("background/bg_004.png");
@@ -113,7 +113,7 @@ bool GameScene::init()
 		//中间障碍物
 		obstacle = Sprite::create("obstacle3.png");
 
-		g = Vec2(0, -800);
+		g = Vec2(0, -visibleSize.height*2);
 		break;
 	default:
 		break;
@@ -142,6 +142,8 @@ bool GameScene::init()
 	_curNPC->setTag(2);
 	addChild(_curNPC,1);
 	_curNPC->normalAction();
+
+	boundingY = _player->getPosition().y;
 
 	//设置障碍物坐标，以及添加到层
 	obstacle->setScale((visibleSize.height/4)/obstacle->getContentSize().height);
@@ -456,6 +458,7 @@ void GameScene::selectedSkill3(Ref* pSender)
 void GameScene::update(float deltaTime)
 {
 	g_BulletManager->update(deltaTime);
+	_player->update(deltaTime,g);
 
 	if(!gameover)
 	{
@@ -593,7 +596,7 @@ bool GameScene::contaiinsTouchLocation(Touch* touch)
 
 bool GameScene::onTouchBegan(Touch* touch, Event* event)
 {
-	if(!gameover)
+	if(!gameover && _player->getActionState() != Jump_Action)
 	{
 		if ( !contaiinsTouchLocation(touch) )
 		{
@@ -601,7 +604,11 @@ bool GameScene::onTouchBegan(Touch* touch, Event* event)
 			if(playerDestination.y < visibleSize.height/2)
 				_player->moveAction();
 			else
-				_player->jumpAction();
+				//_player->jumpAction();
+				_player->jumpTo((playerDestination - _player->getPosition()), 
+								visibleSize,
+								obstacle->getBoundingBox().getMinX(),
+								boundingY);
 			return false;
 		}
 

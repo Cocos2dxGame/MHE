@@ -131,6 +131,7 @@ protected:
 
 	cocos2d::Size visibleSize;
 	cocos2d::Vec2 origin;
+	float boundingY;
 
 	//触摸的开始点和结束点
 	cocos2d::Vec2 startPosition;

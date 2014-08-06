@@ -268,7 +268,8 @@ bool Person::changeState(ActionState state)
 
 	//处于跳跃状态时，不执行动作
 	if(_currentState == Jump_Action)
-		return false;
+		if(state != Attacked_Action && state!=Vectory_Action && state!=Fail_Action)
+			return false;
 
 	// 已经处于要改变的状态，就没必要在改变了！
 	if (_currentState == state) 
@@ -283,7 +284,54 @@ bool Person::changeState(ActionState state)
 	return true;
 }
 
-void Person::update(float dt)
+void Person::jumpTo(Vec2 velocity, Size visibleSize, float boundingX, float boundingY)
 {
+	if(_currentState != Jump_Action)
+	{
+		isJumping = true;
+		this->boundingX = boundingX;
+		this->boundingY = boundingY;
 
+		if(changeState(Jump_Action))
+		{
+			if(fabs(velocity.x) < visibleSize.width/8)
+
+				personVelocity = Vec2(0,visibleSize.height);
+			else if(velocity.x > 0)
+				personVelocity = Vec2(100,visibleSize.height);
+			else if(velocity.x < 0)
+				personVelocity = Vec2(-100,visibleSize.height);
+		}
+	}
+}
+
+void Person::update(float dt, Vec2 g)
+{
+	if(isJumping)
+	{
+		Point pos = this->getPosition();
+
+		switch (_currentState)
+		{
+		case Attacked_Action:
+		case Vectory_Action:
+		case Fail_Action:
+			personVelocity = Vec2(0,0);
+		case Jump_Action:
+			if(boundingX < pos.x+personVelocity.x*dt || pos.x+personVelocity.x*dt < 0+this->getContentSize().width/2)
+				personVelocity = Vec2(0,personVelocity.y);
+			if(boundingY > pos.y+personVelocity.y*dt+g.y*dt*dt/2)
+			{
+				personVelocity = Vec2(0,0);
+				jumpActionEnd();
+			}
+			pos += personVelocity*dt+g*dt*dt/2;
+			setPosition(pos);
+			personVelocity += g*dt;
+			break;
+		default:
+			break;
+		}
+		
+	}
 }
