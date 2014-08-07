@@ -36,8 +36,8 @@ bool StartScene::init()
 	{
 		return false;
 	}
-
 	Size visibleSize = Director::getInstance()->getVisibleSize();
+	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
 	//ÒôÀÖ
 	if(OpenMusic && FirstPlay)
@@ -69,6 +69,20 @@ bool StartScene::init()
 	menu->setPosition(visibleSize.width*0.26, visibleSize.height*0.33);
 	menu->alignItemsVerticallyWithPadding(0.014*visibleSize.height);
 	this->addChild(menu, 2);
+
+	//ÍË³ö°´Å¥
+	auto closeItem = MenuItemImage::create(
+										   "CloseNormal.png",
+										   "CloseSelected.png",
+										   CC_CALLBACK_1(StartScene::menuCloseCallback, this));
+	closeItem->setScale(visibleSize.width/20/closeItem->getContentSize().width);
+
+	closeItem->setPosition(Vec2(origin.x + visibleSize.width - closeItem->getContentSize().width/2 ,
+								origin.y + closeItem->getContentSize().height/2));
+
+	Menu* menu2 = Menu::create(closeItem, NULL);
+	menu2->setPosition(Vec2::ZERO);
+	this->addChild(menu2, 1);
 
 	return true;
 
